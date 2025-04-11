@@ -15,10 +15,11 @@ public:
 	virtual void NativeConstruct() override;
 
 protected:
+	void InitializeItemInfoCache();
+
 	UFUNCTION(BlueprintCallable)
 	void UpdateBackpackView();
 
-	void InitializeItemInfoCache();
 	FItemInfoBase* FindItemInfoInTables(EItemName ItemName);
 
 	UPROPERTY(BlueprintReadOnly, meta = (BindWidget))

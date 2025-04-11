@@ -7,9 +7,9 @@ UENUM(BlueprintType)
 enum class EItemName : uint8
 {
 	Unknown,
-	LongSword1,
-	LongSword2,
-	LongSword3,
+	LongSword_Wood,
+	LongSword_Iron,
+	LongSword_Diamond,
 };
 
 UENUM(BlueprintType)

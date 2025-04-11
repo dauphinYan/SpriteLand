@@ -5,6 +5,7 @@
 #include "SpriteLand/Systems/Feature/BackpackSystem/BackpackComponent.h"
 #include "SpriteLand/Systems/Core/GamePlay/SpriteLandPlayerController.h"
 
+
 void UBackpackWidget::NativeOnInitialized()
 {
 	Super::NativeOnInitialized();
@@ -64,6 +65,7 @@ void UBackpackWidget::UpdateBackpackView()
 		const FItemInfoBase* Info = *InfoPtr;
 
 		UBackpackItemWidget* ItemWidget = CreateWidget<UBackpackItemWidget>(this, ItemWidgetClass);
+		ItemWidget->UpdateViewInfo(Info, Count);
 		ItemWrapBox->AddChildToWrapBox(ItemWidget);
 	}
 }

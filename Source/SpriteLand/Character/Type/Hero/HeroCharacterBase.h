@@ -2,6 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "SpriteLand/Interface/CharacterAction.h"
 #include "HeroCharacterBase.generated.h"
 
 UCLASS()
