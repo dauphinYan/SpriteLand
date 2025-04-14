@@ -12,7 +12,13 @@ void ASpriteLandPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
 
-
+	if (APlayerController* PC = Cast<APlayerController>(this))
+	{
+		if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PC->GetLocalPlayer()))
+		{
+			Subsystem->AddMappingContext(DefaultMappingContext, 0);
+		}
+	}
 }
 
 void ASpriteLandPlayerController::SetupInputComponent()
@@ -25,36 +31,62 @@ void ASpriteLandPlayerController::SetupInputComponent()
 		EnhancedInput->BindAction(JumpAction, ETriggerEvent::Started, this, &ASpriteLandPlayerController::OnJumpButtonPressed);
 		EnhancedInput->BindAction(JumpAction, ETriggerEvent::Completed, this, &ASpriteLandPlayerController::OnJumpButtonReleased);
 
-		// Dodget
-		EnhancedInput->BindAction(DodgetAction, ETriggerEvent::Started, this, &ASpriteLandPlayerController::OnDodgeButtonPressed);
+		// Dodge
+		EnhancedInput->BindAction(DodgeAction, ETriggerEvent::Started, this, &ASpriteLandPlayerController::OnDodgeButtonPressed);
 
 		// Moving
-		EnhancedInput->BindAction(MoveAction, ETriggerEvent::Triggered, this, &ASpriteLandPlayerController::OnMoveButtonPressed);
+		EnhancedInput->BindAction(MoveAction, ETriggerEvent::Triggered, this, &ASpriteLandPlayerController::OnMoveButtonTriggered);
 
 		// Looking
-		EnhancedInput->BindAction(LookAction, ETriggerEvent::Triggered, this, &ASpriteLandPlayerController::OnLookTriggered);
+		EnhancedInput->BindAction(LookAction, ETriggerEvent::Triggered, this, &ASpriteLandPlayerController::OnLookButtonTriggered);
 	}
-
-
 }
 
 void ASpriteLandPlayerController::OnJumpButtonPressed()
 {
-
+	UE_LOG(LogTemp, Log, TEXT("JumpButtonDown."));
+	if (GetPawn() && GetPawn()->Implements<UCharacterActionInterface>())
+	{
+		UE_LOG(LogTemp, Log, TEXT("Implement."));
+		ICharacterActionInterface* Interface = Cast<ICharacterActionInterface>(GetPawn());
+		if (Interface)
+		{	
+			Interface->JumpBegin();
+		}
+	}
 }
 
 void ASpriteLandPlayerController::OnJumpButtonReleased()
 {
+
 }
 
-void ASpriteLandPlayerController::OnMoveButtonPressed(const FInputActionValue& Value)
+void ASpriteLandPlayerController::OnMoveButtonTriggered(const FInputActionValue& Value)
 {
+	if (GetPawn() && GetPawn()->Implements<UCharacterActionInterface>())
+	{
+		ICharacterActionInterface* Interface = Cast<ICharacterActionInterface>(GetPawn());
+		if (Interface)
+		{
+			Interface->Move(Value);
+		}
+	}
 }
 
-void ASpriteLandPlayerController::OnLookTriggered(const FInputActionValue& Value)
+void ASpriteLandPlayerController::OnLookButtonTriggered(const FInputActionValue& Value)
 {
+	if (GetPawn() && GetPawn()->Implements<UCharacterActionInterface>())
+	{
+		ICharacterActionInterface* Interface = Cast<ICharacterActionInterface>(GetPawn());
+		if (Interface)
+		{
+			Interface->Look(Value);
+		}
+	}
 }
 
-void ASpriteLandPlayerController::OnDodgeButtonPressed(const FInputActionValue& Value)
+
+void ASpriteLandPlayerController::OnDodgeButtonPressed()
 {
+
 }

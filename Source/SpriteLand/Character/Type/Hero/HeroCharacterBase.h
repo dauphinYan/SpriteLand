@@ -2,11 +2,11 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
-#include "SpriteLand/Interface/CharacterAction.h"
+#include "SpriteLand/Interface/CharacterActionInterface.h"
 #include "HeroCharacterBase.generated.h"
 
 UCLASS()
-class SPRITELAND_API AHeroCharacterBase : public ACharacter
+class SPRITELAND_API AHeroCharacterBase : public ACharacter, public ICharacterActionInterface
 {
 	GENERATED_BODY()
 
@@ -26,29 +26,14 @@ protected:
 	class UCameraComponent* FollowCamera;
 
 	UPROPERTY(EditDefaultsOnly)
-	class UAnimMontage* DodgetMontage;
+	class UAnimMontage* DodgeMontage;
 
 protected:
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	virtual void Move(const struct FInputActionValue& Value) override;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
-	class UInputMappingContext* DefaultMappingContext;
+	virtual void Look(const FInputActionValue& Value) override;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
-	class UInputAction* JumpAction;
+	virtual void Dodge() override;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
-	UInputAction* MoveAction;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
-	UInputAction* LookAction;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
-	UInputAction* DodgetAction;
-
-	void Move(const struct FInputActionValue& Value);
-
-	void Look(const FInputActionValue& Value);
-
-	void Dodget();
+	virtual void JumpBegin() override;
 };

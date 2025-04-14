@@ -2,6 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
+#include "SpriteLand/Interface/CharacterActionInterface.h"
 #include "SpriteLandPlayerController.generated.h"
 
 UCLASS()
@@ -29,13 +30,22 @@ protected:
 	UInputAction* LookAction;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
-	UInputAction* DodgetAction;
+	UInputAction* DodgeAction;
 
+	UFUNCTION()
 	void OnJumpButtonPressed();
+
+	UFUNCTION()
 	void OnJumpButtonReleased();
-	void OnMoveButtonPressed(const FInputActionValue& Value);
-	void OnLookTriggered(const FInputActionValue& Value);
-	void OnDodgeButtonPressed(const FInputActionValue& Value);
+
+	UFUNCTION()
+	void OnMoveButtonTriggered(const FInputActionValue& Value);
+
+	UFUNCTION()
+	void OnLookButtonTriggered(const FInputActionValue& Value);
+
+	UFUNCTION()
+	void OnDodgeButtonPressed();
 
 protected:
 	UPROPERTY(EditDefaultsOnly)

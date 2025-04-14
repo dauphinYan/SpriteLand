@@ -35,8 +35,6 @@ AHeroCharacterBase::AHeroCharacterBase()
 	FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
 	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
 	FollowCamera->bUsePawnControlRotation = false;
-
-	
 }
 
 void AHeroCharacterBase::BeginPlay()
@@ -49,39 +47,6 @@ void AHeroCharacterBase::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-}
-
-void AHeroCharacterBase::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
-{
-	Super::SetupPlayerInputComponent(PlayerInputComponent);
-
-	if (APlayerController* PlayerController = Cast<APlayerController>(GetController()))
-	{
-		if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer()))
-		{
-			Subsystem->AddMappingContext(DefaultMappingContext, 0);
-		}
-	}
-
-	if (UEnhancedInputComponent* EnhancedInputComponent = Cast<UEnhancedInputComponent>(PlayerInputComponent)) {
-
-		// Jumping
-		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Started, this, &ACharacter::Jump);
-		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Completed, this, &ACharacter::StopJumping);
-
-		// Dodget
-		EnhancedInputComponent->BindAction(DodgetAction, ETriggerEvent::Started, this, &AHeroCharacterBase::Dodget);
-
-		// Moving
-		EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &AHeroCharacterBase::Move);
-
-		// Looking
-		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &AHeroCharacterBase::Look);
-	}
-	else
-	{
-		UE_LOG(LogTemp, Error, TEXT("'%s' Failed to find an Enhanced Input component! This template is built to use the Enhanced Input system. If you intend to use the legacy system, then you will need to update this C++ file."), *GetNameSafe(this));
-	}
 }
 
 void AHeroCharacterBase::Move(const FInputActionValue& Value)
@@ -120,12 +85,16 @@ void AHeroCharacterBase::Look(const FInputActionValue& Value)
 	}
 }
 
-void AHeroCharacterBase::Dodget()
+void AHeroCharacterBase::Dodge()
 {
-	if (DodgetMontage != nullptr)
+	if (DodgeMontage != nullptr)
 	{
-		PlayAnimMontage(DodgetMontage);
+		PlayAnimMontage(DodgeMontage);
 	}
+}
 
+void AHeroCharacterBase::JumpBegin()
+{
+	Jump();
 }
 
