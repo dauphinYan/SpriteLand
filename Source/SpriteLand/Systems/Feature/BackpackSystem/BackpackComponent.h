@@ -5,6 +5,19 @@
 #include "ItemInfo.h"
 #include "BackpackComponent.generated.h"
 
+USTRUCT(BlueprintType)
+struct FItemStack
+{
+	GENERATED_BODY();
+
+	// 物品类型
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	EItemName ItemName;
+
+	// 当前数量
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	int32 Count;
+};
 
 UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class SPRITELAND_API UBackpackComponent : public UActorComponent
@@ -21,16 +34,10 @@ protected:
 protected:
 	bool AddItem(const EItemName ItemName, const int32 Count = 1);
 	bool RemoveItem(const EItemName ItemName, const int32 Count = 1);
-	bool HasSpaceForItem(const EItemName ItemName, const int32 Count = 1);
-	void SetCapacity(const int32 NewCapacity);
 private:
-	int32 Capacity = 20;
-	int32 CurrentCapacity = 0;
-
 	UPROPERTY(EditAnyWhere)
-	TMap<EItemName, int32> Items;
+	TArray<FItemStack> ItemArray;
 
 public:
-	FORCEINLINE const int32 GetCapacity() const { return Capacity; }
-	FORCEINLINE const TMap<EItemName, int32>& GetItems() const { return Items; }
+	FORCEINLINE const TArray<FItemStack>& GetItems() const { return ItemArray; }
 };

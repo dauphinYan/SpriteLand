@@ -51,13 +51,13 @@ void UBackpackWidget::UpdateBackpackView()
 {
 	if (!BackpackComponent) return;
 
-	const TMap<EItemName, int32>& Items = BackpackComponent->GetItems();
+	const TArray<FItemStack>& Items = BackpackComponent->GetItems();
 	ItemWrapBox->ClearChildren();
 
-	for (const auto& Pair : Items)
+	for (const auto& Stack : Items)
 	{
-		EItemName ItemName = Pair.Key;
-		int32 Count = Pair.Value;
+		EItemName ItemName = Stack.ItemName;
+		int32 Count = Stack.Count;
 
 		FItemInfoBase** InfoPtr = ItemInfoCache.Find(ItemName);
 		if (!InfoPtr) continue;

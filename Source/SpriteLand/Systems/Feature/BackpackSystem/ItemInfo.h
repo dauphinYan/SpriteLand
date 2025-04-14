@@ -10,6 +10,11 @@ enum class EItemName : uint8
 	LongSword_Wood,
 	LongSword_Iron,
 	LongSword_Diamond,
+	HealthPotion_Small,
+	ManaPotion_Small,
+	Apple,
+	Banana,
+	Pear
 };
 
 UENUM(BlueprintType)
@@ -27,6 +32,7 @@ enum class EUsableEffectType : uint8
 {
 	Unknown,
 	RestoreHP,
+	RestoreMP,
 	AddExperience
 };
 
