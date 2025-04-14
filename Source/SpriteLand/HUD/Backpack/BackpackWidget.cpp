@@ -5,7 +5,6 @@
 #include "SpriteLand/Systems/Feature/BackpackSystem/BackpackComponent.h"
 #include "SpriteLand/Systems/Core/GamePlay/SpriteLandPlayerController.h"
 
-
 void UBackpackWidget::NativeOnInitialized()
 {
 	Super::NativeOnInitialized();
