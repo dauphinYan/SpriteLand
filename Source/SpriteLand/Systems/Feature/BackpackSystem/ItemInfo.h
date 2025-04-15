@@ -21,14 +21,14 @@ UENUM(BlueprintType)
 enum class EItemType : uint8
 {
 	Unknown,
-	Consumable,
-	Equipment,
-	QuestItem,
-	Miscellaneous
+	Consumable, // 消耗品
+	Equipment, // 装备
+	Quest, // 任务道具
+	Miscellaneous // 杂项
 };
 
 UENUM(BlueprintType)
-enum class EUsableEffectType : uint8
+enum class EConsumableEffectType : uint8
 {
 	Unknown,
 	RestoreHP,
@@ -61,18 +61,16 @@ struct FItemInfoBase :public FTableRowBase
 };
 
 USTRUCT(BlueprintType)
-struct FUsableItemInfo : public FItemInfoBase
+struct FConsumableItemInfo : public FItemInfoBase
 {
 	GENERATED_BODY()
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	EUsableEffectType EffectType;
+	EConsumableEffectType EffectType;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	float EffectValue;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	bool bAffectSelf = true;
 };
 
 USTRUCT(BlueprintType)

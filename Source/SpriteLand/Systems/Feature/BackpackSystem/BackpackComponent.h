@@ -6,15 +6,13 @@
 #include "BackpackComponent.generated.h"
 
 USTRUCT(BlueprintType)
-struct FItemStack
+struct FEquipmentItemStack
 {
 	GENERATED_BODY();
 
-	// 物品类型
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	EItemName ItemName;
 
-	// 当前数量
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	int32 Count;
 };
@@ -32,12 +30,27 @@ protected:
 	virtual void BeginPlay() override;
 
 protected:
-	bool AddItem(const EItemName ItemName, const int32 Count = 1);
-	bool RemoveItem(const EItemName ItemName, const int32 Count = 1);
+	bool AddItem(const EItemType ItemType, const EItemName ItemName, const int32 Count = 1);
+	bool RemoveItem(const EItemType ItemType, const EItemName ItemName, const int32 Count = 1);
+	bool UseItem(const EItemName ItemName, const int32 Count = 1);
 private:
+
 	UPROPERTY(EditAnyWhere)
-	TArray<FItemStack> ItemArray;
+	TMap<EItemName, int32> ConsumbleItems;
+
+	UPROPERTY(EditAnyWhere)
+	TMap<EItemName, FEquipmentItemStack> EquipmentItems;
+
+	UPROPERTY(EditAnyWhere)
+	TMap<EItemName, int32> QuestItems;
+
+	UPROPERTY(EditAnyWhere)
+	TMap<EItemName, int32> MiscellaneousItems;
 
 public:
-	FORCEINLINE const TArray<FItemStack>& GetItems() const { return ItemArray; }
+	FORCEINLINE TMap<EItemName, int32>& GetComsumbleItems() { return ConsumbleItems; }
+	FORCEINLINE TMap<EItemName, FEquipmentItemStack>& GetEquipmentItems() { return EquipmentItems; }
+	FORCEINLINE TMap<EItemName, int32>& GetQuestItems() { return QuestItems; }
+	FORCEINLINE TMap<EItemName, int32>& GetMiscellaneousItems() { return MiscellaneousItems; }
+
 };

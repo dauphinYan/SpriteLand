@@ -18,12 +18,24 @@ protected:
 	void InitializeItemInfoCache();
 
 	UFUNCTION(BlueprintCallable)
-	void UpdateBackpackView();
+	void RefreshBackpackView_Equip();
+
+	UFUNCTION(BlueprintCallable)
+	void RefreshBackpackView_Consumable();
+
+	UFUNCTION(BlueprintCallable)
+	void RefreshBackpackView_Miscellaneous();
 
 	FItemInfoBase* FindItemInfoInTables(EItemName ItemName);
 
 	UPROPERTY(BlueprintReadOnly, meta = (BindWidget))
-	class UWrapBox* ItemWrapBox;
+	class UWrapBox* EquipItemWrapBox;
+
+	UPROPERTY(BlueprintReadOnly, meta = (BindWidget))
+	class UWrapBox* ConsumableItemWrapBox;
+
+	UPROPERTY(BlueprintReadOnly, meta = (BindWidget))
+	class UWrapBox* MiscellaneousItemWrapBox;
 
 private:
 	UPROPERTY()
@@ -38,7 +50,7 @@ private:
 	UDataTable* EquipmentDataTable;
 
 	UPROPERTY(EditDefaultsOnly, Category = "DataTable")
-	UDataTable* UsableDataTable;
+	UDataTable* ConsumableDataTable;
 
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<class UBackpackItemWidget> ItemWidgetClass;

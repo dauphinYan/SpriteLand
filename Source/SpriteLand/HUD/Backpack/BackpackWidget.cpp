@@ -21,8 +21,6 @@ void UBackpackWidget::NativeConstruct()
 	{
 		BackpackComponent = PlayerController->GetBackpackComponent();
 	}
-
-	UpdateBackpackView();
 }
 
 void UBackpackWidget::InitializeItemInfoCache()
@@ -43,29 +41,69 @@ void UBackpackWidget::InitializeItemInfoCache()
 		};
 
 	LoadTable(EquipmentDataTable);
-	LoadTable(UsableDataTable);
+	LoadTable(ConsumableDataTable);
 }
 
-void UBackpackWidget::UpdateBackpackView()
+void UBackpackWidget::RefreshBackpackView_Equip()
 {
-	if (!BackpackComponent) return;
+	if (BackpackComponent == nullptr) return;
+	const auto Items = BackpackComponent->GetEquipmentItems();
+	EquipItemWrapBox->ClearChildren();
 
-	const TArray<FItemStack>& Items = BackpackComponent->GetItems();
-	ItemWrapBox->ClearChildren();
-
-	for (const auto& Stack : Items)
+	for (const auto Pair : Items)
 	{
-		EItemName ItemName = Stack.ItemName;
-		int32 Count = Stack.Count;
+		EItemName ItemName = Pair.Key;
+		int32 Count = Pair.Value.Count;
 
 		FItemInfoBase** InfoPtr = ItemInfoCache.Find(ItemName);
-		if (!InfoPtr) continue;
-
+		if (!InfoPtr) return;
 		const FItemInfoBase* Info = *InfoPtr;
 
 		UBackpackItemWidget* ItemWidget = CreateWidget<UBackpackItemWidget>(this, ItemWidgetClass);
 		ItemWidget->UpdateViewInfo(Info, Count);
-		ItemWrapBox->AddChildToWrapBox(ItemWidget);
+		EquipItemWrapBox->AddChildToWrapBox(ItemWidget);
+	}
+}
+
+void UBackpackWidget::RefreshBackpackView_Consumable()
+{
+	if (BackpackComponent == nullptr) return;
+	const auto Items = BackpackComponent->GetComsumbleItems();
+	ConsumableItemWrapBox->ClearChildren();
+
+	for (const auto Pair : Items)
+	{
+		EItemName ItemName = Pair.Key;
+		int32 Count = Pair.Value;
+
+		FItemInfoBase** InfoPtr = ItemInfoCache.Find(ItemName);
+		if (!InfoPtr) return;
+		const FItemInfoBase* Info = *InfoPtr;
+
+		UBackpackItemWidget* ItemWidget = CreateWidget<UBackpackItemWidget>(this, ItemWidgetClass);
+		ItemWidget->UpdateViewInfo(Info, Count);
+		ConsumableItemWrapBox->AddChildToWrapBox(ItemWidget);
+	}
+}
+
+void UBackpackWidget::RefreshBackpackView_Miscellaneous()
+{
+	if (BackpackComponent == nullptr) return;
+	const auto Items = BackpackComponent->GetMiscellaneousItems();
+	MiscellaneousItemWrapBox->ClearChildren();
+
+	for (const auto Pair : Items)
+	{
+		EItemName ItemName = Pair.Key;
+		int32 Count = Pair.Value;
+
+		FItemInfoBase** InfoPtr = ItemInfoCache.Find(ItemName);
+		if (!InfoPtr) return;
+		const FItemInfoBase* Info = *InfoPtr;
+
+		UBackpackItemWidget* ItemWidget = CreateWidget<UBackpackItemWidget>(this, ItemWidgetClass);
+		ItemWidget->UpdateViewInfo(Info, Count);
+		MiscellaneousItemWrapBox->AddChildToWrapBox(ItemWidget);
 	}
 }
 

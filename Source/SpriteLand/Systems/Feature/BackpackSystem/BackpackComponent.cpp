@@ -19,61 +19,108 @@ void UBackpackComponent::TickComponent(float DeltaTime, ELevelTick TickType, FAc
 
 }
 
-bool UBackpackComponent::AddItem(const EItemName ItemName, const int32 Count)
+bool UBackpackComponent::AddItem(const EItemType ItemType, const EItemName ItemName, const int32 Count)
 {
-	if (ItemName == EItemName::Unknown || Count <= 0)
+	if (ItemType == EItemType::Unknown || ItemName == EItemName::Unknown || Count <= 0)
+		return false;
+
+	switch (ItemType)
 	{
+	case EItemType::Consumable:
+	{
+		int32& ExistingCount = ConsumbleItems.FindOrAdd(ItemName);
+		ExistingCount += Count;
+		return true;
+	}
+	case EItemType::Equipment:
+	{
+		FEquipmentItemStack& Equipment = EquipmentItems.FindOrAdd(ItemName);
+		Equipment.ItemName = ItemName;
+		Equipment.Count += Count;
+		return true;
+	}
+	case EItemType::Quest:
+	{
+		int32& ExistingCount = QuestItems.FindOrAdd(ItemName);
+		ExistingCount += Count;
+		return true;
+	}
+	case EItemType::Miscellaneous:
+	{
+		int32& ExistingCount = MiscellaneousItems.FindOrAdd(ItemName);
+		ExistingCount += Count;
+		return true;
+	}
+	default:
 		return false;
 	}
-
-	// 查找已有的物品栈
-	for (FItemStack& Stack : ItemArray)
-	{
-		if (Stack.ItemName == ItemName)
-		{
-			Stack.Count += Count;
-			return true;
-		}
-	}
-
-	// 没有找到则新建一条记录
-	FItemStack NewStack;
-	NewStack.ItemName = ItemName;
-	NewStack.Count = Count;
-	ItemArray.Add(NewStack);
-
-	return true;
 }
 
-bool UBackpackComponent::RemoveItem(const EItemName ItemName, const int32 Count)
+
+bool UBackpackComponent::RemoveItem(const EItemType ItemType, const EItemName ItemName, const int32 Count)
 {
-	if (ItemName == EItemName::Unknown || Count <= 0)
-	{
+	if (ItemType == EItemType::Unknown || ItemName == EItemName::Unknown || Count <= 0)
 		return false;
-	}
 
-	// 查找已有的物品栈
-	for (int32 Index = 0; Index < ItemArray.Num(); ++Index)
+	switch (ItemType)
 	{
-		FItemStack& Stack = ItemArray[Index];
-		if (Stack.ItemName == ItemName)
+	case EItemType::Consumable:
+	{
+		int32* FoundCount = ConsumbleItems.Find(ItemName);
+		if (FoundCount && *FoundCount >= Count)
 		{
-			if (Stack.Count < Count)
-			{
-				// 数量不足
-				return false;
-			}
-
-			Stack.Count -= Count;
-			if (Stack.Count == 0)
-			{
-				// 如果数量归零，则移除该条目
-				ItemArray.RemoveAt(Index);
-			}
+			*FoundCount -= Count;
+			if (*FoundCount <= 0)
+				ConsumbleItems.Remove(ItemName);
 			return true;
 		}
+		break;
+	}
+	case EItemType::Equipment:
+	{
+		FEquipmentItemStack* FoundStack = EquipmentItems.Find(ItemName);
+		if (FoundStack && FoundStack->Count >= Count)
+		{
+			FoundStack->Count -= Count;
+			if (FoundStack->Count <= 0)
+				EquipmentItems.Remove(ItemName);
+			return true;
+		}
+		break;
+	}
+	case EItemType::Quest:
+	{
+		int32* FoundCount = QuestItems.Find(ItemName);
+		if (FoundCount && *FoundCount >= Count)
+		{
+			*FoundCount -= Count;
+			if (*FoundCount <= 0)
+				QuestItems.Remove(ItemName);
+			return true;
+		}
+		break;
+	}
+	case EItemType::Miscellaneous:
+	{
+		int32* FoundCount = MiscellaneousItems.Find(ItemName);
+		if (FoundCount && *FoundCount >= Count)
+		{
+			*FoundCount -= Count;
+			if (*FoundCount <= 0)
+				MiscellaneousItems.Remove(ItemName);
+			return true;
+		}
+		break;
+	}
+	default:
+		break;
 	}
 
+	return false;
+}
+
+bool UBackpackComponent::UseItem(const EItemName ItemName, const int32 Count)
+{
 
 	return false;
 }
