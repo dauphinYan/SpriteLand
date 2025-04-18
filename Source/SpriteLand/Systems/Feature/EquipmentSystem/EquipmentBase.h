@@ -9,8 +9,8 @@ UCLASS()
 class SPRITELAND_API AEquipmentBase : public AActor
 {
 	GENERATED_BODY()
-	
-public:	
+
+public:
 	AEquipmentBase();
 	virtual void Tick(float DeltaTime) override;
 
@@ -18,13 +18,14 @@ protected:
 	virtual void BeginPlay() override;
 
 protected:
-	class UStaticMeshComponent* WeaponMesh;
-	class UBoxComponent* CollisionBox;
+	UPROPERTY(EditDefaultsOnly)
+	class UStaticMeshComponent* EquipmentMesh;
 
 protected:
+	UPROPERTY(EditDefaultsOnly)
 	UDataTable* EquipmentDatatable;
 
-	EItemName WeaponName;
+	EItemName EquipmentName;
 
 	float AttackValue = 0.f;
 };

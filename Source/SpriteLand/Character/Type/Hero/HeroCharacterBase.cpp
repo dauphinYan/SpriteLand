@@ -7,6 +7,8 @@
 #include "GameFramework/Controller.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
+#include "SpriteLand/Character/Type/Hero/Component/EquipmentComponent.h"
+#include "SpriteLand/Systems/Feature/EquipmentSystem/Weapon/WeaponBase.h"
 
 AHeroCharacterBase::AHeroCharacterBase()
 {
@@ -35,6 +37,9 @@ AHeroCharacterBase::AHeroCharacterBase()
 	FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
 	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
 	FollowCamera->bUsePawnControlRotation = false;
+
+	EquipmentComponent = CreateDefaultSubobject<UEquipmentComponent>(TEXT("EquipmentComponent"));
+
 }
 
 void AHeroCharacterBase::BeginPlay()
@@ -96,5 +101,17 @@ void AHeroCharacterBase::Dodge()
 void AHeroCharacterBase::JumpBegin()
 {
 	Jump();
+}
+
+void AHeroCharacterBase::Equip()
+{
+	if (WeaponClass)
+	{
+		AWeaponBase* Weapon = GetWorld()->SpawnActor<AWeaponBase>(WeaponClass);
+		if (EquipmentComponent || Weapon)
+		{
+			EquipmentComponent->EquipWeapon(Weapon);
+		}
+	}
 }
 

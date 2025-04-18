@@ -14,7 +14,6 @@ public:
 	AHeroCharacterBase();
 	virtual void Tick(float DeltaTime) override;
 
-
 protected:
 	virtual void BeginPlay() override;
 
@@ -24,6 +23,12 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	class UCameraComponent* FollowCamera;
+
+	UPROPERTY(EditDefaultsOnly)
+	class UEquipmentComponent* EquipmentComponent;
+
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<class AWeaponBase> WeaponClass;
 
 	UPROPERTY(EditDefaultsOnly)
 	class UAnimMontage* DodgeMontage;
@@ -36,4 +41,7 @@ protected:
 	virtual void Dodge() override;
 
 	virtual void JumpBegin() override;
+
+	UFUNCTION(BlueprintCallable)
+	void Equip();
 };

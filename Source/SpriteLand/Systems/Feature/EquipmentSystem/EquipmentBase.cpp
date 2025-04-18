@@ -9,11 +9,9 @@ AEquipmentBase::AEquipmentBase()
 
 	RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("RootComponent"));
 
-	WeaponMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Weapon Mesh"));
-	WeaponMesh->SetupAttachment(RootComponent);
-
-	CollisionBox = CreateDefaultSubobject<UBoxComponent>(TEXT("Collsion Box"));
-	CollisionBox->SetupAttachment(WeaponMesh);
+	EquipmentMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Equipment Mesh"));
+	EquipmentMesh->SetupAttachment(RootComponent);
+	EquipmentMesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 }
 
 void AEquipmentBase::BeginPlay()
@@ -24,13 +22,13 @@ void AEquipmentBase::BeginPlay()
 		{
 			if (!Table) return;
 
-			static const FString ContextString(TEXT("Looking for weapon data."));
+			static const FString ContextString(TEXT("Looking for equipment data."));
 
 			for (auto& RowName : Table->GetRowNames())
 			{
 				if (FEquipmentItemInfo* Row = Table->FindRow<FEquipmentItemInfo>(RowName, ContextString))
 				{
-					if (Row->ItemName == WeaponName)
+					if (Row->ItemName == EquipmentName)
 					{
 						AttackValue = Row->AttackValue;
 						break;

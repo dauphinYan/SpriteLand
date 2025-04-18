@@ -1,0 +1,50 @@
+#include "EquipmentComponent.h"
+#include "SpriteLand/Systems/Feature/EquipmentSystem/Weapon/WeaponBase.h"
+#include "SpriteLand/Character/Type/Hero/HeroCharacterBase.h"
+#include "Engine/SkeletalMeshSocket.h"
+
+UEquipmentComponent::UEquipmentComponent()
+{
+	PrimaryComponentTick.bCanEverTick = true;
+
+}
+
+void UEquipmentComponent::BeginPlay()
+{
+	Super::BeginPlay();
+
+	UE_LOG(LogTemp, Log, TEXT("Owner: %s"), *GetOwner()->GetName());
+	HeroCharacter = Cast<AHeroCharacterBase>(GetOwner());
+
+}
+
+void UEquipmentComponent::EquipWeapon(AWeaponBase* InWeapon)
+{
+	if (InWeapon == nullptr) return;
+
+	if (HeroCharacter == nullptr)
+		HeroCharacter = Cast<AHeroCharacterBase>(GetOwner());
+
+	if (HeroCharacter)
+	{
+		if (Weapon)
+		{
+			Weapon->Destroy();
+		}
+
+		Weapon = InWeapon;
+		const USkeletalMeshSocket* HandSocket = HeroCharacter->GetMesh()->GetSocketByName(FName("hand_r_weapon"));
+		if (HandSocket)
+		{
+			HandSocket->AttachActor(Weapon, HeroCharacter->GetMesh());
+		}
+
+	}
+}
+
+void UEquipmentComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
+{
+	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+
+}
+
