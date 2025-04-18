@@ -47,7 +47,7 @@ private:
 	TMap<EItemName, FItemInfoBase*> ItemInfoCache;
 
 	UPROPERTY(EditDefaultsOnly, Category = "DataTable")
-	UDataTable* EquipmentDataTable;
+	UDataTable* WeaponDataTable;
 
 	UPROPERTY(EditDefaultsOnly, Category = "DataTable")
 	UDataTable* ConsumableDataTable;

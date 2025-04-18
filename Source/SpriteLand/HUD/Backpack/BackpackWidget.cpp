@@ -40,7 +40,7 @@ void UBackpackWidget::InitializeItemInfoCache()
 			}
 		};
 
-	LoadTable(EquipmentDataTable);
+	LoadTable(WeaponDataTable);
 	LoadTable(ConsumableDataTable);
 }
 
