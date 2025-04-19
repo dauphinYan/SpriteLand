@@ -8,6 +8,7 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "SpriteLand/Character/Type/Hero/Component/EquipmentComponent.h"
+#include "SpriteLand/Character/Type/Hero/Component/HeroCombatComponent.h"
 #include "SpriteLand/Systems/Feature/EquipmentSystem/Weapon/WeaponBase.h"
 
 AHeroCharacterBase::AHeroCharacterBase()
@@ -39,7 +40,7 @@ AHeroCharacterBase::AHeroCharacterBase()
 	FollowCamera->bUsePawnControlRotation = false;
 
 	EquipmentComponent = CreateDefaultSubobject<UEquipmentComponent>(TEXT("EquipmentComponent"));
-
+	CombatComponent = CreateDefaultSubobject<UHeroCombatComponent>(TEXT("CombatComponent"));
 }
 
 void AHeroCharacterBase::BeginPlay()
@@ -55,6 +56,11 @@ void AHeroCharacterBase::PostInitializeComponents()
 	if (EquipmentComponent)
 	{
 		EquipmentComponent->HeroCharacter = this;
+	}
+	if (CombatComponent)
+	{
+		CombatComponent->HeroCharacter = this;
+		CombatComponent->EquipmentComponent = EquipmentComponent;
 	}
 }
 
@@ -111,6 +117,14 @@ void AHeroCharacterBase::Dodge()
 void AHeroCharacterBase::JumpBegin()
 {
 	Jump();
+}
+
+void AHeroCharacterBase::Attack()
+{
+	if (CombatComponent)
+	{
+		CombatComponent->Attack();
+	}
 }
 
 void AHeroCharacterBase::Equip()

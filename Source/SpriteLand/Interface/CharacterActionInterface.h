@@ -23,4 +23,6 @@ public:
 	virtual void Dodge();
 
 	virtual void JumpBegin();
+
+	virtual void Attack();
 };

@@ -15,3 +15,8 @@ void ICharacterActionInterface::Dodge()
 void ICharacterActionInterface::JumpBegin()
 {
 }
+
+void ICharacterActionInterface::Attack()
+{
+
+}

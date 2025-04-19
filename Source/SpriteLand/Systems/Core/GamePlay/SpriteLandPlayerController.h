@@ -5,6 +5,13 @@
 #include "SpriteLand/Interface/CharacterActionInterface.h"
 #include "SpriteLandPlayerController.generated.h"
 
+//UENUM(BlueprintType)
+//enum class FControllState : uint8
+//{
+//
+//};
+
+
 UCLASS()
 class SPRITELAND_API ASpriteLandPlayerController : public APlayerController
 {
@@ -32,6 +39,12 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	UInputAction* DodgeAction;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	UInputAction* AttackAction;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	UInputAction* BackpackAction;
+
 	UFUNCTION()
 	void OnJumpButtonPressed();
 
@@ -47,9 +60,18 @@ protected:
 	UFUNCTION()
 	void OnDodgeButtonPressed();
 
+	UFUNCTION()
+	void OnAttackButtonPressed();
+
+	UFUNCTION()
+	void OnBackpackButtonPressed();
+
 protected:
 	UPROPERTY(EditDefaultsOnly)
 	class UBackpackComponent* BackpackComponent;
+
+	UPROPERTY()
+	class ASpriteLandHUD* SpriteLandHUD;
 
 public:
 	FORCEINLINE UBackpackComponent* GetBackpackComponent()

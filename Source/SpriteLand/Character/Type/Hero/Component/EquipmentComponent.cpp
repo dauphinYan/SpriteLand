@@ -15,6 +15,12 @@ void UEquipmentComponent::BeginPlay()
 
 }
 
+void UEquipmentComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
+{
+	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+
+}
+
 void UEquipmentComponent::EquipWeapon(AWeaponBase* InWeapon)
 {
 	if (InWeapon == nullptr) return;
@@ -41,9 +47,7 @@ void UEquipmentComponent::EquipWeapon(AWeaponBase* InWeapon)
 	}
 }
 
-void UEquipmentComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
+void UEquipmentComponent::WeaponAttack()
 {
-	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
 }
-

@@ -28,6 +28,9 @@ protected:
 	UPROPERTY(EditDefaultsOnly)
 	class UEquipmentComponent* EquipmentComponent;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	class UHeroCombatComponent* CombatComponent;
+
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<class AWeaponBase> WeaponClass;
 
@@ -42,6 +45,8 @@ protected:
 	virtual void Dodge() override;
 
 	virtual void JumpBegin() override;
+
+	virtual void Attack() override;
 
 	UFUNCTION(BlueprintCallable)
 	void Equip();

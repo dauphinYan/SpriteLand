@@ -20,12 +20,10 @@ public:
 protected:
 	virtual void BeginPlay() override;
 
-	class AHeroCharacterBase* HeroCharacter;
-
 private:
 	class AWeaponBase* Weapon;
 
-
+	class AHeroCharacterBase* HeroCharacter;
 
 public:
 	void EquipWeapon(AWeaponBase* InWeapon);
