@@ -48,6 +48,16 @@ void AHeroCharacterBase::BeginPlay()
 
 }
 
+void AHeroCharacterBase::PostInitializeComponents()
+{
+	Super::PostInitializeComponents();
+
+	if (EquipmentComponent)
+	{
+		EquipmentComponent->HeroCharacter = this;
+	}
+}
+
 void AHeroCharacterBase::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);

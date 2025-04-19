@@ -13,9 +13,6 @@ void UEquipmentComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-	UE_LOG(LogTemp, Log, TEXT("Owner: %s"), *GetOwner()->GetName());
-	HeroCharacter = Cast<AHeroCharacterBase>(GetOwner());
-
 }
 
 void UEquipmentComponent::EquipWeapon(AWeaponBase* InWeapon)
@@ -34,10 +31,12 @@ void UEquipmentComponent::EquipWeapon(AWeaponBase* InWeapon)
 
 		Weapon = InWeapon;
 		const USkeletalMeshSocket* HandSocket = HeroCharacter->GetMesh()->GetSocketByName(FName("hand_r_weapon"));
-		if (HandSocket)
+		if (!HandSocket)
 		{
-			HandSocket->AttachActor(Weapon, HeroCharacter->GetMesh());
+			UE_LOG(LogTemp, Error, TEXT("Socket 'hand_r_weapon' not found on mesh!"));
+			return;
 		}
+		HandSocket->AttachActor(Weapon, HeroCharacter->GetMesh());
 
 	}
 }
