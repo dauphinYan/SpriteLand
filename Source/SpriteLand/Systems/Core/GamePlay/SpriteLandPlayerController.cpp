@@ -3,6 +3,7 @@
 #include "EnhancedInputSubsystems.h"
 #include "SpriteLand/Systems/Feature/BackpackSystem/BackpackComponent.h"
 #include "SpriteLand/HUD/SpriteLandHUD.h"
+#include "SpriteLand/HUD/Backpack/BackpackWidget.h"
 
 ASpriteLandPlayerController::ASpriteLandPlayerController()
 {
@@ -111,7 +112,9 @@ void ASpriteLandPlayerController::OnBackpackButtonPressed()
 		if (SpriteLandHUD->SetBackpackView())
 		{
 			SetShowMouseCursor(true);
-			FInputModeUIOnly InputMode;
+			FInputModeGameAndUI InputMode;
+			InputMode.SetWidgetToFocus(SpriteLandHUD->GetBackpackWidget()->TakeWidget());
+			InputMode.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);
 			SetInputMode(InputMode);
 		}
 		else

@@ -4,7 +4,23 @@
 #include "SpriteLand/Systems/Feature/BackpackSystem/ItemInfo.h"
 #include "Components/Image.h"
 #include "Components/TextBlock.h"
+#include "Components/Button.h"
 
+
+void UBackpackItemWidget::NativeConstruct()
+{
+	Super::NativeConstruct();
+
+	if (UseButton)
+	{
+		UseButton->OnClicked.AddDynamic(this, &UBackpackItemWidget::OnUseButtonClicked);
+	}
+}
+
+void UBackpackItemWidget::OnUseButtonClicked()
+{
+
+}
 
 void UBackpackItemWidget::UpdateViewInfo(const FItemInfoBase* Info, const int32 InCount)
 {
@@ -16,3 +32,4 @@ void UBackpackItemWidget::UpdateViewInfo(const FItemInfoBase* Info, const int32 
 		ItemAmountText->SetText(FText::AsNumber(InCount));
 	}
 }
+

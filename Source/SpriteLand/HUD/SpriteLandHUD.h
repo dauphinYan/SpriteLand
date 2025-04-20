@@ -14,14 +14,15 @@ protected:
 	virtual void BeginPlay() override;
 
 public:
+	bool SetBackpackView();
+
+protected:
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<UUserWidget> BackpackWidgetClass;
 
 	UPROPERTY()
 	class UBackpackWidget* BackpackWidget;
 
-	bool SetBackpackView();
-
-
-
+public:
+	FORCEINLINE UBackpackWidget* GetBackpackWidget() const { return BackpackWidget; }
 };

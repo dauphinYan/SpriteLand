@@ -12,7 +12,13 @@ class SPRITELAND_API UBackpackItemWidget : public UUserWidget
 	GENERATED_BODY()
 
 public:
+	virtual void NativeConstruct() override;
+
 	void UpdateViewInfo(const FItemInfoBase* Info,const int32 InCount);
+
+
+protected:
+	void OnUseButtonClicked();
 
 private:
 	UPROPERTY(meta=(BindWidget))
@@ -26,4 +32,10 @@ private:
 
 	UPROPERTY(meta = (BindWidget))
 	class UTextBlock* ItemDescText;
+
+	UPROPERTY(meta = (BindWidget))
+	class UButton* UseButton;
+
+	UPROPERTY(meta = (BindWidget))
+	class UButton* ThrowButton;
 };
