@@ -31,6 +31,7 @@ void AEquipmentBase::BeginPlay()
 					if (Row->ItemName == EquipmentName)
 					{
 						AttackValue = Row->AttackValue;
+						EquipmentType = Row->EquipmentType;
 						break;
 					}
 				}

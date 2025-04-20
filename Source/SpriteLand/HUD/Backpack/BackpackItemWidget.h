@@ -14,11 +14,14 @@ class SPRITELAND_API UBackpackItemWidget : public UUserWidget
 public:
 	virtual void NativeConstruct() override;
 
-	void UpdateViewInfo(const FItemInfoBase* Info,const int32 InCount);
+	void UpdateViewInfo(FItemInfoBase* Info,const int32 InCount);
 
 
 protected:
-	void OnUseButtonClicked();
+	FItemInfoBase* Info;
+
+	UFUNCTION()
+	virtual void OnUseButtonClicked();
 
 private:
 	UPROPERTY(meta=(BindWidget))

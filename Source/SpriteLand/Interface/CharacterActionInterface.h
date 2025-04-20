@@ -25,4 +25,6 @@ public:
 	virtual void JumpBegin();
 
 	virtual void Attack();
+
+	virtual void Equip(class AEquipmentBase* Equipment);
 };

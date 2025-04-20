@@ -127,15 +127,16 @@ void AHeroCharacterBase::Attack()
 	}
 }
 
-void AHeroCharacterBase::Equip()
+void AHeroCharacterBase::Equip(AEquipmentBase* Equipment)
 {
-	if (WeaponClass)
+	switch (Equipment->GetEquipmentType())
 	{
-		AWeaponBase* Weapon = GetWorld()->SpawnActor<AWeaponBase>(WeaponClass);
-		if (EquipmentComponent || Weapon)
-		{
-			EquipmentComponent->EquipWeapon(Weapon);
-		}
+	default:
+		break;
+	case EEquipmentType::Weapon:
+		EquipmentComponent->EquipWeapon(Cast<class AWeaponBase>(Equipment));
+		break;
 	}
+	
 }
 

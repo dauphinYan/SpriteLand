@@ -57,7 +57,7 @@ void UBackpackWidget::RefreshBackpackView_Equip()
 
 		FItemInfoBase** InfoPtr = ItemInfoCache.Find(ItemName);
 		if (!InfoPtr) return;
-		const FItemInfoBase* Info = *InfoPtr;
+		FItemInfoBase* Info = *InfoPtr;
 
 		UBackpackItemWidget* ItemWidget = CreateWidget<UBackpackItemWidget>(this, ItemWidgetClass);
 		ItemWidget->UpdateViewInfo(Info, Count);
@@ -78,7 +78,7 @@ void UBackpackWidget::RefreshBackpackView_Consumable()
 
 		FItemInfoBase** InfoPtr = ItemInfoCache.Find(ItemName);
 		if (!InfoPtr) return;
-		const FItemInfoBase* Info = *InfoPtr;
+		FItemInfoBase* Info = *InfoPtr;
 
 		UBackpackItemWidget* ItemWidget = CreateWidget<UBackpackItemWidget>(this, ItemWidgetClass);
 		ItemWidget->UpdateViewInfo(Info, Count);
@@ -99,7 +99,7 @@ void UBackpackWidget::RefreshBackpackView_Miscellaneous()
 
 		FItemInfoBase** InfoPtr = ItemInfoCache.Find(ItemName);
 		if (!InfoPtr) return;
-		const FItemInfoBase* Info = *InfoPtr;
+		FItemInfoBase* Info = *InfoPtr;
 
 		UBackpackItemWidget* ItemWidget = CreateWidget<UBackpackItemWidget>(this, ItemWidgetClass);
 		ItemWidget->UpdateViewInfo(Info, Count);

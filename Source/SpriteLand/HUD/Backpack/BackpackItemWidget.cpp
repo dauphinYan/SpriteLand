@@ -22,10 +22,11 @@ void UBackpackItemWidget::OnUseButtonClicked()
 
 }
 
-void UBackpackItemWidget::UpdateViewInfo(const FItemInfoBase* Info, const int32 InCount)
+void UBackpackItemWidget::UpdateViewInfo(FItemInfoBase* InInfo, const int32 InCount)
 {
-	if (Info)
+	if (InInfo)
 	{
+		this->Info = InInfo;
 		ItemImage->SetBrushResourceObject(Info->Icon);
 		ItemNameText->SetText(Info->DisplayName);
 		ItemDescText->SetText(Info->Description);

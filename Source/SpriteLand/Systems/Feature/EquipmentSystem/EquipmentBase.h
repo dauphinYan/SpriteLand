@@ -25,7 +25,13 @@ protected:
 	UPROPERTY(EditDefaultsOnly)
 	UDataTable* EquipmentDatatable;
 
+	UPROPERTY(EditDefaultsOnly)
 	EItemName EquipmentName;
 
+	EEquipmentType EquipmentType;
+
 	float AttackValue = 0.f;
+
+public:
+	FORCEINLINE EEquipmentType GetEquipmentType() { return EquipmentType; }
 };

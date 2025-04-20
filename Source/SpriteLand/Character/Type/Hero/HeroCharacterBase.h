@@ -31,8 +31,8 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	class UHeroCombatComponent* CombatComponent;
 
-	UPROPERTY(EditDefaultsOnly)
-	TSubclassOf<class AWeaponBase> WeaponClass;
+	//UPROPERTY(EditDefaultsOnly)
+	//TSubclassOf<class AWeaponBase> WeaponClass;
 
 	UPROPERTY(EditDefaultsOnly)
 	class UAnimMontage* DodgeMontage;
@@ -49,5 +49,5 @@ protected:
 	virtual void Attack() override;
 
 	UFUNCTION(BlueprintCallable)
-	void Equip();
+	virtual void Equip(AEquipmentBase* Equipment) override;
 };

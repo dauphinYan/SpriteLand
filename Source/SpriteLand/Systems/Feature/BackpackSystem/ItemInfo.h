@@ -73,10 +73,22 @@ struct FConsumableItemInfo : public FItemInfoBase
 
 };
 
+UENUM(BlueprintType)
+enum class EEquipmentType : uint8
+{
+	Weapon,
+	Helmet,
+	Armor,
+	Boot
+};
+
 USTRUCT(BlueprintType)
 struct FEquipmentItemInfo : public FItemInfoBase
 {
 	GENERATED_BODY()
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	EEquipmentType EquipmentType;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	float AttackValue;
@@ -84,4 +96,6 @@ struct FEquipmentItemInfo : public FItemInfoBase
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	float DefensiveValue;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	TSoftClassPtr<class AEquipmentBase> EquipmentClass;
 };

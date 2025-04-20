@@ -36,13 +36,14 @@ void UEquipmentComponent::EquipWeapon(AWeaponBase* InWeapon)
 		}
 
 		Weapon = InWeapon;
-		const USkeletalMeshSocket* HandSocket = HeroCharacter->GetMesh()->GetSocketByName(FName("hand_r_weapon"));
-		if (!HandSocket)
+
+		const USkeletalMeshComponent* Mesh = HeroCharacter->GetMesh();
+		if (!Mesh)
 		{
-			UE_LOG(LogTemp, Error, TEXT("Socket 'hand_r_weapon' not found on mesh!"));
+			UE_LOG(LogTemp, Error, TEXT("Not found HeroCharacter mesh!"));
 			return;
 		}
-		HandSocket->AttachActor(Weapon, HeroCharacter->GetMesh());
+		Weapon->AttachToComponent(HeroCharacter->GetMesh(), FAttachmentTransformRules::SnapToTargetIncludingScale, FName("hand_r_weapon"));
 
 	}
 }
