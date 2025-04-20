@@ -11,10 +11,6 @@ void UBackpackItemWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
 
-	if (UseButton)
-	{
-		UseButton->OnClicked.AddDynamic(this, &UBackpackItemWidget::OnUseButtonClicked);
-	}
 }
 
 void UBackpackItemWidget::OnUseButtonClicked()

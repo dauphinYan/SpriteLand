@@ -34,7 +34,7 @@ void ASpriteLandPlayerController::SetupInputComponent()
 		EnhancedInput->BindAction(DodgeAction, ETriggerEvent::Started, this, &ASpriteLandPlayerController::OnDodgeButtonPressed);
 		EnhancedInput->BindAction(MoveAction, ETriggerEvent::Triggered, this, &ASpriteLandPlayerController::OnMoveButtonTriggered);
 		EnhancedInput->BindAction(LookAction, ETriggerEvent::Triggered, this, &ASpriteLandPlayerController::OnLookButtonTriggered);
-		EnhancedInput->BindAction(AttackAction, ETriggerEvent::Started, this, &ASpriteLandPlayerController::OnDodgeButtonPressed);
+		EnhancedInput->BindAction(AttackAction, ETriggerEvent::Started, this, &ASpriteLandPlayerController::OnAttackButtonPressed);
 		EnhancedInput->BindAction(BackpackAction, ETriggerEvent::Started, this, &ASpriteLandPlayerController::OnBackpackButtonPressed);
 	}
 }

@@ -2,12 +2,11 @@
 
 #include "CoreMinimal.h"
 #include "WeaponBase.h"
-#include "WoodWeaponBase.generated.h"
+#include "WoodenWeapon.generated.h"
 
 UCLASS()
-class SPRITELAND_API AWoodWeaponBase : public AWeaponBase
+class SPRITELAND_API AWoodenWeapon : public AWeaponBase
 {
 	GENERATED_BODY()
 	
-
 };

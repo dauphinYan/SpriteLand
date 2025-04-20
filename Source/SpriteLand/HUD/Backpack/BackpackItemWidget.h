@@ -20,7 +20,7 @@ public:
 protected:
 	FItemInfoBase* Info;
 
-	UFUNCTION()
+	UFUNCTION(BlueprintCallable)
 	virtual void OnUseButtonClicked();
 
 private:
@@ -35,10 +35,4 @@ private:
 
 	UPROPERTY(meta = (BindWidget))
 	class UTextBlock* ItemDescText;
-
-	UPROPERTY(meta = (BindWidget))
-	class UButton* UseButton;
-
-	UPROPERTY(meta = (BindWidget))
-	class UButton* ThrowButton;
 };
