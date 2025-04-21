@@ -44,4 +44,7 @@ private:
 
 	UPROPERTY(meta = (BindWidget))
 	class UVerticalBox* ExtraInfoBox;
+
+	UPROPERTY(meta = (BindWidget))
+	class UTextBlock* FirstButtonText;
 };
