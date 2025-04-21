@@ -18,6 +18,18 @@ enum class EItemName : uint8
 };
 
 UENUM(BlueprintType)
+enum class EItemQuality : uint8
+{
+	White,
+	Green,
+	Blue,
+	Purple,
+	Orange,
+	Black,
+	Red
+};
+
+UENUM(BlueprintType)
 enum class EItemType : uint8
 {
 	Unknown,
@@ -49,6 +61,9 @@ struct FItemInfoBase :public FTableRowBase
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	FText DisplayName;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	EItemQuality ItemQuality;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	UTexture2D* Icon;

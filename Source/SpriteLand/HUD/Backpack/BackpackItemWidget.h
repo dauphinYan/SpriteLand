@@ -14,17 +14,23 @@ class SPRITELAND_API UBackpackItemWidget : public UUserWidget
 public:
 	virtual void NativeConstruct() override;
 
-	void UpdateViewInfo(FItemInfoBase* Info,const int32 InCount);
+	void UpdateViewInfo(FItemInfoBase* Info, const int32 InCount);
 
 
 protected:
+	UPROPERTY(EditDefaultsOnly)
+	UDataTable* EquipmentDataTable;
+
 	FItemInfoBase* Info;
+
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<class UEquipmentItemWidget> EquipmentItemWidgetClass;
 
 	UFUNCTION(BlueprintCallable)
 	virtual void OnUseButtonClicked();
 
 private:
-	UPROPERTY(meta=(BindWidget))
+	UPROPERTY(meta = (BindWidget))
 	class UImage* ItemImage;
 
 	UPROPERTY(meta = (BindWidget))
@@ -35,4 +41,7 @@ private:
 
 	UPROPERTY(meta = (BindWidget))
 	class UTextBlock* ItemDescText;
+
+	UPROPERTY(meta = (BindWidget))
+	class UVerticalBox* ExtraInfoBox;
 };
