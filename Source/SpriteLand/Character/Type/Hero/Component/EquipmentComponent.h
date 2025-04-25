@@ -28,5 +28,9 @@ private:
 public:
 	void EquipWeapon(AWeaponBase* InWeapon);
 
-	void WeaponAttack();
+	UFUNCTION(BlueprintCallable)
+	void WeaponAttackStart();
+
+	UFUNCTION(BlueprintCallable)
+	void WeaponAttackEnd();
 };

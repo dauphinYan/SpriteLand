@@ -44,11 +44,24 @@ void UEquipmentComponent::EquipWeapon(AWeaponBase* InWeapon)
 			return;
 		}
 		Weapon->AttachToComponent(HeroCharacter->GetMesh(), FAttachmentTransformRules::SnapToTargetIncludingScale, FName("hand_r_weapon"));
+		Weapon->SetOwner(HeroCharacter);
 
 	}
 }
 
-void UEquipmentComponent::WeaponAttack()
+void UEquipmentComponent::WeaponAttackStart()
 {
+	if (Weapon)
+	{
+		Weapon->AttackStart();
+	}
 
+}
+
+void UEquipmentComponent::WeaponAttackEnd()
+{
+	if(Weapon)
+	{
+		Weapon->AttackEnd();
+	}
 }
