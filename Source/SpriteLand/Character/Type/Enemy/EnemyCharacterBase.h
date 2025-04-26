@@ -25,4 +25,7 @@ protected:
 private:
 	UPROPERTY(EditDefaultsOnly)
 	class USoundWave* HurtSound;
+
+	UPROPERTY(EditDefaultsOnly)
+	class UNiagaraSystem* DamageFloatNiagara;
 };
