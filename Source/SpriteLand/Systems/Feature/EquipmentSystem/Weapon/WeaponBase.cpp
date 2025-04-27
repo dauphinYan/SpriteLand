@@ -10,12 +10,14 @@ AWeaponBase::AWeaponBase()
 	CollisionBox->SetCollisionObjectType(ECC_WorldDynamic);
 	CollisionBox->SetCollisionResponseToAllChannels(ECR_Ignore);
 	CollisionBox->SetCollisionResponseToChannel(ECC_Enemy, ECR_Overlap);
+	CollisionBox->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 }
 
 void AWeaponBase::BeginPlay()
 {
 	Super::BeginPlay();
 
+	CollisionBox->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	CollisionBox->OnComponentBeginOverlap.AddDynamic(this, &AWeaponBase::OnBoxOverlap);
 }
 

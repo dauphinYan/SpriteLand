@@ -2,6 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "SpriteLand/Character/Common/CharacterInfo.h"
 #include "EnemyCharacterBase.generated.h"
 
 
@@ -18,7 +19,7 @@ public:
 
 protected:
 	virtual void BeginPlay() override;
-	
+
 	UFUNCTION()
 	virtual void ReceiveDamage(AActor* DamageActor, float Damage, const UDamageType* DamageType, AController* InstigatorController, AActor* DamageCauser);
 
@@ -28,4 +29,48 @@ private:
 
 	UPROPERTY(EditDefaultsOnly)
 	class UNiagaraSystem* DamageFloatNiagara;
+
+protected: // Character attribute
+
+	UPROPERTY(EditDefaultsOnly, Category = "Character Attribute")
+	UDataTable* EnemyDatatable;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Character Attribute")
+	EEnemyName EnemyName;
+
+	FText DisplayName;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Character Attribute")
+	float MaxHealth = 100.f;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Character Attribute")
+	float CurHealth = 100.f;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Character Attribute")
+	float ManaValue = 100.f;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Character Attribute")
+	float DefenseValue = 0.f;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Character Attribute")
+	float AttackValue = 1.f;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Character Attribute")
+	float AttackSpeed = 1.f;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Character Attribute")
+	float MoveSpeed = 500.f;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Character Attribute")
+	bool IsBoss = false;
+
+protected:
+	void PlayDeathMontage();
+
+	UFUNCTION()
+	void OnDeathMontageEnded(UAnimMontage* Montage, bool bInterrupted);
+
+private:
+	UPROPERTY(EditDefaultsOnly)
+	UAnimMontage* DeathMontage;
 };

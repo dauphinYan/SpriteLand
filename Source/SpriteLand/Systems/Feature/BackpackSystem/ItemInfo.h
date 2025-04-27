@@ -109,7 +109,7 @@ struct FEquipmentItemInfo : public FItemInfoBase
 	float AttackValue;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	float DefensiveValue;
+	float DefenseValue;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	TSoftClassPtr<class AEquipmentBase> EquipmentClass;

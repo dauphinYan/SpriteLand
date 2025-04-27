@@ -4,6 +4,7 @@
 #include "SpriteLand/Systems/Feature/BackpackSystem/BackpackComponent.h"
 #include "SpriteLand/HUD/SpriteLandHUD.h"
 #include "SpriteLand/HUD/Backpack/BackpackWidget.h"
+#include "SpriteLand/Character/Type/Enemy/EnemyCharacterBase.h"
 
 ASpriteLandPlayerController::ASpriteLandPlayerController()
 {
@@ -20,6 +21,11 @@ void ASpriteLandPlayerController::BeginPlay()
 		{
 			Subsystem->AddMappingContext(DefaultMappingContext, 0);
 		}
+	}
+
+	if (SpriteLandHUD == nullptr)
+	{
+		SpriteLandHUD = Cast<ASpriteLandHUD>(GetHUD());
 	}
 }
 

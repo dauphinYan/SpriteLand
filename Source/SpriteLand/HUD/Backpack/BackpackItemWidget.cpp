@@ -70,7 +70,7 @@ void UBackpackItemWidget::UpdateViewInfo(FItemInfoBase* InInfo, const int32 InCo
 		switch (Info->ItemType)
 		{
 		case EItemType::Equipment:
-			FirstButtonText->SetText(FText::FromString(TEXT("Equip")));
+			FirstButtonText->SetText(FText::FromString(TEXT("装备")));
 			if (EquipmentDataTable)
 			{
 				for (FName RowName : EquipmentDataTable->GetRowNames())

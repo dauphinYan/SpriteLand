@@ -19,7 +19,7 @@ void UHeroCombatComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
 
 void UHeroCombatComponent::Attack()
 {
-	if (!HeroCharacter) return;
+	if (!HeroCharacter || bIsAttacking) return;
 
 	if (CurrentAttackCombo == 0)
 	{
@@ -36,7 +36,52 @@ void UHeroCombatComponent::Attack()
 
 void UHeroCombatComponent::PlayAttackMontage()
 {
-	HeroCharacter->PlayAnimMontage(AttackMontage, 1.f, FName(*FString::Printf(TEXT("Attack_%d"), CurrentAttackCombo)));
+	UAnimInstance* AnimInstance = HeroCharacter->GetMesh()->GetAnimInstance();
+	if (AnimInstance)
+	{
+		//FOnMontageEnded EndDelegate;
+		//EndDelegate.BindUObject(this, &UHeroCombatComponent::OnAttackMontageEnded);
+		AnimInstance->Montage_Play(AttackMontage, 1.f);
+		//AnimInstance->Montage_SetEndDelegate(EndDelegate, AttackMontage);
 
-	ComboTimer = MaxComboTime;
+		FName SectionName = FName(*FString::Printf(TEXT("Attack_%d"), CurrentAttackCombo));
+		AnimInstance->Montage_JumpToSection(SectionName, AttackMontage);
+
+		float MontageLengh = AttackMontage->GetSectionLength(CurrentAttackCombo);
+		ComboTimer = MontageLengh + 0.8f;
+
+		bIsAttacking = true;
+	}
 }
+
+//void UHeroCombatComponent::PlayAttackMontage()
+//{
+//	UAnimInstance* AnimInstance = HeroCharacter->GetMesh()->GetAnimInstance();
+//	if (AnimInstance)
+//	{
+//		FOnMontageEnded EndDelegate;
+//		EndDelegate.BindUObject(this, &UHeroCombatComponent::OnAttackMontageEnded);
+//		AnimInstance->Montage_Play(AttackMontage, 1.f);
+//		AnimInstance->Montage_SetEndDelegate(EndDelegate, AttackMontage);
+//
+//		FName SectionName = FName(*FString::Printf(TEXT("Attack_%d"), CurrentAttackCombo));
+//		AnimInstance->Montage_JumpToSection(SectionName, AttackMontage);
+//		float MontageLengh = AttackMontage->GetSectionLength(CurrentAttackCombo);
+//
+//		ComboTimer = MontageLengh + 0.8f;
+//		bIsAttacking = true;
+//	}
+//}
+
+//void UHeroCombatComponent::OnAttackMontageEnded(UAnimMontage* Montage, bool bInterrupted)
+//{
+//	if (Montage == AttackMontage)
+//	{
+//		bIsAttacking = false;
+//
+//		if (ComboTimer <= 0.f)
+//		{
+//			CurrentAttackCombo = 0;
+//		}
+//	}
+//}

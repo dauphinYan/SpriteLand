@@ -16,13 +16,26 @@ protected:
 public:
 	bool SetBackpackView();
 
+	void InitializeBossHealthBar(FText BossName, float HealthPercent);
+
+	void UpdateBossHealthBar(float HealthPercent);
+
+	void HideBossHealthBar();
+
 protected:
 	UPROPERTY(EditDefaultsOnly)
-	TSubclassOf<UUserWidget> BackpackWidgetClass;
+	TSubclassOf<class UBackpackWidget> BackpackWidgetClass;
 
 	UPROPERTY()
-	class UBackpackWidget* BackpackWidget;
+	UBackpackWidget* BackpackWidget;
+
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<class UMainWidget> MainWidgetClass;
+
+	UPROPERTY()
+	UMainWidget* MainWidget;
 
 public:
 	FORCEINLINE UBackpackWidget* GetBackpackWidget() const { return BackpackWidget; }
+	FORCEINLINE UMainWidget* GetMainWidget() const { return MainWidget; }
 };

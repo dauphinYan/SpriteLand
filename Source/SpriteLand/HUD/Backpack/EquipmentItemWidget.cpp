@@ -5,5 +5,5 @@
 void UEquipmentItemWidget::UpdateInfo(FEquipmentItemInfo* Info)
 {
 	AttackText->SetText(FText::AsNumber(Info->AttackValue));
-	DefenceText->SetText(FText::AsNumber(Info->DefensiveValue));
+	DefenceText->SetText(FText::AsNumber(Info->DefenseValue));
 }

@@ -73,9 +73,22 @@ protected:
 	UPROPERTY()
 	class ASpriteLandHUD* SpriteLandHUD;
 
+protected: // Update health bar.
+	class AEnemyCharacterBase* CurrentLockingTarget;
+
 public:
 	FORCEINLINE UBackpackComponent* GetBackpackComponent()
 	{
 		return BackpackComponent;
+	}
+
+	FORCEINLINE ASpriteLandHUD* GetSpriteLandHUD()
+	{
+		return SpriteLandHUD;
+	}
+
+	FORCEINLINE AEnemyCharacterBase* GetCurrentLockingTarget()
+	{
+		return CurrentLockingTarget;
 	}
 };
