@@ -53,7 +53,7 @@ void AEnemyCharacterBase::ReceiveDamage(AActor* DamageActor, float Damage, const
 		return;
 	}
 
-	const float OffsetX = 100.0f;
+	const float OffsetX = 20.0f;
 	for (int32 i = 0; i < Digits.Num(); ++i)
 	{
 		UNiagaraComponent* DigitEffect = UNiagaraFunctionLibrary::SpawnSystemAtLocation(
@@ -66,7 +66,7 @@ void AEnemyCharacterBase::ReceiveDamage(AActor* DamageActor, float Damage, const
 
 		if (DigitEffect)
 		{
-			DigitEffect->SetVariableFloat(FName("Digit"), static_cast<float>(Digits[i]));
+			DigitEffect->SetVariableInt(FName("DigitCount"), Digits[i]);
 		}
 	}
 }

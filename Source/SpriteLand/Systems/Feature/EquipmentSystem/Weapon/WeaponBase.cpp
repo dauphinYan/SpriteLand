@@ -41,7 +41,7 @@ void AWeaponBase::OnBoxOverlap(UPrimitiveComponent* OverlappedComponent, AActor*
 		{
 			UGameplayStatics::ApplyDamage(
 				Enemy,
-				10.f,
+				AttackValue,
 				Owner->GetInstigatorController(),
 				this,
 				UDamageType::StaticClass()
