@@ -50,4 +50,7 @@ protected:
 
 	UFUNCTION(BlueprintCallable)
 	virtual void Equip(AEquipmentBase* Equipment) override;
+
+	UFUNCTION(BlueprintCallable)
+	virtual void UnEquip(enum EEquipmentType EquipmentType) override;
 };

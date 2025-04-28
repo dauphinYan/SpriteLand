@@ -11,7 +11,9 @@ class SPRITELAND_API UBackpackItemWidget : public UUserWidget
 	GENERATED_BODY()
 
 public:
-	virtual void NativeConstruct() override;
+	virtual void NativeOnInitialized() override;
+
+	class UBackpackWidget* BackpackWidget;
 
 	void UpdateViewInfo(struct FConsumableItemInfo* InInfo, const int32 InCount);
 
@@ -25,6 +27,12 @@ protected:
 
 	UFUNCTION(BlueprintCallable)
 	virtual void OnUseButtonClicked();
+
+	UPROPERTY(EditAnywhere)
+	bool bIsInBackpack = true;
+
+	UPROPERTY(EditAnywhere,BlueprintReadOnly)
+	bool bIsFilled = true;
 
 private:
 	UPROPERTY(meta = (BindWidget))

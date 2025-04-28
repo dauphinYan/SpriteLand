@@ -56,4 +56,8 @@ private:
 
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<class UBackpackItemWidget> ItemWidgetClass;
+
+public:
+	UPROPERTY(BlueprintReadOnly, meta = (BindWidget))
+	UBackpackItemWidget* WeaponSlot;
 };

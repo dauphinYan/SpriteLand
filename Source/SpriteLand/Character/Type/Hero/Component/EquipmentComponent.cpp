@@ -30,10 +30,7 @@ void UEquipmentComponent::EquipWeapon(AWeaponBase* InWeapon)
 
 	if (HeroCharacter)
 	{
-		if (Weapon)
-		{
-			Weapon->Destroy();
-		}
+		UnEquipWeapon();
 
 		Weapon = InWeapon;
 
@@ -49,6 +46,16 @@ void UEquipmentComponent::EquipWeapon(AWeaponBase* InWeapon)
 	}
 }
 
+void UEquipmentComponent::UnEquipWeapon()
+{
+	if (Weapon)
+	{
+		Weapon->Destroy();
+	}
+
+	Weapon = nullptr;
+}
+
 void UEquipmentComponent::WeaponAttackStart()
 {
 	if (Weapon)
@@ -60,7 +67,7 @@ void UEquipmentComponent::WeaponAttackStart()
 
 void UEquipmentComponent::WeaponAttackEnd()
 {
-	if(Weapon)
+	if (Weapon)
 	{
 		Weapon->AttackEnd();
 	}

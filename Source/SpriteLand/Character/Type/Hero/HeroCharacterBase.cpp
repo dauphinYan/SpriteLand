@@ -134,9 +134,34 @@ void AHeroCharacterBase::Equip(AEquipmentBase* Equipment)
 	default:
 		break;
 	case EEquipmentType::Weapon:
-		EquipmentComponent->EquipWeapon(Cast<class AWeaponBase>(Equipment));
+		if (EquipmentComponent)
+		{
+			EquipmentComponent->EquipWeapon(Cast<class AWeaponBase>(Equipment));
+		}
+
 		break;
 	}
-	
+
+}
+
+void AHeroCharacterBase::UnEquip(EEquipmentType EquipmentType)
+{
+	switch (EquipmentType)
+	{
+	case EEquipmentType::Weapon:
+		if (EquipmentComponent)
+		{
+			EquipmentComponent->UnEquipWeapon();
+		}
+		break;
+	case EEquipmentType::Helmet:
+		break;
+	case EEquipmentType::Armor:
+		break;
+	case EEquipmentType::Boot:
+		break;
+	default:
+		break;
+	}
 }
 

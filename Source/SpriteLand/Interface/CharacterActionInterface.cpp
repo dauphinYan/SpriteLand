@@ -25,3 +25,7 @@ void ICharacterActionInterface::Attack()
 void ICharacterActionInterface::Equip(AEquipmentBase* Equipment)
 {
 }
+
+void ICharacterActionInterface::UnEquip(EEquipmentType EquipmentType)
+{
+}

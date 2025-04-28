@@ -22,11 +22,9 @@ void AEquipmentBase::BeginPlay()
 		{
 			if (!Table) return;
 
-			static const FString ContextString(TEXT("Looking for equipment data."));
-
 			for (auto& RowName : Table->GetRowNames())
 			{
-				if (FEquipmentItemInfo* Row = Table->FindRow<FEquipmentItemInfo>(RowName, ContextString))
+				if (FEquipmentItemInfo* Row = Table->FindRow<FEquipmentItemInfo>(RowName, TEXT("Looking for equipment data.")))
 				{
 					if (Row->ItemName == EquipmentName)
 					{

@@ -2,6 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "UObject/Interface.h"
+#include "SpriteLand/Systems/Feature/BackpackSystem/ItemInfo.h"
 #include "CharacterActionInterface.generated.h"
 
 UINTERFACE(MinimalAPI)
@@ -27,4 +28,6 @@ public:
 	virtual void Attack();
 
 	virtual void Equip(class AEquipmentBase* Equipment);
+
+	virtual void UnEquip(enum class EEquipmentType EquipmentType);
 };

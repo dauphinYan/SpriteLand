@@ -59,6 +59,7 @@ void UBackpackWidget::RefreshBackpackView_Equip()
 
 		UBackpackItemWidget* ItemWidget = CreateWidget<UBackpackItemWidget>(this, ItemWidgetClass);
 		ItemWidget->UpdateViewInfo(*InfoPtr, Count);
+		ItemWidget->BackpackWidget = this;
 		EquipItemWrapBox->AddChildToWrapBox(ItemWidget);
 	}
 }
@@ -78,6 +79,7 @@ void UBackpackWidget::RefreshBackpackView_Consumable()
 		if (!InfoPtr) return;
 
 		UBackpackItemWidget* ItemWidget = CreateWidget<UBackpackItemWidget>(this, ItemWidgetClass);
+		ItemWidget->BackpackWidget = this;
 		ItemWidget->UpdateViewInfo(*InfoPtr, Count);
 		ConsumableItemWrapBox->AddChildToWrapBox(ItemWidget);
 	}
