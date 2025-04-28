@@ -11,7 +11,7 @@ struct FEquipmentItemStack
 	GENERATED_BODY();
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	EItemName ItemName;
+	EEquipmentItemName ItemName;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	int32 Count;
@@ -30,27 +30,27 @@ protected:
 	virtual void BeginPlay() override;
 
 protected:
-	bool AddItem(const EItemType ItemType, const EItemName ItemName, const int32 Count = 1);
-	bool RemoveItem(const EItemType ItemType, const EItemName ItemName, const int32 Count = 1);
-	bool UseItem(const EItemName ItemName, const int32 Count = 1);
+	//bool AddItem(const EItemType ItemType, const EItemName ItemName, const int32 Count = 1);
+	//bool RemoveItem(const EItemType ItemType, const EItemName ItemName, const int32 Count = 1);
+	//bool UseItem(const EItemName ItemName, const int32 Count = 1);
 private:
 
 	UPROPERTY(EditAnyWhere)
-	TMap<EItemName, int32> ConsumbleItems;
+	TMap<EConsumableItemName, int32> ConsumbleItems;
 
 	UPROPERTY(EditAnyWhere)
-	TMap<EItemName, FEquipmentItemStack> EquipmentItems;
+	TMap<EEquipmentItemName, FEquipmentItemStack> EquipmentItems;
 
-	UPROPERTY(EditAnyWhere)
-	TMap<EItemName, int32> QuestItems;
+	//UPROPERTY(EditAnyWhere)
+	//TMap<EItemName, int32> QuestItems;
 
-	UPROPERTY(EditAnyWhere)
-	TMap<EItemName, int32> MiscellaneousItems;
+	//UPROPERTY(EditAnyWhere)
+	//TMap<EItemName, int32> MiscellaneousItems;
 
 public:
-	FORCEINLINE TMap<EItemName, int32>& GetComsumbleItems() { return ConsumbleItems; }
-	FORCEINLINE TMap<EItemName, FEquipmentItemStack>& GetEquipmentItems() { return EquipmentItems; }
-	FORCEINLINE TMap<EItemName, int32>& GetQuestItems() { return QuestItems; }
-	FORCEINLINE TMap<EItemName, int32>& GetMiscellaneousItems() { return MiscellaneousItems; }
+	FORCEINLINE TMap<EConsumableItemName, int32>& GetComsumbleItems() { return ConsumbleItems; }
+	FORCEINLINE TMap<EEquipmentItemName, FEquipmentItemStack>& GetEquipmentItems() { return EquipmentItems; }
+	//FORCEINLINE TMap<EItemName, int32>& GetQuestItems() { return QuestItems; }
+	//FORCEINLINE TMap<EItemName, int32>& GetMiscellaneousItems() { return MiscellaneousItems; }
 
 };

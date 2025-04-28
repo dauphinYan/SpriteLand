@@ -4,7 +4,6 @@
 #include "Blueprint/UserWidget.h"
 #include "BackpackItemWidget.generated.h"
 
-struct FItemInfoBase;
 
 UCLASS()
 class SPRITELAND_API UBackpackItemWidget : public UUserWidget
@@ -14,14 +13,12 @@ class SPRITELAND_API UBackpackItemWidget : public UUserWidget
 public:
 	virtual void NativeConstruct() override;
 
-	void UpdateViewInfo(FItemInfoBase* Info, const int32 InCount);
+	void UpdateViewInfo(struct FConsumableItemInfo* InInfo, const int32 InCount);
 
+	void UpdateViewInfo(struct FEquipmentItemInfo* InInfo, const int32 InCount);
 
 protected:
-	UPROPERTY(EditDefaultsOnly)
-	UDataTable* EquipmentDataTable;
-
-	FItemInfoBase* Info;
+	struct FItemInfoBase* Info;
 
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<class UEquipmentItemWidget> EquipmentItemWidgetClass;

@@ -16,6 +16,36 @@ void UBackpackItemWidget::NativeConstruct()
 
 }
 
+void UBackpackItemWidget::UpdateViewInfo(FConsumableItemInfo* InInfo, const int32 InCount)
+{
+	if (InInfo)
+	{
+		Info = InInfo;
+		ItemImage->SetBrushResourceObject(InInfo->Icon);
+		ItemNameText->SetText(InInfo->DisplayName);
+		ItemDescText->SetText(InInfo->Description);
+		ItemAmountText->SetText(FText::AsNumber(InCount));
+	}
+}
+
+void UBackpackItemWidget::UpdateViewInfo(FEquipmentItemInfo* InInfo, const int32 InCount)
+{
+	if (InInfo)
+	{
+		Info = InInfo;
+		ItemImage->SetBrushResourceObject(InInfo->Icon);
+		ItemNameText->SetText(InInfo->DisplayName);
+		ItemDescText->SetText(InInfo->Description);
+		ItemAmountText->SetText(FText::AsNumber(InCount));
+
+		if (EquipmentItemWidgetClass) {
+			auto TempWidget = CreateWidget<UEquipmentItemWidget>(this, EquipmentItemWidgetClass);
+			TempWidget->UpdateInfo(InInfo);
+			ExtraInfoBox->AddChild(TempWidget);
+		}
+	}
+}
+
 void UBackpackItemWidget::OnUseButtonClicked()
 {
 	if (Info)
@@ -23,72 +53,20 @@ void UBackpackItemWidget::OnUseButtonClicked()
 		switch (Info->ItemType)
 		{
 		case EItemType::Equipment:
-			if (Info && EquipmentDataTable)
+			FEquipmentItemInfo* TempInfo = static_cast<FEquipmentItemInfo*>(Info);
+			if (TempInfo)
 			{
-				for (FName RowName : EquipmentDataTable->GetRowNames())
+				UClass* LoadedClass = TempInfo->EquipmentClass.LoadSynchronous();
+				if (LoadedClass)
 				{
-					FEquipmentItemInfo* RowData = EquipmentDataTable->FindRow<FEquipmentItemInfo>(RowName, TEXT("Equipment Info"));
-					if (RowData->ItemName == Info->ItemName)
+					APawn* PlayerPawn = GetWorld()->GetFirstPlayerController()->GetPawn();
+					ICharacterActionInterface* Interface = Cast<ICharacterActionInterface>(PlayerPawn);
+					if (Interface)
 					{
-						if (RowData->EquipmentClass.IsNull())
-						{
-							UE_LOG(LogTemp, Log, TEXT("EquipmentClass is null."));
-							return;
-						}
-
-						UClass* LoadedClass = RowData->EquipmentClass.LoadSynchronous();
-						if (LoadedClass)
-						{
-							APawn* PlayerPawn = GetWorld()->GetFirstPlayerController()->GetPawn();
-							ICharacterActionInterface* Interface = Cast<ICharacterActionInterface>(PlayerPawn);
-							if (Interface)
-							{
-								Interface->Equip(GetWorld()->SpawnActor<AEquipmentBase>(LoadedClass));
-							}
-						}
-						break;
+						Interface->Equip(GetWorld()->SpawnActor<AEquipmentBase>(LoadedClass));
 					}
 				}
 			}
-			break;
-		default:
-			break;
-		}
-	}
-}
-
-void UBackpackItemWidget::UpdateViewInfo(FItemInfoBase* InInfo, const int32 InCount)
-{
-	if (InInfo)
-	{
-		this->Info = InInfo;
-		ItemImage->SetBrushResourceObject(Info->Icon);
-		ItemNameText->SetText(Info->DisplayName);
-		ItemDescText->SetText(Info->Description);
-		ItemAmountText->SetText(FText::AsNumber(InCount));
-
-		switch (Info->ItemType)
-		{
-		case EItemType::Equipment:
-			FirstButtonText->SetText(FText::FromString(TEXT("装备")));
-			if (EquipmentDataTable)
-			{
-				for (FName RowName : EquipmentDataTable->GetRowNames())
-				{
-					FEquipmentItemInfo* RowData = EquipmentDataTable->FindRow<FEquipmentItemInfo>(RowName, TEXT("Equipment Info"));
-					if (RowData->ItemName == Info->ItemName)
-					{
-						if (EquipmentItemWidgetClass) {
-							auto TempWidget = CreateWidget<UEquipmentItemWidget>(this, EquipmentItemWidgetClass);
-							TempWidget->UpdateInfo(RowData);
-							ExtraInfoBox->AddChild(TempWidget);
-						}
-						break;
-					}
-				}
-			}
-			break;
-		default:
 			break;
 		}
 	}

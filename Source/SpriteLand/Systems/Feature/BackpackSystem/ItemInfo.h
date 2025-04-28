@@ -4,20 +4,6 @@
 #include "ItemInfo.generated.h"
 
 UENUM(BlueprintType)
-enum class EItemName : uint8
-{
-	Unknown,
-	LongSword_Wood,
-	LongSword_Iron,
-	LongSword_Diamond,
-	HealthPotion_Small,
-	ManaPotion_Small,
-	Apple,
-	Banana,
-	Pear
-};
-
-UENUM(BlueprintType)
 enum class EItemQuality : uint8
 {
 	White,
@@ -54,9 +40,6 @@ struct FItemInfoBase :public FTableRowBase
 	GENERATED_BODY()
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	EItemName ItemName;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	EItemType ItemType;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
@@ -75,10 +58,23 @@ struct FItemInfoBase :public FTableRowBase
 	int32 MaxStackSize;
 };
 
+UENUM(BlueprintType)
+enum class EConsumableItemName : uint8
+{
+	HealthPotion_Small,
+	ManaPotion_Small,
+	Apple,
+	Banana,
+	Pear
+};
+
 USTRUCT(BlueprintType)
 struct FConsumableItemInfo : public FItemInfoBase
 {
 	GENERATED_BODY()
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	EConsumableItemName ItemName;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	EConsumableEffectType EffectType;
@@ -87,6 +83,15 @@ struct FConsumableItemInfo : public FItemInfoBase
 	float EffectValue;
 
 };
+
+UENUM(BlueprintType)
+enum class EEquipmentItemName : uint8
+{
+	LongSword_Wood,
+	LongSword_Iron,
+	LongSword_Diamond,
+};
+
 
 UENUM(BlueprintType)
 enum class EEquipmentType : uint8
@@ -101,6 +106,9 @@ USTRUCT(BlueprintType)
 struct FEquipmentItemInfo : public FItemInfoBase
 {
 	GENERATED_BODY()
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	EEquipmentItemName ItemName;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	EEquipmentType EquipmentType;

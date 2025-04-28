@@ -18,7 +18,10 @@ enum class EHeroName : uint8
 UENUM(BlueprintType)
 enum class EEnemyName : uint8
 {
-	AnonymousThief
+	AnonymousThief,
+	AbyssalKing,
+	ShadowReaver,
+	IronTyrant
 };
 
 USTRUCT(BlueprintType)

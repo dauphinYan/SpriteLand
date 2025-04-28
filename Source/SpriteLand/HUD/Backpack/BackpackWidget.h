@@ -23,10 +23,10 @@ protected:
 	UFUNCTION(BlueprintCallable)
 	void RefreshBackpackView_Consumable();
 
-	UFUNCTION(BlueprintCallable)
-	void RefreshBackpackView_Miscellaneous();
+	//UFUNCTION(BlueprintCallable)
+	//void RefreshBackpackView_Miscellaneous();
 
-	FItemInfoBase* FindItemInfoInTables(EItemName ItemName);
+	//FItemInfoBase* FindItemInfoInTables(EItemName ItemName);
 
 	UPROPERTY(BlueprintReadOnly, meta = (BindWidget))
 	class UWrapBox* EquipItemWrapBox;
@@ -44,7 +44,9 @@ private:
 	UPROPERTY()
 	class UBackpackComponent* BackpackComponent;
 
-	TMap<EItemName, FItemInfoBase*> ItemInfoCache;
+	TMap<EConsumableItemName, FConsumableItemInfo*> ConsumableItemInfoCache;
+
+	TMap<EEquipmentItemName, FEquipmentItemInfo*> EquipmentItemInfoCache;
 
 	UPROPERTY(EditDefaultsOnly, Category = "DataTable")
 	UDataTable* WeaponDataTable;

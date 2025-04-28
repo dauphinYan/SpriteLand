@@ -23,25 +23,24 @@ void UBackpackWidget::NativeConstruct()
 	}
 }
 
+template <typename ItemNameType, typename ItemType>
+auto LoadTable = [&](UDataTable* Table, TMap<ItemNameType, ItemType*>& Cache)
+	{
+		if (!Table) return;
+
+		for (auto& RowName : Table->GetRowNames())
+		{
+			if (ItemType* Row = Table->FindRow<ItemType>(RowName, TEXT("ItemInfoCache")))
+			{
+				Cache.Add(Row->ItemName, Row);
+			}
+		}
+	};
+
 void UBackpackWidget::InitializeItemInfoCache()
 {
-	auto LoadTable = [&](UDataTable* Table)
-		{
-			if (!Table) return;
-
-			static const FString ContextString(TEXT("ItemInfoCache"));
-
-			for (auto& RowName : Table->GetRowNames())
-			{
-				if (FItemInfoBase* Row = Table->FindRow<FItemInfoBase>(RowName, ContextString))
-				{
-					ItemInfoCache.Add(Row->ItemName, Row);
-				}
-			}
-		};
-
-	LoadTable(WeaponDataTable);
-	LoadTable(ConsumableDataTable);
+	LoadTable<EEquipmentItemName, FEquipmentItemInfo>(WeaponDataTable, EquipmentItemInfoCache);
+	LoadTable<EConsumableItemName, FConsumableItemInfo>(ConsumableDataTable, ConsumableItemInfoCache);
 }
 
 void UBackpackWidget::RefreshBackpackView_Equip()
@@ -52,15 +51,14 @@ void UBackpackWidget::RefreshBackpackView_Equip()
 
 	for (const auto Pair : Items)
 	{
-		EItemName ItemName = Pair.Key;
+		EEquipmentItemName ItemName = Pair.Key;
 		int32 Count = Pair.Value.Count;
 
-		FItemInfoBase** InfoPtr = ItemInfoCache.Find(ItemName);
+		FEquipmentItemInfo** InfoPtr = EquipmentItemInfoCache.Find(ItemName);
 		if (!InfoPtr) return;
-		FItemInfoBase* Info = *InfoPtr;
 
 		UBackpackItemWidget* ItemWidget = CreateWidget<UBackpackItemWidget>(this, ItemWidgetClass);
-		ItemWidget->UpdateViewInfo(Info, Count);
+		ItemWidget->UpdateViewInfo(*InfoPtr, Count);
 		EquipItemWrapBox->AddChildToWrapBox(ItemWidget);
 	}
 }
@@ -73,41 +71,40 @@ void UBackpackWidget::RefreshBackpackView_Consumable()
 
 	for (const auto Pair : Items)
 	{
-		EItemName ItemName = Pair.Key;
+		EConsumableItemName ItemName = Pair.Key;
 		int32 Count = Pair.Value;
 
-		FItemInfoBase** InfoPtr = ItemInfoCache.Find(ItemName);
+		FConsumableItemInfo** InfoPtr = ConsumableItemInfoCache.Find(ItemName);
 		if (!InfoPtr) return;
-		FItemInfoBase* Info = *InfoPtr;
 
 		UBackpackItemWidget* ItemWidget = CreateWidget<UBackpackItemWidget>(this, ItemWidgetClass);
-		ItemWidget->UpdateViewInfo(Info, Count);
+		ItemWidget->UpdateViewInfo(*InfoPtr, Count);
 		ConsumableItemWrapBox->AddChildToWrapBox(ItemWidget);
 	}
 }
 
-void UBackpackWidget::RefreshBackpackView_Miscellaneous()
-{
-	if (BackpackComponent == nullptr) return;
-	const auto Items = BackpackComponent->GetMiscellaneousItems();
-	MiscellaneousItemWrapBox->ClearChildren();
+//void UBackpackWidget::RefreshBackpackView_Miscellaneous()
+//{
+//	if (BackpackComponent == nullptr) return;
+//	const auto Items = BackpackComponent->GetMiscellaneousItems();
+//	MiscellaneousItemWrapBox->ClearChildren();
+//
+//	for (const auto Pair : Items)
+//	{
+//		EItemName ItemName = Pair.Key;
+//		int32 Count = Pair.Value;
+//
+//		FItemInfoBase** InfoPtr = ItemInfoCache.Find(ItemName);
+//		if (!InfoPtr) return;
+//		FItemInfoBase* Info = *InfoPtr;
+//
+//		UBackpackItemWidget* ItemWidget = CreateWidget<UBackpackItemWidget>(this, ItemWidgetClass);
+//		ItemWidget->UpdateViewInfo(Info, Count);
+//		MiscellaneousItemWrapBox->AddChildToWrapBox(ItemWidget);
+//	}
+//}
 
-	for (const auto Pair : Items)
-	{
-		EItemName ItemName = Pair.Key;
-		int32 Count = Pair.Value;
-
-		FItemInfoBase** InfoPtr = ItemInfoCache.Find(ItemName);
-		if (!InfoPtr) return;
-		FItemInfoBase* Info = *InfoPtr;
-
-		UBackpackItemWidget* ItemWidget = CreateWidget<UBackpackItemWidget>(this, ItemWidgetClass);
-		ItemWidget->UpdateViewInfo(Info, Count);
-		MiscellaneousItemWrapBox->AddChildToWrapBox(ItemWidget);
-	}
-}
-
-FItemInfoBase* UBackpackWidget::FindItemInfoInTables(EItemName ItemName)
-{
-	return nullptr;
-}
+//FItemInfoBase* UBackpackWidget::FindItemInfoInTables(EItemName ItemName)
+//{
+//	return nullptr;
+//}

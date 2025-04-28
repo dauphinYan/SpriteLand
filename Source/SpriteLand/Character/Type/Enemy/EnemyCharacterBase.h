@@ -37,7 +37,7 @@ protected: // Character attribute
 	UPROPERTY(EditDefaultsOnly, Category = "Character Attribute")
 	UDataTable* EnemyDatatable;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Character Attribute")
+	UPROPERTY(EditAnywhere, Category = "Character Attribute")
 	EEnemyName EnemyName;
 
 	FText DisplayName;

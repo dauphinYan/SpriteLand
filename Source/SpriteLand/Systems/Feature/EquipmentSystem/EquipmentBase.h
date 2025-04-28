@@ -26,7 +26,7 @@ protected:
 	UDataTable* EquipmentDatatable;
 
 	UPROPERTY(EditDefaultsOnly)
-	EItemName EquipmentName;
+	EEquipmentItemName EquipmentName;
 
 	EEquipmentType EquipmentType;
 
