@@ -5,13 +5,25 @@
 #include "NiagaraComponent.h"
 #include "SpriteLand/Systems/Core/GamePlay/SpriteLandPlayerController.h"
 #include "SpriteLand/HUD/SpriteLandHUD.h"
+#include "TimerManager.h"
+#include "Components/BoxComponent.h"
+#include "Components/CapsuleComponent.h"
 
 
 AEnemyCharacterBase::AEnemyCharacterBase()
 {
 	PrimaryActorTick.bCanEverTick = true;
 
-	GetMesh()->SetCollisionResponseToChannel(ECollisionChannel::ECC_Camera, ECollisionResponse::ECR_Ignore);
+	GetCapsuleComponent()->SetCollisionResponseToChannel(ECollisionChannel::ECC_Camera, ECollisionResponse::ECR_Ignore);
+
+	GetMesh()->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Ignore);
+	GetMesh()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+
+	CollisionBox = CreateDefaultSubobject<UBoxComponent>(TEXT("Collision Box"));
+	CollisionBox->SetupAttachment(RootComponent);
+	CollisionBox->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Ignore);
+	CollisionBox->SetCollisionResponseToChannel(ECC_WorldDynamic, ECollisionResponse::ECR_Overlap);
+	CollisionBox->SetCollisionObjectType(ECC_Enemy);
 }
 
 void AEnemyCharacterBase::BeginPlay()
@@ -125,6 +137,17 @@ void AEnemyCharacterBase::ReceiveDamage(AActor* DamageActor, float Damage, const
 			PlayerController->GetSpriteLandHUD()->HideBossHealthBar();
 		}
 		PlayDeathMontage();
+
+		GetMesh()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+		CollisionBox->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+		GetCapsuleComponent()->SetCollisionResponseToChannel(ECollisionChannel::ECC_Pawn, ECollisionResponse::ECR_Ignore);
+
+		GetWorldTimerManager().SetTimer(
+			DeathTimer,
+			this,
+			&AEnemyCharacterBase::OnDeathMontageEnded,
+			3.f
+		);
 	}
 }
 
@@ -135,24 +158,14 @@ void AEnemyCharacterBase::PlayDeathMontage()
 		UAnimInstance* AnimInstance = GetMesh()->GetAnimInstance();
 		if (AnimInstance)
 		{
-			FOnMontageEnded OnMontageEnded;
-			OnMontageEnded.BindUObject(this, &AEnemyCharacterBase::OnDeathMontageEnded);
-			AnimInstance->Montage_SetEndDelegate(OnMontageEnded, DeathMontage);
-
 			AnimInstance->Montage_Play(DeathMontage);
 		}
 	}
 }
 
-void AEnemyCharacterBase::OnDeathMontageEnded(UAnimMontage* Montage, bool bInterrupted)
+void AEnemyCharacterBase::OnDeathMontageEnded()
 {
-	if (Montage == DeathMontage)
-	{
-		if (!bInterrupted)
-		{
-			Destroy();
-		}
-	}
+	Destroy();
 }
 
 

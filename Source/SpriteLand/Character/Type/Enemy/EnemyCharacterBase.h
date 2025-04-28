@@ -5,7 +5,6 @@
 #include "SpriteLand/Character/Common/CharacterInfo.h"
 #include "EnemyCharacterBase.generated.h"
 
-
 #define ECC_Enemy ECC_GameTraceChannel1
 
 UCLASS()
@@ -29,6 +28,9 @@ private:
 
 	UPROPERTY(EditDefaultsOnly)
 	class UNiagaraSystem* DamageFloatNiagara;
+
+	UPROPERTY(EditDefaultsOnly)
+	class UBoxComponent* CollisionBox;
 
 protected: // Character attribute
 
@@ -68,9 +70,11 @@ protected:
 	void PlayDeathMontage();
 
 	UFUNCTION()
-	void OnDeathMontageEnded(UAnimMontage* Montage, bool bInterrupted);
+	void OnDeathMontageEnded();
 
 private:
 	UPROPERTY(EditDefaultsOnly)
 	UAnimMontage* DeathMontage;
+
+	FTimerHandle DeathTimer;
 };

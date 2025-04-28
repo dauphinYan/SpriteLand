@@ -47,10 +47,8 @@ void ASpriteLandPlayerController::SetupInputComponent()
 
 void ASpriteLandPlayerController::OnJumpButtonPressed()
 {
-	UE_LOG(LogTemp, Log, TEXT("JumpButtonDown."));
 	if (GetPawn() && GetPawn()->Implements<UCharacterActionInterface>())
 	{
-		UE_LOG(LogTemp, Log, TEXT("Implement."));
 		ICharacterActionInterface* Interface = Cast<ICharacterActionInterface>(GetPawn());
 		if (Interface)
 		{

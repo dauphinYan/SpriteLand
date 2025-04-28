@@ -40,7 +40,4 @@ protected: // Attack
 	virtual void Attack() override;
 
 	void PlayAttackMontage();
-
-	//UFUNCTION()
-	//void OnAttackMontageEnded(UAnimMontage* Montage, bool bInterrupted);
 };
