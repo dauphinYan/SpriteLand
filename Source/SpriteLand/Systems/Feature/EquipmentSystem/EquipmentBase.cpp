@@ -18,25 +18,21 @@ void AEquipmentBase::BeginPlay()
 {
 	Super::BeginPlay();
 
-	auto LoadTable = [&](UDataTable* Table)
+	if (EquipmentDataTable)
+	{
+		for (auto& RowName : EquipmentDataTable->GetRowNames())
 		{
-			if (!Table) return;
-
-			for (auto& RowName : Table->GetRowNames())
+			if (FEquipmentItemInfo* Row = EquipmentDataTable->FindRow<FEquipmentItemInfo>(RowName, TEXT("Looking for equipment data.")))
 			{
-				if (FEquipmentItemInfo* Row = Table->FindRow<FEquipmentItemInfo>(RowName, TEXT("Looking for equipment data.")))
+				if (Row->ItemName == EquipmentName)
 				{
-					if (Row->ItemName == EquipmentName)
-					{
-						AttackValue = Row->AttackValue;
-						EquipmentType = Row->EquipmentType;
-						break;
-					}
+					AttackValue = Row->AttackValue;
+					EquipmentType = Row->EquipmentType;
+					break;
 				}
 			}
-		};
-
-	LoadTable(EquipmentDatatable);
+		}
+	}
 }
 
 void AEquipmentBase::Tick(float DeltaTime)

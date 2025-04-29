@@ -44,6 +44,9 @@ private:
 	UPROPERTY()
 	class UBackpackComponent* BackpackComponent;
 
+	UPROPERTY()
+	class AHeroCharacterBase* HeroCharacter;
+
 	TMap<EConsumableItemName, FConsumableItemInfo*> ConsumableItemInfoCache;
 
 	TMap<EEquipmentItemName, FEquipmentItemInfo*> EquipmentItemInfoCache;
@@ -60,4 +63,25 @@ private:
 public:
 	UPROPERTY(BlueprintReadOnly, meta = (BindWidget))
 	UBackpackItemWidget* WeaponSlot;
+
+	UPROPERTY(meta = (BindWidget))
+	class UTextBlock* AttackValueText;
+
+	UPROPERTY(meta = (BindWidget))
+	UTextBlock* DefenseValueText;
+
+	UPROPERTY(meta = (BindWidget))
+	UTextBlock* HealthText;
+
+	UPROPERTY(meta = (BindWidget))
+	UTextBlock* AttackSpeedText;
+
+	UPROPERTY(meta = (BindWidget))
+	UTextBlock* ManaText;
+
+	UPROPERTY(meta = (BindWidget))
+	UTextBlock* MoveSpeedText;
+
+public:
+	void UpdateCharacterInfo();
 };

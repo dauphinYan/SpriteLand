@@ -1,15 +1,19 @@
 #include "BackpackWidget.h"
 #include "Kismet/GameplayStatics.h"
 #include "Components/WrapBox.h"
+#include "Components/TextBlock.h"
 #include "BackpackItemWidget.h"
 #include "SpriteLand/Systems/Feature/BackpackSystem/BackpackComponent.h"
 #include "SpriteLand/Systems/Core/GamePlay/SpriteLandPlayerController.h"
+#include "SpriteLand/Character/Type/Hero/HeroCharacterBase.h"
 
 void UBackpackWidget::NativeOnInitialized()
 {
 	Super::NativeOnInitialized();
 
 	InitializeItemInfoCache();
+
+	WeaponSlot->BackpackWidget = this;
 }
 
 void UBackpackWidget::NativeConstruct()
@@ -21,6 +25,8 @@ void UBackpackWidget::NativeConstruct()
 	{
 		BackpackComponent = PlayerController->GetBackpackComponent();
 	}
+
+	UpdateCharacterInfo();
 }
 
 template <typename ItemNameType, typename ItemType>
@@ -82,6 +88,16 @@ void UBackpackWidget::RefreshBackpackView_Consumable()
 		ItemWidget->BackpackWidget = this;
 		ItemWidget->UpdateViewInfo(*InfoPtr, Count);
 		ConsumableItemWrapBox->AddChildToWrapBox(ItemWidget);
+	}
+}
+
+void UBackpackWidget::UpdateCharacterInfo()
+{
+
+	HeroCharacter = HeroCharacter == nullptr ? Cast<AHeroCharacterBase>(PlayerController->GetCharacter()) : HeroCharacter;
+	if (HeroCharacter)
+	{
+		AttackValueText->SetText(FText::AsNumber(HeroCharacter->AttackValueTotal));
 	}
 }
 

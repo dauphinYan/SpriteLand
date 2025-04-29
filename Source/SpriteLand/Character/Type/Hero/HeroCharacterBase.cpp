@@ -136,7 +136,7 @@ void AHeroCharacterBase::Equip(AEquipmentBase* Equipment)
 	case EEquipmentType::Weapon:
 		if (EquipmentComponent)
 		{
-			EquipmentComponent->EquipWeapon(Cast<class AWeaponBase>(Equipment));
+			EquipmentComponent->EquipWeapon(Cast<AWeaponBase>(Equipment));
 		}
 
 		break;

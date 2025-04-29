@@ -2,6 +2,8 @@
 #include "SpriteLand/Systems/Feature/EquipmentSystem/Weapon/WeaponBase.h"
 #include "SpriteLand/Character/Type/Hero/HeroCharacterBase.h"
 #include "Engine/SkeletalMeshSocket.h"
+#include "SpriteLand/Systems/Core/GamePlay/SpriteLandPlayerController.h"
+#include "SpriteLand/HUD/SpriteLandHUD.h"
 
 UEquipmentComponent::UEquipmentComponent()
 {
@@ -43,6 +45,7 @@ void UEquipmentComponent::EquipWeapon(AWeaponBase* InWeapon)
 		Weapon->AttachToComponent(HeroCharacter->GetMesh(), FAttachmentTransformRules::SnapToTargetIncludingScale, FName("hand_r_weapon"));
 		Weapon->SetOwner(HeroCharacter);
 
+		HeroCharacter->AttackValueTotal += Weapon->AttackValue;
 	}
 }
 
@@ -50,6 +53,11 @@ void UEquipmentComponent::UnEquipWeapon()
 {
 	if (Weapon)
 	{
+		HeroCharacter = HeroCharacter == nullptr ? Cast<AHeroCharacterBase>(GetOwner()) : HeroCharacter;
+		if (HeroCharacter)
+		{
+			HeroCharacter->AttackValueTotal -= Weapon->AttackValue;
+		}
 		Weapon->Destroy();
 	}
 

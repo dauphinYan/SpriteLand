@@ -21,15 +21,17 @@ protected:
 	UPROPERTY(EditDefaultsOnly)
 	class UStaticMeshComponent* EquipmentMesh;
 
-protected:
 	UPROPERTY(EditDefaultsOnly)
-	UDataTable* EquipmentDatatable;
+	UDataTable* EquipmentDataTable;
 
+protected:
 	UPROPERTY(EditDefaultsOnly)
 	EEquipmentItemName EquipmentName;
 
 	EEquipmentType EquipmentType;
 
+public:
+	UPROPERTY(EditAnywhere, Category = "Equipment Attribute.")
 	float AttackValue = 0.f;
 
 public:

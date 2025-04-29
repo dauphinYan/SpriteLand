@@ -52,5 +52,48 @@ protected:
 	virtual void Equip(AEquipmentBase* Equipment) override;
 
 	UFUNCTION(BlueprintCallable)
-	virtual void UnEquip(enum EEquipmentType EquipmentType) override;
+	virtual void UnEquip(EEquipmentType EquipmentType) override;
+
+public: // Character attribute.
+	UPROPERTY(EditAnywhere, Category = "Character Attribute")
+	float AttackValueBase = 1.f;
+
+	UPROPERTY(EditAnywhere, Category = "Character Attribute")
+	float DefenseValueBase = 1.f;
+
+	UPROPERTY(EditAnywhere, Category = "Character Attribute")
+	float AttackSpeedBase = 1.f;
+
+	UPROPERTY(EditAnywhere, Category = "Character Attribute")
+	float HealthBase = 100.f;
+
+	UPROPERTY(EditAnywhere, Category = "Character Attribute")
+	float ManaBase = 100.f;
+
+	UPROPERTY(EditAnywhere, Category = "Character Attribute")
+	float MoveSpeedBase = 500.f;
+
+	float AttackValueTotal = 1.f;
+
+	float DefenseValueTotal = 1.f;
+
+	float AttackSpeedTotal = 1.f;
+
+	float HealthTotal = 100.f;
+
+	float ManaTotal = 100.f;
+
+	float MoveSpeedTotal = 500.f;
+
+	float CurAttackValue = 1.f;
+
+	float CurDefenseValue = 1.f;
+
+	float CurAttackSpeed = 1.f;
+
+	float CurHealth = 100.f;
+
+	float CurMana = 100.f;
+
+	float CurMoveSpeed = 500.f;
 };

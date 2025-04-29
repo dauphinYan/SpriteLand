@@ -77,6 +77,7 @@ void UBackpackItemWidget::OnUseButtonClicked()
 					BackpackWidget->WeaponSlot->UpdateViewInfo(TempInfo, 1);
 					BackpackWidget->WeaponSlot->ItemImage->SetVisibility(ESlateVisibility::Visible);
 					BackpackWidget->WeaponSlot->bIsFilled = true;
+					BackpackWidget->UpdateCharacterInfo();
 				}
 			}
 			break;
@@ -96,6 +97,8 @@ void UBackpackItemWidget::OnUseButtonClicked()
 				Interface->UnEquip(TempInfo->EquipmentType);
 				ItemImage->SetVisibility(ESlateVisibility::Hidden);
 				bIsFilled = false;
+				if (BackpackWidget)
+					BackpackWidget->UpdateCharacterInfo();
 			}
 			break;
 		}
