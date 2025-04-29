@@ -2,6 +2,7 @@
 #include "Components/BoxComponent.h"
 #include "SpriteLand/Character/Type/Enemy/EnemyCharacterBase.h"
 #include "Kismet/GameplayStatics.h"
+#include "Sound/SoundCue.h"
 
 AWeaponBase::AWeaponBase()
 {
@@ -51,5 +52,13 @@ void AWeaponBase::OnBoxOverlap(UPrimitiveComponent* OverlappedComponent, AActor*
 			HitTargets.Add(OtherActor);
 		}
 
+		if (HitSound)
+		{
+			UGameplayStatics::PlaySoundAtLocation(
+				GetWorld(),
+				HitSound,
+				OtherActor->GetActorLocation()
+			);
+		}
 	}
 }

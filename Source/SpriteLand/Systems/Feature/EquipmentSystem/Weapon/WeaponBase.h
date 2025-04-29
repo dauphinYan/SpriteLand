@@ -19,7 +19,6 @@ public:
 protected:
 	virtual void BeginPlay() override;
 
-
 	UPROPERTY(EditDefaultsOnly)
 	class UBoxComponent* CollisionBox;
 
@@ -29,4 +28,7 @@ protected:
 
 private:
 	TArray<AActor*> HitTargets;
+
+	UPROPERTY(EditDefaultsOnly)
+	class USoundCue* HitSound;
 };
