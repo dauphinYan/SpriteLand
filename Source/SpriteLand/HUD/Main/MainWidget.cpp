@@ -28,3 +28,21 @@ void UMainWidget::HideBossHealthBar()
 		BossHealthBarWidget->SetVisibility(ESlateVisibility::Collapsed);
 	}
 }
+
+void UMainWidget::UpdateCharacterHealthBar(float CurHealth, float TotalHealth)
+{
+	if (HealthBar)
+	{
+		HealthBar->SetPercent(CurHealth / TotalHealth);
+		HealthText->SetText(FText::AsNumber(CurHealth));
+	}
+}
+
+void UMainWidget::UpdateCharacterManaBar(float CurMana, float TotalMana)
+{
+	if (ManaBar)
+	{
+		ManaBar->SetPercent(CurMana / TotalMana);
+		ManaText->SetText(FText::AsNumber(CurMana));
+	}
+}

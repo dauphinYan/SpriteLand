@@ -22,6 +22,10 @@ public:
 
 	void HideBossHealthBar();
 
+	void UpdateCharacterHealthBar(float CurHealth, float TotalHealth);
+
+	void UpdateCharacterManaBar(float CurMana, float TotalMana);
+
 protected:
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<class UBackpackWidget> BackpackWidgetClass;

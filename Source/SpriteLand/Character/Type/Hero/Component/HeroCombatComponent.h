@@ -22,6 +22,8 @@ private:
 
 	class UEquipmentComponent* EquipmentComponent;
 
+	UAnimInstance* AnimInstance;
+
 protected: // Attack
 	UPROPERTY(BlueprintReadWrite)
 	bool bIsAttacking = false;
@@ -40,4 +42,10 @@ protected: // Attack
 	virtual void Attack() override;
 
 	void PlayAttackMontage();
+
+protected: // Hit
+	UPROPERTY(EditDefaultsOnly)
+	UAnimMontage* HitMontage;
+
+	void PlayHitMontage(int32 Level);
 };

@@ -10,8 +10,6 @@ class SPRITELAND_API UCombatComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
-
-
 public:	
 	UCombatComponent();
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;

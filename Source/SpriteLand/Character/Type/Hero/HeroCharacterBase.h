@@ -31,8 +31,8 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	class UHeroCombatComponent* CombatComponent;
 
-	//UPROPERTY(EditDefaultsOnly)
-	//TSubclassOf<class AWeaponBase> WeaponClass;
+	UPROPERTY()
+	class ASpriteLandPlayerController* PlayerController;
 
 	UPROPERTY(EditDefaultsOnly)
 	class UAnimMontage* DodgeMontage;
@@ -96,4 +96,8 @@ public: // Character attribute.
 	float CurMana = 100.f;
 
 	float CurMoveSpeed = 500.f;
+
+protected:
+	UFUNCTION()
+	virtual void ReceiveDamage(AActor* DamageActor, float Damage, const UDamageType* DamageType, AController* InstigatorController, AActor* DamageCauser);
 };

@@ -10,6 +10,8 @@
 #include "SpriteLand/Character/Type/Hero/Component/EquipmentComponent.h"
 #include "SpriteLand/Character/Type/Hero/Component/HeroCombatComponent.h"
 #include "SpriteLand/Systems/Feature/EquipmentSystem/Weapon/WeaponBase.h"
+#include "SpriteLand/Systems/Core/GamePlay/SpriteLandPlayerController.h"
+#include "SpriteLand/HUD/SpriteLandHUD.h"
 
 AHeroCharacterBase::AHeroCharacterBase()
 {
@@ -47,6 +49,11 @@ void AHeroCharacterBase::BeginPlay()
 {
 	Super::BeginPlay();
 
+	OnTakeAnyDamage.AddDynamic(this, &AHeroCharacterBase::ReceiveDamage);
+		
+	PlayerController = PlayerController == nullptr ? Cast<ASpriteLandPlayerController>(Controller) : PlayerController;
+	if (!PlayerController) return;
+	PlayerController->GetSpriteLandHUD()->UpdateCharacterHealthBar(CurHealth, HealthTotal);
 }
 
 void AHeroCharacterBase::PostInitializeComponents()
@@ -62,6 +69,8 @@ void AHeroCharacterBase::PostInitializeComponents()
 		CombatComponent->HeroCharacter = this;
 		CombatComponent->EquipmentComponent = EquipmentComponent;
 	}
+
+
 }
 
 void AHeroCharacterBase::Tick(float DeltaTime)
@@ -163,5 +172,22 @@ void AHeroCharacterBase::UnEquip(EEquipmentType EquipmentType)
 	default:
 		break;
 	}
+}
+
+void AHeroCharacterBase::ReceiveDamage(AActor* DamageActor, float Damage, const UDamageType* DamageType, AController* InstigatorController, AActor* DamageCauser)
+{
+	if (CurHealth - Damage > 0.f)
+	{
+		CurHealth -= Damage;
+		CombatComponent->PlayHitMontage(1);
+	}
+	else
+	{
+		CurHealth = 0.f;
+	}
+
+	PlayerController = PlayerController == nullptr ? Cast<ASpriteLandPlayerController>(Controller) : PlayerController;
+	if (!PlayerController) return;
+	PlayerController->GetSpriteLandHUD()->UpdateCharacterHealthBar(CurHealth, HealthTotal);
 }
 

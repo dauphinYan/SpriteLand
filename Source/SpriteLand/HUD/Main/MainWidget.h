@@ -14,10 +14,22 @@ public:
 	void InitializeBossHealthBar(FText BossName, float HealthPercent);
 	void UpdateBossHealthBar(float HealthPercent);
 	void HideBossHealthBar();
+	void UpdateCharacterHealthBar(float CurHealth, float TotalHealth);
+	void UpdateCharacterManaBar(float CurMana, float TotalMana);
 
 private:
 	UPROPERTY(meta = (BindWidget))
 	class UBossHealthBarWidget* BossHealthBarWidget;
 
+	UPROPERTY(meta = (BindWidget))
+	class UProgressBar* HealthBar;
 
+	UPROPERTY(meta = (BindWidget))
+	UProgressBar* ManaBar;
+
+	UPROPERTY(meta = (BindWidget))
+	class UTextBlock* HealthText;
+
+	UPROPERTY(meta = (BindWidget))
+	UTextBlock* ManaText;
 };

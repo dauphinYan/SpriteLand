@@ -72,3 +72,19 @@ void ASpriteLandHUD::HideBossHealthBar()
 	}
 }
 
+void ASpriteLandHUD::UpdateCharacterHealthBar(float CurHealth, float TotalHealth)
+{
+	if (MainWidget)
+	{
+		MainWidget->UpdateCharacterHealthBar(CurHealth, TotalHealth);
+	}
+}
+
+void ASpriteLandHUD::UpdateCharacterManaBar(float CurMana, float TotalMana)
+{
+	if (MainWidget)
+	{
+		MainWidget->UpdateCharacterManaBar(CurMana, TotalMana);
+	}
+}
+
