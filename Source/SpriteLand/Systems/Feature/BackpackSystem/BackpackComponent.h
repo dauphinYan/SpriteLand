@@ -48,7 +48,7 @@ private:
 	TMap<EConsumableItemName, FConsumableItemInfo*> ConsumableItemInfoCache;
 
 	UPROPERTY(EditAnyWhere)
-	TMap<EConsumableItemName, int32> ConsumbleItems;
+	TMap<EConsumableItemName, int32> ConsumableItems;
 
 	UPROPERTY(EditAnyWhere)
 	TMap<EEquipmentItemName, FEquipmentItemStack> EquipmentItems;
@@ -79,7 +79,7 @@ public:
 		return EquipmentItemInfoCache;
 	}
 
-	FORCEINLINE TMap<EConsumableItemName, int32>& GetComsumbleItems() { return ConsumbleItems; }
+	FORCEINLINE TMap<EConsumableItemName, int32>& GetComsumableItems() { return ConsumableItems; }
 	FORCEINLINE TMap<EEquipmentItemName, FEquipmentItemStack>& GetEquipmentItems() { return EquipmentItems; }
 	//FORCEINLINE TMap<EItemName, int32>& GetQuestItems() { return QuestItems; }
 	//FORCEINLINE TMap<EItemName, int32>& GetMiscellaneousItems() { return MiscellaneousItems; }

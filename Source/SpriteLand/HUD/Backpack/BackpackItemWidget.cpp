@@ -3,7 +3,6 @@
 #include "SpriteLand/Systems/Feature/BackpackSystem/ItemInfo.h"
 #include "SpriteLand/Systems/Feature/EquipmentSystem/EquipmentBase.h"
 #include "SpriteLand/Systems/Core/GamePlay/SpriteLandPlayerController.h"
-#include "SpriteLand/Interface/BuffInterface.h"
 #include "BackpackWidget.h"
 #include "EquipmentItemWidget.h"
 #include "Components/Image.h"
@@ -72,35 +71,41 @@ void UBackpackItemWidget::OnUseButtonClicked()
 				BackpackWidget->WeaponSlot->UpdateViewInfo(EquipmentInfo, 1);
 				BackpackWidget->WeaponSlot->ItemImage->SetVisibility(ESlateVisibility::Visible);
 				BackpackWidget->WeaponSlot->bIsFilled = true;
+				BackpackWidget->WeaponSlot->EquipmentWidget = this;
+				this->SetVisibility(ESlateVisibility::Collapsed);
 				BackpackWidget->UpdateCharacterInfo();
 			}
 			break;
 		}
 		case EItemType::Consumable:
 		{
-			FConsumableItemInfo* ConsumableInfo = static_cast<FConsumableItemInfo*>(Info);
-			if (!ConsumableInfo) return;
 
+			FConsumableItemInfo* ConsumableInfo = static_cast<FConsumableItemInfo*>(Info);
+			if (ConsumableInfo && BackpackWidget->BackpackComponent->UseItem(ConsumableInfo->ItemName) && BackpackWidget->BackpackComponent->GetComsumableItems().Find(ConsumableInfo->ItemName))
+			{
+				int32 Amount = BackpackWidget->BackpackComponent->GetComsumableItems()[ConsumableInfo->ItemName];
+				if (Amount <= 0)
+				{
+					RemoveFromParent();
+					BackpackWidget->BackpackComponent->GetComsumableItems().Remove(ConsumableInfo->ItemName);
+					return;
+				}
+				ItemAmountText->SetText(FText::AsNumber(Amount));
+			}
 			break;
 		}
 		}
 	}
 	else // 在装备区域
 	{
-		switch (Info->ItemType)
+		FEquipmentItemInfo* EquipmentInfo = static_cast<FEquipmentItemInfo*>(Info);
+		if (EquipmentInfo && BackpackWidget->BackpackComponent->UnEquip(EquipmentInfo->ItemName))
 		{
-		case EItemType::Equipment:
-		{
-			FEquipmentItemInfo* EquipmentInfo = static_cast<FEquipmentItemInfo*>(Info);
-			if (EquipmentInfo && BackpackWidget->BackpackComponent->UnEquip(EquipmentInfo->ItemName))
-			{
-				ItemImage->SetVisibility(ESlateVisibility::Hidden);
-				bIsFilled = false;
-				if (BackpackWidget)
-					BackpackWidget->UpdateCharacterInfo();
-			}
-			break;
-		}
+			ItemImage->SetVisibility(ESlateVisibility::Hidden);
+			bIsFilled = false;
+			EquipmentWidget->SetVisibility(ESlateVisibility::Visible);
+			if (BackpackWidget)
+				BackpackWidget->UpdateCharacterInfo();
 		}
 	}
 }

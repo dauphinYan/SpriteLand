@@ -15,6 +15,8 @@ public:
 
 	class UBackpackWidget* BackpackWidget;
 
+	UBackpackItemWidget* EquipmentWidget;
+
 	void UpdateViewInfo(struct FConsumableItemInfo* InInfo, const int32 InCount);
 
 	void UpdateViewInfo(struct FEquipmentItemInfo* InInfo, const int32 InCount);

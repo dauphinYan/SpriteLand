@@ -51,7 +51,7 @@ void UBackpackWidget::RefreshBackpackView_Equip()
 void UBackpackWidget::RefreshBackpackView_Consumable()
 {
 	if (BackpackComponent == nullptr) return;
-	const auto Items = BackpackComponent->GetComsumbleItems();
+	const auto Items = BackpackComponent->GetComsumableItems();
 	ConsumableItemWrapBox->ClearChildren();
 
 	for (const auto Pair : Items)

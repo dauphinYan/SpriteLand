@@ -74,6 +74,7 @@ bool UBackpackComponent::UseItem(const EConsumableItemName ItemName, const int32
 	if (Interface && ConsumableItemInfoCache.Find(ItemName))
 	{
 		Interface->RestoreHealth(ConsumableItemInfoCache[ItemName]->EffectValue);
+		ConsumableItems[ItemName]--;
 		return true;
 	}
 
