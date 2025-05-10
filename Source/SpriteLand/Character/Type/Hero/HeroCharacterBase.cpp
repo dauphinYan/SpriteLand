@@ -136,8 +136,6 @@ void AHeroCharacterBase::StartRunning()
 		bIsRunning = true;
 		GetCharacterMovement()->MaxWalkSpeed = RunSpeed;
 	}
-
-
 }
 
 void AHeroCharacterBase::StopRunning()

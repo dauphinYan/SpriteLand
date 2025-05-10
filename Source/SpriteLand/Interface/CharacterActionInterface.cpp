@@ -27,7 +27,6 @@ void ICharacterActionInterface::JumpBegin()
 
 void ICharacterActionInterface::Attack()
 {
-
 }
 
 void ICharacterActionInterface::Equip(AEquipmentBase* Equipment)

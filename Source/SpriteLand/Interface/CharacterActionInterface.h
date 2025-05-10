@@ -33,5 +33,5 @@ public:
 
 	virtual void Equip(class AEquipmentBase* Equipment);
 
-	virtual void UnEquip(enum class EEquipmentType EquipmentType);
+	virtual void UnEquip(EEquipmentType EquipmentType);
 };
