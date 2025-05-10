@@ -33,7 +33,7 @@ protected:
 	UPROPERTY(EditAnywhere)
 	bool bIsInBackpack = true;
 
-	UPROPERTY(EditAnywhere,BlueprintReadOnly)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	bool bIsFilled = true;
 
 private:

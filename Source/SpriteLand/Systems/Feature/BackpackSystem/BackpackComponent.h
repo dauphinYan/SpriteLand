@@ -71,6 +71,13 @@ public:
 	//UPROPERTY(EditAnyWhere)
 	//TMap<EItemName, int32> MiscellaneousItems;
 
+private:
+	UPROPERTY(EditDefaultsOnly)
+	class USoundWave* EquipSound;
+
+	UPROPERTY(EditDefaultsOnly)
+	class USoundWave* UnEquipSound;
+
 public:
 	FORCEINLINE TMap<EConsumableItemName, FConsumableItemInfo*>& GetConsumableItemInfoCache() {
 		return ConsumableItemInfoCache;

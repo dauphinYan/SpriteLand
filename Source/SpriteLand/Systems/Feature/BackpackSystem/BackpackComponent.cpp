@@ -3,6 +3,7 @@
 #include "SpriteLand/Interface/BuffInterface.h"
 #include "SpriteLand/Systems/Core/GamePlay/SpriteLandPlayerController.h"
 #include "../EquipmentSystem/EquipmentBase.h"
+#include "Kismet/GameplayStatics.h"
 
 UBackpackComponent::UBackpackComponent()
 {
@@ -61,6 +62,8 @@ bool UBackpackComponent::UseItem(const EEquipmentItemName ItemName, const int32 
 		if (Interface)
 		{
 			Interface->Equip(GetWorld()->SpawnActor<AEquipmentBase>(LoadedClass));
+			if (EquipSound)
+				UGameplayStatics::PlaySound2D(GetWorld(), EquipSound);
 			return true;
 		}
 	}
@@ -87,6 +90,8 @@ bool UBackpackComponent::UnEquip(const EEquipmentItemName ItemName)
 	if (Interface && EquipmentItemInfoCache[ItemName])
 	{
 		Interface->UnEquip(EquipmentItemInfoCache[ItemName]->EquipmentType);
+		if (UnEquipSound)
+			UGameplayStatics::PlaySound2D(GetWorld(), UnEquipSound);
 		return true;
 	}
 
