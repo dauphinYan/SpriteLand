@@ -10,13 +10,13 @@ class SPRITELAND_API UBackpackWidget : public UUserWidget
 {
 	GENERATED_BODY()
 
+	friend class UBackpackItemWidget;
+
 public:
 	virtual void NativeOnInitialized() override;
 	virtual void NativeConstruct() override;
 
 protected:
-	void InitializeItemInfoCache();
-
 	UFUNCTION(BlueprintCallable)
 	void RefreshBackpackView_Equip();
 
@@ -25,8 +25,6 @@ protected:
 
 	//UFUNCTION(BlueprintCallable)
 	//void RefreshBackpackView_Miscellaneous();
-
-	//FItemInfoBase* FindItemInfoInTables(EItemName ItemName);
 
 	UPROPERTY(BlueprintReadOnly, meta = (BindWidget))
 	class UWrapBox* EquipItemWrapBox;
@@ -46,16 +44,6 @@ private:
 
 	UPROPERTY()
 	class AHeroCharacterBase* HeroCharacter;
-
-	TMap<EConsumableItemName, FConsumableItemInfo*> ConsumableItemInfoCache;
-
-	TMap<EEquipmentItemName, FEquipmentItemInfo*> EquipmentItemInfoCache;
-
-	UPROPERTY(EditDefaultsOnly, Category = "DataTable")
-	UDataTable* WeaponDataTable;
-
-	UPROPERTY(EditDefaultsOnly, Category = "DataTable")
-	UDataTable* ConsumableDataTable;
 
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<class UBackpackItemWidget> ItemWidgetClass;

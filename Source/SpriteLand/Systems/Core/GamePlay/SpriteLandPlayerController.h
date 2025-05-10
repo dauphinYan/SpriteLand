@@ -19,6 +19,8 @@ class SPRITELAND_API ASpriteLandPlayerController : public APlayerController
 
 public:
 	ASpriteLandPlayerController();
+
+protected:
 	virtual void BeginPlay() override;
 
 protected:

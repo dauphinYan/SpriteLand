@@ -11,8 +11,6 @@ void UBackpackWidget::NativeOnInitialized()
 {
 	Super::NativeOnInitialized();
 
-	InitializeItemInfoCache();
-
 	WeaponSlot->BackpackWidget = this;
 }
 
@@ -29,26 +27,6 @@ void UBackpackWidget::NativeConstruct()
 	UpdateCharacterInfo();
 }
 
-template <typename ItemNameType, typename ItemType>
-auto LoadTable = [&](UDataTable* Table, TMap<ItemNameType, ItemType*>& Cache)
-	{
-		if (!Table) return;
-
-		for (auto& RowName : Table->GetRowNames())
-		{
-			if (ItemType* Row = Table->FindRow<ItemType>(RowName, TEXT("ItemInfoCache")))
-			{
-				Cache.Add(Row->ItemName, Row);
-			}
-		}
-	};
-
-void UBackpackWidget::InitializeItemInfoCache()
-{
-	LoadTable<EEquipmentItemName, FEquipmentItemInfo>(WeaponDataTable, EquipmentItemInfoCache);
-	LoadTable<EConsumableItemName, FConsumableItemInfo>(ConsumableDataTable, ConsumableItemInfoCache);
-}
-
 void UBackpackWidget::RefreshBackpackView_Equip()
 {
 	if (BackpackComponent == nullptr) return;
@@ -60,8 +38,8 @@ void UBackpackWidget::RefreshBackpackView_Equip()
 		EEquipmentItemName ItemName = Pair.Key;
 		int32 Count = Pair.Value.Count;
 
-		FEquipmentItemInfo** InfoPtr = EquipmentItemInfoCache.Find(ItemName);
-		if (!InfoPtr) return;
+		FEquipmentItemInfo** InfoPtr = BackpackComponent->GetEquipmentItemInfoCache().Find(ItemName);
+		if (!InfoPtr || !ItemWidgetClass) return;
 
 		UBackpackItemWidget* ItemWidget = CreateWidget<UBackpackItemWidget>(this, ItemWidgetClass);
 		ItemWidget->UpdateViewInfo(*InfoPtr, Count);
@@ -81,8 +59,8 @@ void UBackpackWidget::RefreshBackpackView_Consumable()
 		EConsumableItemName ItemName = Pair.Key;
 		int32 Count = Pair.Value;
 
-		FConsumableItemInfo** InfoPtr = ConsumableItemInfoCache.Find(ItemName);
-		if (!InfoPtr) return;
+		FConsumableItemInfo** InfoPtr = BackpackComponent->GetConsumableItemInfoCache().Find(ItemName);
+		if (!InfoPtr && ItemWidgetClass) return;
 
 		UBackpackItemWidget* ItemWidget = CreateWidget<UBackpackItemWidget>(this, ItemWidgetClass);
 		ItemWidget->BackpackWidget = this;
@@ -93,7 +71,6 @@ void UBackpackWidget::RefreshBackpackView_Consumable()
 
 void UBackpackWidget::UpdateCharacterInfo()
 {
-
 	HeroCharacter = HeroCharacter == nullptr ? Cast<AHeroCharacterBase>(PlayerController->GetCharacter()) : HeroCharacter;
 	if (HeroCharacter)
 	{

@@ -1,8 +1,9 @@
 #include "BackpackItemWidget.h"
 #include "SpriteLand/Systems/Feature/BackpackSystem/BackpackComponent.h"
-#include "SpriteLand/Systems/Core/GamePlay/SpriteLandPlayerController.h"
 #include "SpriteLand/Systems/Feature/BackpackSystem/ItemInfo.h"
 #include "SpriteLand/Systems/Feature/EquipmentSystem/EquipmentBase.h"
+#include "SpriteLand/Systems/Core/GamePlay/SpriteLandPlayerController.h"
+#include "SpriteLand/Interface/BuffInterface.h"
 #include "BackpackWidget.h"
 #include "EquipmentItemWidget.h"
 #include "Components/Image.h"
@@ -35,6 +36,7 @@ void UBackpackItemWidget::UpdateViewInfo(FConsumableItemInfo* InInfo, const int3
 		ItemNameText->SetText(InInfo->DisplayName);
 		ItemDescText->SetText(InInfo->Description);
 		ItemAmountText->SetText(FText::AsNumber(InCount));
+		FirstButtonText->SetText(FText::FromString(TEXT("使用")));
 	}
 }
 
@@ -57,50 +59,48 @@ void UBackpackItemWidget::UpdateViewInfo(FEquipmentItemInfo* InInfo, const int32
 
 void UBackpackItemWidget::OnUseButtonClicked()
 {
-	if (bIsInBackpack)
+	if (!Info) return;
+	if (bIsInBackpack) // 在背包区域
 	{
-		if (!Info) return;
 		switch (Info->ItemType)
 		{
 		case EItemType::Equipment:
-			FEquipmentItemInfo* TempInfo = static_cast<FEquipmentItemInfo*>(Info);
-			if (!TempInfo) return;
-
-			UClass* LoadedClass = TempInfo->EquipmentClass.LoadSynchronous();
-			if (LoadedClass)
+		{
+			FEquipmentItemInfo* EquipmentInfo = static_cast<FEquipmentItemInfo*>(Info);
+			if (EquipmentInfo && BackpackWidget->BackpackComponent->UseItem(EquipmentInfo->ItemName))
 			{
-				APawn* PlayerPawn = GetWorld()->GetFirstPlayerController()->GetPawn();
-				ICharacterActionInterface* Interface = Cast<ICharacterActionInterface>(PlayerPawn);
-				if (Interface)
-				{
-					Interface->Equip(GetWorld()->SpawnActor<AEquipmentBase>(LoadedClass));
-					BackpackWidget->WeaponSlot->UpdateViewInfo(TempInfo, 1);
-					BackpackWidget->WeaponSlot->ItemImage->SetVisibility(ESlateVisibility::Visible);
-					BackpackWidget->WeaponSlot->bIsFilled = true;
-					BackpackWidget->UpdateCharacterInfo();
-				}
+				BackpackWidget->WeaponSlot->UpdateViewInfo(EquipmentInfo, 1);
+				BackpackWidget->WeaponSlot->ItemImage->SetVisibility(ESlateVisibility::Visible);
+				BackpackWidget->WeaponSlot->bIsFilled = true;
+				BackpackWidget->UpdateCharacterInfo();
 			}
 			break;
 		}
+		case EItemType::Consumable:
+		{
+			FConsumableItemInfo* ConsumableInfo = static_cast<FConsumableItemInfo*>(Info);
+			if (!ConsumableInfo) return;
+
+			break;
+		}
+		}
 	}
-	else
+	else // 在装备区域
 	{
-		if (!Info) return;
 		switch (Info->ItemType)
 		{
 		case EItemType::Equipment:
-			FEquipmentItemInfo* TempInfo = static_cast<FEquipmentItemInfo*>(Info);
-			APawn* PlayerPawn = GetWorld()->GetFirstPlayerController()->GetPawn();
-			ICharacterActionInterface* Interface = Cast<ICharacterActionInterface>(PlayerPawn);
-			if (Interface && TempInfo)
+		{
+			FEquipmentItemInfo* EquipmentInfo = static_cast<FEquipmentItemInfo*>(Info);
+			if (EquipmentInfo && BackpackWidget->BackpackComponent->UnEquip(EquipmentInfo->ItemName))
 			{
-				Interface->UnEquip(TempInfo->EquipmentType);
 				ItemImage->SetVisibility(ESlateVisibility::Hidden);
 				bIsFilled = false;
 				if (BackpackWidget)
 					BackpackWidget->UpdateCharacterInfo();
 			}
 			break;
+		}
 		}
 	}
 }

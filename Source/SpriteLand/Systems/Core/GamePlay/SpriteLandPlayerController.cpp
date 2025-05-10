@@ -27,6 +27,8 @@ void ASpriteLandPlayerController::BeginPlay()
 	{
 		SpriteLandHUD = Cast<ASpriteLandHUD>(GetHUD());
 	}
+
+	BackpackComponent->PlayerController = this;
 }
 
 void ASpriteLandPlayerController::SetupInputComponent()

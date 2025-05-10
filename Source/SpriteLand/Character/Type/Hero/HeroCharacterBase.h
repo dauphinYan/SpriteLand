@@ -3,10 +3,11 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "SpriteLand/Interface/CharacterActionInterface.h"
+#include "SpriteLand/Interface/BuffInterface.h"
 #include "HeroCharacterBase.generated.h"
 
 UCLASS()
-class SPRITELAND_API AHeroCharacterBase : public ACharacter, public ICharacterActionInterface
+class SPRITELAND_API AHeroCharacterBase : public ACharacter, public ICharacterActionInterface, public IBuffInterface
 {
 	GENERATED_BODY()
 
@@ -31,6 +32,9 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	class UHeroCombatComponent* CombatComponent;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	class UHeroBuffComponent* BuffComponent;
+
 	UPROPERTY()
 	class ASpriteLandPlayerController* PlayerController;
 
@@ -53,6 +57,12 @@ protected:
 
 	UFUNCTION(BlueprintCallable)
 	virtual void UnEquip(EEquipmentType EquipmentType) override;
+
+	UPROPERTY(BlueprintReadWrite)
+	bool bCanMove = true;
+
+public:
+	void SetCanMove(bool InbCanMove);
 
 public: // Character attribute.
 	UPROPERTY(EditAnywhere, Category = "Character Attribute")
@@ -100,4 +110,6 @@ public: // Character attribute.
 protected:
 	UFUNCTION()
 	virtual void ReceiveDamage(AActor* DamageActor, float Damage, const UDamageType* DamageType, AController* InstigatorController, AActor* DamageCauser);
+
+	virtual void RestoreHealth(float InValue) override;
 };

@@ -15,8 +15,6 @@ class SPRITELAND_API UHeroCombatComponent : public UCombatComponent
 protected:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
-
-
 private:
 	class AHeroCharacterBase* HeroCharacter;
 
@@ -48,4 +46,8 @@ protected: // Hit
 	UAnimMontage* HitMontage;
 
 	void PlayHitMontage(int32 Level);
+
+	UFUNCTION()
+	void OnHitMontageEnded(UAnimMontage* Montage, bool bInterrupted);
+
 };

@@ -1,5 +1,8 @@
 #include "BackpackComponent.h"
-
+#include "SpriteLand/Interface/CharacterActionInterface.h"
+#include "SpriteLand/Interface/BuffInterface.h"
+#include "SpriteLand/Systems/Core/GamePlay/SpriteLandPlayerController.h"
+#include "../EquipmentSystem/EquipmentBase.h"
 
 UBackpackComponent::UBackpackComponent()
 {
@@ -11,12 +14,82 @@ void UBackpackComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
+	InitializeItemInfoCache();
 }
 
 void UBackpackComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
+}
+
+template <typename ItemNameType, typename ItemType>
+auto LoadTable = [&](UDataTable* Table, TMap<ItemNameType, ItemType*>& Cache)
+	{
+		if (!Table) return;
+
+		for (auto& RowName : Table->GetRowNames())
+		{
+			if (ItemType* Row = Table->FindRow<ItemType>(RowName, TEXT("ItemInfoCache")))
+			{
+				Cache.Add(Row->ItemName, Row);
+			}
+		}
+	};
+
+void UBackpackComponent::InitializeItemInfoCache()
+{
+	if (WeaponDataTable)
+	{
+		LoadTable<EEquipmentItemName, FEquipmentItemInfo>(WeaponDataTable, EquipmentItemInfoCache);
+	}
+	if (ConsumableDataTable)
+	{
+		LoadTable<EConsumableItemName, FConsumableItemInfo>(ConsumableDataTable, ConsumableItemInfoCache);
+	}
+
+}
+
+bool UBackpackComponent::UseItem(const EEquipmentItemName ItemName, const int32 Count)
+{
+	FEquipmentItemInfo* EquipmentInfo = EquipmentItemInfoCache[ItemName];
+	if (!EquipmentInfo) return false;
+	UClass* LoadedClass = EquipmentInfo->EquipmentClass.LoadSynchronous();
+	if (LoadedClass)
+	{
+		ICharacterActionInterface* Interface = Cast<ICharacterActionInterface>(PlayerController->GetPawn());
+		if (Interface)
+		{
+			Interface->Equip(GetWorld()->SpawnActor<AEquipmentBase>(LoadedClass));
+			return true;
+		}
+	}
+
+	return false;
+}
+
+bool UBackpackComponent::UseItem(const EConsumableItemName ItemName, const int32 Count)
+{
+	IBuffInterface* Interface = Cast<IBuffInterface>(PlayerController->GetPawn());
+	if (Interface && ConsumableItemInfoCache.Find(ItemName))
+	{
+		Interface->RestoreHealth(ConsumableItemInfoCache[ItemName]->EffectValue);
+		return true;
+	}
+
+	return false;
+}
+
+bool UBackpackComponent::UnEquip(const EEquipmentItemName ItemName)
+{
+	ICharacterActionInterface* Interface = Cast<ICharacterActionInterface>(PlayerController->GetPawn());
+	if (Interface && EquipmentItemInfoCache[ItemName])
+	{
+		Interface->UnEquip(EquipmentItemInfoCache[ItemName]->EquipmentType);
+		return true;
+	}
+
+	return false;
 }
 
 //bool UBackpackComponent::AddItem(const EItemType ItemType, const EItemName ItemName, const int32 Count)

@@ -9,6 +9,7 @@
 #include "EnhancedInputSubsystems.h"
 #include "SpriteLand/Character/Type/Hero/Component/EquipmentComponent.h"
 #include "SpriteLand/Character/Type/Hero/Component/HeroCombatComponent.h"
+#include "SpriteLand/Character/Type/Hero/Component/HeroBuffComponent.h"
 #include "SpriteLand/Systems/Feature/EquipmentSystem/Weapon/WeaponBase.h"
 #include "SpriteLand/Systems/Core/GamePlay/SpriteLandPlayerController.h"
 #include "SpriteLand/HUD/SpriteLandHUD.h"
@@ -43,6 +44,7 @@ AHeroCharacterBase::AHeroCharacterBase()
 
 	EquipmentComponent = CreateDefaultSubobject<UEquipmentComponent>(TEXT("EquipmentComponent"));
 	CombatComponent = CreateDefaultSubobject<UHeroCombatComponent>(TEXT("CombatComponent"));
+	BuffComponent = CreateDefaultSubobject<UHeroBuffComponent>(TEXT("BuffComponent"));
 }
 
 void AHeroCharacterBase::BeginPlay()
@@ -50,9 +52,10 @@ void AHeroCharacterBase::BeginPlay()
 	Super::BeginPlay();
 
 	OnTakeAnyDamage.AddDynamic(this, &AHeroCharacterBase::ReceiveDamage);
-		
+
 	PlayerController = PlayerController == nullptr ? Cast<ASpriteLandPlayerController>(Controller) : PlayerController;
-	if (!PlayerController) return;
+	if (!PlayerController)
+		return;
 	PlayerController->GetSpriteLandHUD()->UpdateCharacterHealthBar(CurHealth, HealthTotal);
 }
 
@@ -69,18 +72,22 @@ void AHeroCharacterBase::PostInitializeComponents()
 		CombatComponent->HeroCharacter = this;
 		CombatComponent->EquipmentComponent = EquipmentComponent;
 	}
-
-
+	if (BuffComponent)
+	{
+		BuffComponent->HeroCharacter = this;
+	}
 }
 
 void AHeroCharacterBase::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
 }
 
 void AHeroCharacterBase::Move(const FInputActionValue& Value)
 {
+	if (bCanMove == false)
+		return;
+
 	// input is a Vector2D
 	FVector2D MovementVector = Value.Get<FVector2D>();
 
@@ -93,10 +100,10 @@ void AHeroCharacterBase::Move(const FInputActionValue& Value)
 		// get forward vector
 		const FVector ForwardDirection = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
 
-		// get right vector 
+		// get right vector
 		const FVector RightDirection = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
 
-		// add movement 
+		// add movement
 		AddMovementInput(ForwardDirection, MovementVector.Y);
 		AddMovementInput(RightDirection, MovementVector.X);
 	}
@@ -150,7 +157,6 @@ void AHeroCharacterBase::Equip(AEquipmentBase* Equipment)
 
 		break;
 	}
-
 }
 
 void AHeroCharacterBase::UnEquip(EEquipmentType EquipmentType)
@@ -174,6 +180,11 @@ void AHeroCharacterBase::UnEquip(EEquipmentType EquipmentType)
 	}
 }
 
+void AHeroCharacterBase::SetCanMove(bool InbCanMove)
+{
+	bCanMove = InbCanMove;
+}
+
 void AHeroCharacterBase::ReceiveDamage(AActor* DamageActor, float Damage, const UDamageType* DamageType, AController* InstigatorController, AActor* DamageCauser)
 {
 	if (CurHealth - Damage > 0.f)
@@ -191,3 +202,13 @@ void AHeroCharacterBase::ReceiveDamage(AActor* DamageActor, float Damage, const 
 	PlayerController->GetSpriteLandHUD()->UpdateCharacterHealthBar(CurHealth, HealthTotal);
 }
 
+void AHeroCharacterBase::RestoreHealth(float InValue)
+{
+	if (BuffComponent)
+	{
+		BuffComponent->RestoreHealth(InValue);
+		PlayerController = PlayerController == nullptr ? Cast<ASpriteLandPlayerController>(Controller) : PlayerController;
+		if (!PlayerController) return;
+		PlayerController->GetSpriteLandHUD()->UpdateCharacterHealthBar(CurHealth, HealthTotal);
+	}
+}

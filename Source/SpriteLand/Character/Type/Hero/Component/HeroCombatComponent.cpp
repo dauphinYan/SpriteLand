@@ -59,5 +59,16 @@ void UHeroCombatComponent::PlayHitMontage(int32 Level)
 		AnimInstance->Montage_Play(HitMontage, 1.f);
 		FName SectionName = FName(*FString::Printf(TEXT("Hit_%d"), Level));
 		AnimInstance->Montage_JumpToSection(SectionName, HitMontage);
+
+		FOnMontageEnded OnMontageEnded;
+		OnMontageEnded.BindUObject(this, &UHeroCombatComponent::OnHitMontageEnded);
+
+		AnimInstance->Montage_SetEndDelegate(OnMontageEnded, HitMontage);
+		HeroCharacter->SetCanMove(false);
 	}
+}
+
+void UHeroCombatComponent::OnHitMontageEnded(UAnimMontage* Montage, bool bInterrupted)
+{
+	HeroCharacter->SetCanMove(true);
 }

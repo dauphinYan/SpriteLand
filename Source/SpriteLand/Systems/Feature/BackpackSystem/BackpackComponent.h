@@ -22,24 +22,48 @@ class SPRITELAND_API UBackpackComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
+	friend class ASpriteLandPlayerController;
+
 public:
 	UBackpackComponent();
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 protected:
 	virtual void BeginPlay() override;
 
-protected:
-	//bool AddItem(const EItemType ItemType, const EItemName ItemName, const int32 Count = 1);
-	//bool RemoveItem(const EItemType ItemType, const EItemName ItemName, const int32 Count = 1);
-	//bool UseItem(const EItemName ItemName, const int32 Count = 1);
+public:
+	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+
 private:
+	class ASpriteLandPlayerController* PlayerController;
+
+private:
+	UPROPERTY(EditDefaultsOnly, Category = "DataTable")
+	UDataTable* WeaponDataTable;
+
+	UPROPERTY(EditDefaultsOnly, Category = "DataTable")
+	UDataTable* ConsumableDataTable;
+
+	TMap<EEquipmentItemName, FEquipmentItemInfo*> EquipmentItemInfoCache;
+
+	TMap<EConsumableItemName, FConsumableItemInfo*> ConsumableItemInfoCache;
 
 	UPROPERTY(EditAnyWhere)
 	TMap<EConsumableItemName, int32> ConsumbleItems;
 
 	UPROPERTY(EditAnyWhere)
 	TMap<EEquipmentItemName, FEquipmentItemStack> EquipmentItems;
+
+	void InitializeItemInfoCache();
+
+public:
+	bool UseItem(const EEquipmentItemName ItemName, const int32 Count = 1);
+
+	bool UseItem(const EConsumableItemName ItemName, const int32 Count = 1);
+
+	bool UnEquip(const EEquipmentItemName ItemName);
+
+	//bool AddItem(const EItemType ItemType, const EItemName ItemName, const int32 Count = 1);
+	//bool RemoveItem(const EItemType ItemType, const EItemName ItemName, const int32 Count = 1);
 
 	//UPROPERTY(EditAnyWhere)
 	//TMap<EItemName, int32> QuestItems;
@@ -48,6 +72,13 @@ private:
 	//TMap<EItemName, int32> MiscellaneousItems;
 
 public:
+	FORCEINLINE TMap<EConsumableItemName, FConsumableItemInfo*>& GetConsumableItemInfoCache() {
+		return ConsumableItemInfoCache;
+	}
+	FORCEINLINE TMap<EEquipmentItemName, FEquipmentItemInfo*>& GetEquipmentItemInfoCache() {
+		return EquipmentItemInfoCache;
+	}
+
 	FORCEINLINE TMap<EConsumableItemName, int32>& GetComsumbleItems() { return ConsumbleItems; }
 	FORCEINLINE TMap<EEquipmentItemName, FEquipmentItemStack>& GetEquipmentItems() { return EquipmentItems; }
 	//FORCEINLINE TMap<EItemName, int32>& GetQuestItems() { return QuestItems; }
