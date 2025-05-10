@@ -21,6 +21,10 @@ public:
 
 	virtual void Look(const FInputActionValue& Value);
 
+	virtual void StartRunning();
+
+	virtual void StopRunning();
+
 	virtual void Dodge();
 
 	virtual void JumpBegin();

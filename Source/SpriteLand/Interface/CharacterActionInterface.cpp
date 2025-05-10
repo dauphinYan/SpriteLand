@@ -9,6 +9,14 @@ void ICharacterActionInterface::Look(const FInputActionValue& Value)
 {
 }
 
+void ICharacterActionInterface::StartRunning()
+{
+}
+
+void ICharacterActionInterface::StopRunning()
+{
+}
+
 void ICharacterActionInterface::Dodge()
 {
 }

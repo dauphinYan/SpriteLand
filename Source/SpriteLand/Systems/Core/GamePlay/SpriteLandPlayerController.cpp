@@ -41,6 +41,8 @@ void ASpriteLandPlayerController::SetupInputComponent()
 		EnhancedInput->BindAction(JumpAction, ETriggerEvent::Completed, this, &ASpriteLandPlayerController::OnJumpButtonReleased);
 		EnhancedInput->BindAction(DodgeAction, ETriggerEvent::Started, this, &ASpriteLandPlayerController::OnDodgeButtonPressed);
 		EnhancedInput->BindAction(MoveAction, ETriggerEvent::Triggered, this, &ASpriteLandPlayerController::OnMoveButtonTriggered);
+		EnhancedInput->BindAction(RunAction, ETriggerEvent::Started, this, &ASpriteLandPlayerController::OnRunButtonPressed);
+		//EnhancedInput->BindAction(RunAction, ETriggerEvent::Completed, this, &ASpriteLandPlayerController::OnRunButtonReleased);
 		EnhancedInput->BindAction(LookAction, ETriggerEvent::Triggered, this, &ASpriteLandPlayerController::OnLookButtonTriggered);
 		EnhancedInput->BindAction(AttackAction, ETriggerEvent::Started, this, &ASpriteLandPlayerController::OnAttackButtonPressed);
 		EnhancedInput->BindAction(BackpackAction, ETriggerEvent::Started, this, &ASpriteLandPlayerController::OnBackpackButtonPressed);
@@ -72,6 +74,30 @@ void ASpriteLandPlayerController::OnMoveButtonTriggered(const FInputActionValue&
 		if (Interface)
 		{
 			Interface->Move(Value);
+		}
+	}
+}
+
+void ASpriteLandPlayerController::OnRunButtonPressed()
+{
+	if (GetPawn() && GetPawn()->Implements<UCharacterActionInterface>())
+	{
+		ICharacterActionInterface* Interface = Cast<ICharacterActionInterface>(GetPawn());
+		if (Interface)
+		{
+			Interface->StartRunning();
+		}
+	}
+}
+
+void ASpriteLandPlayerController::OnRunButtonReleased()
+{
+	if (GetPawn() && GetPawn()->Implements<UCharacterActionInterface>())
+	{
+		ICharacterActionInterface* Interface = Cast<ICharacterActionInterface>(GetPawn());
+		if (Interface)
+		{
+			Interface->StopRunning();
 		}
 	}
 }

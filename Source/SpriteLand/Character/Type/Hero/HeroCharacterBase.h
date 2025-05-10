@@ -46,6 +46,10 @@ protected:
 
 	virtual void Look(const FInputActionValue& Value) override;
 
+	virtual void StartRunning() override;
+
+	virtual void StopRunning() override;
+
 	virtual void Dodge() override;
 
 	virtual void JumpBegin() override;
@@ -60,6 +64,14 @@ protected:
 
 	UPROPERTY(BlueprintReadWrite)
 	bool bCanMove = true;
+
+	UPROPERTY(EditDefaultsOnly)
+	float WalkSpeed = 300.f;
+
+	UPROPERTY(EditDefaultsOnly)
+	float RunSpeed = 500.f;
+
+	bool bIsRunning = false;
 
 public:
 	void SetCanMove(bool InbCanMove);

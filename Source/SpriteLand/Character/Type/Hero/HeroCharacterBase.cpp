@@ -57,6 +57,8 @@ void AHeroCharacterBase::BeginPlay()
 	if (!PlayerController)
 		return;
 	PlayerController->GetSpriteLandHUD()->UpdateCharacterHealthBar(CurHealth, HealthTotal);
+
+	GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;
 }
 
 void AHeroCharacterBase::PostInitializeComponents()
@@ -120,6 +122,28 @@ void AHeroCharacterBase::Look(const FInputActionValue& Value)
 		AddControllerYawInput(LookAxisVector.X);
 		AddControllerPitchInput(LookAxisVector.Y);
 	}
+}
+
+void AHeroCharacterBase::StartRunning()
+{
+	if (bIsRunning)
+	{
+		bIsRunning = false;
+		GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;
+	}
+	else
+	{
+		bIsRunning = true;
+		GetCharacterMovement()->MaxWalkSpeed = RunSpeed;
+	}
+
+
+}
+
+void AHeroCharacterBase::StopRunning()
+{
+	bIsRunning = false;
+	GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;
 }
 
 void AHeroCharacterBase::Dodge()

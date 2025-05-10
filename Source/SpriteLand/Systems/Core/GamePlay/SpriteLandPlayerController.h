@@ -39,6 +39,9 @@ protected:
 	UInputAction* LookAction;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	UInputAction* RunAction;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	UInputAction* DodgeAction;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
@@ -55,6 +58,12 @@ protected:
 
 	UFUNCTION()
 	void OnMoveButtonTriggered(const FInputActionValue& Value);
+
+	UFUNCTION()
+	void OnRunButtonPressed();
+
+	UFUNCTION()
+	void OnRunButtonReleased();
 
 	UFUNCTION()
 	void OnLookButtonTriggered(const FInputActionValue& Value);

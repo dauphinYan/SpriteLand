@@ -37,13 +37,12 @@ void UHeroCombatComponent::Attack()
 void UHeroCombatComponent::PlayAttackMontage()
 {
 	AnimInstance = AnimInstance == nullptr ? HeroCharacter->GetMesh()->GetAnimInstance() : AnimInstance;
-	if (AnimInstance)
+	if (AnimInstance && AttackMontage)
 	{
 		AnimInstance->Montage_Play(AttackMontage, 1.f);
 
-		FName SectionName = FName(*FString::Printf(TEXT("Attck_%d"), CurrentAttackCombo));
+		FName SectionName = FName(*FString::Printf(TEXT("Attack_%d"), CurrentAttackCombo));
 		AnimInstance->Montage_JumpToSection(SectionName, AttackMontage);
-
 		float MontageLengh = AttackMontage->GetSectionLength(CurrentAttackCombo);
 		ComboTimer = MontageLengh + 0.8f;
 
@@ -54,7 +53,7 @@ void UHeroCombatComponent::PlayAttackMontage()
 void UHeroCombatComponent::PlayHitMontage(int32 Level)
 {
 	AnimInstance = AnimInstance == nullptr ? HeroCharacter->GetMesh()->GetAnimInstance() : AnimInstance;
-	if (AnimInstance)
+	if (AnimInstance && HitMontage)
 	{
 		AnimInstance->Montage_Play(HitMontage, 1.f);
 		FName SectionName = FName(*FString::Printf(TEXT("Hit_%d"), Level));
