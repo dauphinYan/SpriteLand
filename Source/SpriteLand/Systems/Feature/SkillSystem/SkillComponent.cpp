@@ -21,9 +21,17 @@ void USkillComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActor
 
 bool USkillComponent::UseSkill(FGameplayTag SkillNameTag)
 {
-	if (SkillInstance.Find(SkillNameTag) && !bSkillOnCoolingDown(SkillNameTag))
+	for (int32 i = 0; i < SkillInstance.Num(); ++i)
 	{
-		return true;
+		if (SkillInstance[i].SkillNameTag == SkillNameTag)
+		{
+			if (!bSkillOnCoolingDown(SkillNameTag))
+			{
+				SkillBeginToCool(SkillInstance[i].SkillNameTag);
+				return true;
+			}
+			break;
+		}
 	}
 	return false;
 }
@@ -33,8 +41,18 @@ bool USkillComponent::UpgradeSkill(FGameplayTag SkillNameTag)
 	return false;
 }
 
+bool USkillComponent::UseSkillByButton(int32 Index)
+{
+	return false;
+}
+
 bool USkillComponent::bSkillOnCoolingDown(FGameplayTag SkillNameTag)
 {
 	return false;
+}
+
+void USkillComponent::SkillBeginToCool(FGameplayTag SkillNameTag)
+{
+
 }
 

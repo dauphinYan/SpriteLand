@@ -2,7 +2,6 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
-#include "SpriteLand/Interface/CharacterActionInterface.h"
 #include "SpriteLandPlayerController.generated.h"
 
 //UENUM(BlueprintType)
@@ -10,7 +9,6 @@
 //{
 //
 //};
-
 
 UCLASS()
 class SPRITELAND_API ASpriteLandPlayerController : public APlayerController
@@ -50,6 +48,12 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	UInputAction* BackpackAction;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	UInputAction* SkillAction_1;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	UInputAction* SkillAction_2;
+
 	UFUNCTION()
 	void OnJumpButtonPressed();
 
@@ -76,6 +80,12 @@ protected:
 
 	UFUNCTION()
 	void OnBackpackButtonPressed();
+
+	UFUNCTION()
+	void OnSkillButtonPressed_1();
+
+	UFUNCTION()
+	void OnSkillButtonPressed_2();
 
 protected:
 	UPROPERTY(EditDefaultsOnly)

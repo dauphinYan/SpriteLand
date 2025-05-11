@@ -13,6 +13,17 @@ class SPRITELAND_API UHeroSkillComponent : public USkillComponent
 	friend class AHeroCharacterBase;
 
 protected:
+	virtual void BeginPlay() override;
+
+public:
+	void UpdateSkillData();
+
+	int32 GetSkillIndex(FGameplayTag SkillNameTag);
+
+protected:
 	AHeroCharacterBase* HeroCharacter;
-	
+
+	virtual void SkillBeginToCool(FGameplayTag SkillNameTag) override;
+
+	virtual bool UseSkillByButton(int32 Index) override;
 };

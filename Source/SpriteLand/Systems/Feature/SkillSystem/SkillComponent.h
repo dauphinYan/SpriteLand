@@ -21,13 +21,16 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 protected:
-	TMap<FGameplayTag, FSkillData> SkillInstance;
+	UPROPERTY(EditDefaultsOnly)
+	TArray<FSkillData> SkillInstance;
 
 	virtual bool UseSkill(FGameplayTag SkillNameTag);
 
 	virtual bool UpgradeSkill(FGameplayTag SkillNameTag);
 
+	virtual bool UseSkillByButton(int32 Index);
+
 	virtual bool bSkillOnCoolingDown(FGameplayTag SkillNameTag);
 
-	void SkillBeginToCool(FGameplayTag SkillNameTag);
+	virtual void SkillBeginToCool(FGameplayTag SkillNameTag);
 };

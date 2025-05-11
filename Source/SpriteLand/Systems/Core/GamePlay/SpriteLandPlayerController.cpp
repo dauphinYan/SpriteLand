@@ -5,6 +5,8 @@
 #include "SpriteLand/HUD/SpriteLandHUD.h"
 #include "SpriteLand/HUD/Backpack/BackpackWidget.h"
 #include "SpriteLand/Character/Type/Enemy/EnemyCharacterBase.h"
+#include "SpriteLand/Interface/CharacterActionInterface.h"
+#include "SpriteLand/Interface/SkillInterface.h"
 
 ASpriteLandPlayerController::ASpriteLandPlayerController()
 {
@@ -46,6 +48,8 @@ void ASpriteLandPlayerController::SetupInputComponent()
 		EnhancedInput->BindAction(LookAction, ETriggerEvent::Triggered, this, &ASpriteLandPlayerController::OnLookButtonTriggered);
 		EnhancedInput->BindAction(AttackAction, ETriggerEvent::Started, this, &ASpriteLandPlayerController::OnAttackButtonPressed);
 		EnhancedInput->BindAction(BackpackAction, ETriggerEvent::Started, this, &ASpriteLandPlayerController::OnBackpackButtonPressed);
+		EnhancedInput->BindAction(SkillAction_1, ETriggerEvent::Started, this, &ASpriteLandPlayerController::OnSkillButtonPressed_1);
+		EnhancedInput->BindAction(SkillAction_2, ETriggerEvent::Started, this, &ASpriteLandPlayerController::OnSkillButtonPressed_2);
 	}
 }
 
@@ -156,5 +160,22 @@ void ASpriteLandPlayerController::OnBackpackButtonPressed()
 			SetInputMode(InputMode);
 		}
 	}
+
+}
+
+void ASpriteLandPlayerController::OnSkillButtonPressed_1()
+{
+	if (GetPawn() && GetPawn()->Implements<USkillInterface>())
+	{
+		ISkillInterface* Interface = Cast<ISkillInterface>(GetPawn());
+		if (Interface)
+		{
+			Interface->UseSkillByButton(1);
+		}
+	}
+}
+
+void ASpriteLandPlayerController::OnSkillButtonPressed_2()
+{
 
 }

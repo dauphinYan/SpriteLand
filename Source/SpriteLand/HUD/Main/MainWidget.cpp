@@ -3,6 +3,7 @@
 #include "Components/TextBlock.h"
 #include "BossHealthBarWidget.h"
 #include "../Battle/HeroInfoWidget.h"
+#include "SpriteLand/Systems/Feature/SkillSystem/SkillInfo.h"
 
 void UMainWidget::InitializeBossHealthBar(FText BossName, float HealthPercent)
 {
@@ -30,14 +31,30 @@ void UMainWidget::HideBossHealthBar()
 	}
 }
 
-void UMainWidget::UpdateCharacterHealthBar(float CurHealth, float TotalHealth)
+void UMainWidget::UpdateHeroHealthBar(float CurHealth, float TotalHealth)
 {
 	if (HeroInfoWidget)
-		HeroInfoWidget->UpdateCharacterHealthBar(CurHealth, TotalHealth);
+		HeroInfoWidget->UpdateHeroHealthBar(CurHealth, TotalHealth);
 }
 
-void UMainWidget::UpdateCharacterManaBar(float CurMana, float TotalMana)
+void UMainWidget::UpdateHeroManaBar(float CurMana, float TotalMana)
 {
 	if (HeroInfoWidget)
-		HeroInfoWidget->UpdateCharacterManaBar(CurMana, TotalMana);
+		HeroInfoWidget->UpdateHeroManaBar(CurMana, TotalMana);
+}
+
+void UMainWidget::UpdateHeroSkillData(TArray<FSkillData> SkillDatas)
+{
+	if (HeroInfoWidget)
+	{
+		HeroInfoWidget->UpdateHeroSkillData(SkillDatas);
+	}
+}
+
+void UMainWidget::UseSkill(FGameplayTag SkillNameTag)
+{
+	if (HeroInfoWidget)
+	{
+		HeroInfoWidget->PlayCoolingDownAnimation(SkillNameTag);
+	}
 }

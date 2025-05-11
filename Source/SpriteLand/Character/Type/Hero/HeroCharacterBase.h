@@ -4,12 +4,15 @@
 #include "GameFramework/Character.h"
 #include "SpriteLand/Interface/CharacterActionInterface.h"
 #include "SpriteLand/Interface/BuffInterface.h"
+#include "SpriteLand/Interface/SkillInterface.h"
 #include "HeroCharacterBase.generated.h"
 
 UCLASS()
-class SPRITELAND_API AHeroCharacterBase : public ACharacter, public ICharacterActionInterface, public IBuffInterface
+class SPRITELAND_API AHeroCharacterBase : public ACharacter, public ICharacterActionInterface, public IBuffInterface, public ISkillInterface
 {
 	GENERATED_BODY()
+
+	friend class UHeroSkillComponent;
 
 public:
 	AHeroCharacterBase();
@@ -35,7 +38,7 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	class UHeroBuffComponent* BuffComponent;
 
-	UPROPERTY(EditDefaultsOnly,BlueprintReadOnly)
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	class UHeroSkillComponent* SkillComponent;
 
 	UPROPERTY()
@@ -127,4 +130,17 @@ protected:
 	virtual void ReceiveDamage(AActor* DamageActor, float Damage, const UDamageType* DamageType, AController* InstigatorController, AActor* DamageCauser);
 
 	virtual void RestoreHealth(float InValue) override;
+
+protected: // Skill
+	virtual bool UseSkill(FGameplayTag SkillNameTag) override;
+
+	virtual bool UpgradeSkill(FGameplayTag SkillNameTag) override;
+
+	virtual bool UseSkillByButton(int32 Index) override;
+
+	public:
+		FORCEINLINE UHeroSkillComponent* GetSkillComponent()
+		{
+			return SkillComponent;
+		}
 };

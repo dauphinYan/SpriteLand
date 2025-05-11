@@ -2,6 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
+#include "GameplayTagContainer.h"
 #include "MainWidget.generated.h"
 
 
@@ -17,9 +18,13 @@ public:
 
 	void HideBossHealthBar();
 
-	void UpdateCharacterHealthBar(float CurHealth, float TotalHealth);
+	void UpdateHeroHealthBar(float CurHealth, float TotalHealth);
 
-	void UpdateCharacterManaBar(float CurMana, float TotalMana);
+	void UpdateHeroManaBar(float CurMana, float TotalMana);
+
+	void UpdateHeroSkillData(TArray<struct FSkillData> SkillDatas);
+
+	void UseSkill(FGameplayTag SkillNameTag);
 
 private:
 	UPROPERTY(meta = (BindWidget))

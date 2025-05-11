@@ -1,6 +1,7 @@
 #include "SpriteLandHUD.h"
 #include "Backpack/BackpackWidget.h"
 #include "Main/MainWidget.h"
+#include "SpriteLand/Systems/Feature/SkillSystem/SkillInfo.h"
 
 void ASpriteLandHUD::BeginPlay()
 {
@@ -76,7 +77,7 @@ void ASpriteLandHUD::UpdateCharacterHealthBar(float CurHealth, float TotalHealth
 {
 	if (MainWidget)
 	{
-		MainWidget->UpdateCharacterHealthBar(CurHealth, TotalHealth);
+		MainWidget->UpdateHeroHealthBar(CurHealth, TotalHealth);
 	}
 }
 
@@ -84,7 +85,23 @@ void ASpriteLandHUD::UpdateCharacterManaBar(float CurMana, float TotalMana)
 {
 	if (MainWidget)
 	{
-		MainWidget->UpdateCharacterManaBar(CurMana, TotalMana);
+		MainWidget->UpdateHeroManaBar(CurMana, TotalMana);
+	}
+}
+
+void ASpriteLandHUD::UpdateHeroSkillData(TArray<FSkillData> SkillDatas)
+{
+	if (MainWidget)
+	{
+		MainWidget->UpdateHeroSkillData(SkillDatas);
+	}
+}
+
+void ASpriteLandHUD::UseSkill(FGameplayTag SkillNameTag)
+{
+	if (MainWidget)
+	{
+		MainWidget->UseSkill(SkillNameTag);
 	}
 }
 

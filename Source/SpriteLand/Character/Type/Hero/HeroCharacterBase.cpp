@@ -59,6 +59,11 @@ void AHeroCharacterBase::BeginPlay()
 	if (!PlayerController)
 		return;
 	PlayerController->GetSpriteLandHUD()->UpdateCharacterHealthBar(CurHealth, HealthTotal);
+	
+	if (SkillComponent)
+	{
+		SkillComponent->UpdateSkillData();
+	}
 
 	GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;
 }
@@ -239,4 +244,33 @@ void AHeroCharacterBase::RestoreHealth(float InValue)
 		if (!PlayerController) return;
 		PlayerController->GetSpriteLandHUD()->UpdateCharacterHealthBar(CurHealth, HealthTotal);
 	}
+}
+
+bool AHeroCharacterBase::UseSkill(FGameplayTag SkillNameTag)
+{
+	if (SkillComponent)
+	{
+		return SkillComponent->UseSkill(SkillNameTag);
+	}
+
+	return false;
+}
+
+bool AHeroCharacterBase::UpgradeSkill(FGameplayTag SkillNameTag)
+{
+	if (SkillComponent)
+	{
+		return SkillComponent->UpgradeSkill(SkillNameTag);
+	}
+
+	return false;
+}
+
+bool AHeroCharacterBase::UseSkillByButton(int32 Index)
+{
+	if (SkillComponent)
+	{
+		return SkillComponent->UseSkillByButton(Index);
+	}
+	return false;
 }

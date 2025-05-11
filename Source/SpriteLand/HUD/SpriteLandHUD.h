@@ -2,6 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/HUD.h"
+#include "GameplayTagContainer.h"
 #include "SpriteLandHUD.generated.h"
 
 
@@ -25,6 +26,10 @@ public:
 	void UpdateCharacterHealthBar(float CurHealth, float TotalHealth);
 
 	void UpdateCharacterManaBar(float CurMana, float TotalMana);
+
+	void UpdateHeroSkillData(TArray<struct FSkillData> SkillDatas);
+
+	void UseSkill(FGameplayTag SkillNameTag);
 
 protected:
 	UPROPERTY(EditDefaultsOnly)
