@@ -43,6 +43,9 @@ struct FSkillData : public FTableRowBase
 	int32 ManaCost;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UTexture2D* Icon;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FGameplayTag SkillNameTag;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)

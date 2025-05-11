@@ -71,6 +71,10 @@ void UBackpackItemWidget::OnUseButtonClicked()
 				BackpackWidget->WeaponSlot->UpdateViewInfo(EquipmentInfo, 1);
 				BackpackWidget->WeaponSlot->ItemImage->SetVisibility(ESlateVisibility::Visible);
 				BackpackWidget->WeaponSlot->bIsFilled = true;
+
+				if (BackpackWidget->WeaponSlot->EquipmentWidget != nullptr)
+					BackpackWidget->WeaponSlot->EquipmentWidget->SetVisibility(ESlateVisibility::Visible);
+
 				BackpackWidget->WeaponSlot->EquipmentWidget = this;
 				this->SetVisibility(ESlateVisibility::Collapsed);
 				BackpackWidget->UpdateCharacterInfo();
@@ -103,7 +107,8 @@ void UBackpackItemWidget::OnUseButtonClicked()
 		{
 			ItemImage->SetVisibility(ESlateVisibility::Hidden);
 			bIsFilled = false;
-			EquipmentWidget->SetVisibility(ESlateVisibility::Visible);
+			if (EquipmentWidget)
+				EquipmentWidget->SetVisibility(ESlateVisibility::Visible);
 			if (BackpackWidget)
 				BackpackWidget->UpdateCharacterInfo();
 		}

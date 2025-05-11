@@ -12,9 +12,13 @@ class SPRITELAND_API UMainWidget : public UUserWidget
 
 public:
 	void InitializeBossHealthBar(FText BossName, float HealthPercent);
+
 	void UpdateBossHealthBar(float HealthPercent);
+
 	void HideBossHealthBar();
+
 	void UpdateCharacterHealthBar(float CurHealth, float TotalHealth);
+
 	void UpdateCharacterManaBar(float CurMana, float TotalMana);
 
 private:
@@ -22,14 +26,5 @@ private:
 	class UBossHealthBarWidget* BossHealthBarWidget;
 
 	UPROPERTY(meta = (BindWidget))
-	class UProgressBar* HealthBar;
-
-	UPROPERTY(meta = (BindWidget))
-	UProgressBar* ManaBar;
-
-	UPROPERTY(meta = (BindWidget))
-	class UTextBlock* HealthText;
-
-	UPROPERTY(meta = (BindWidget))
-	UTextBlock* ManaText;
+	class UHeroInfoWidget* HeroInfoWidget;
 };

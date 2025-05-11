@@ -35,6 +35,9 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	class UHeroBuffComponent* BuffComponent;
 
+	UPROPERTY(EditDefaultsOnly,BlueprintReadOnly)
+	class UHeroSkillComponent* SkillComponent;
+
 	UPROPERTY()
 	class ASpriteLandPlayerController* PlayerController;
 

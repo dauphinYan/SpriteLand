@@ -2,6 +2,7 @@
 #include "Components/ProgressBar.h"
 #include "Components/TextBlock.h"
 #include "BossHealthBarWidget.h"
+#include "../Battle/HeroInfoWidget.h"
 
 void UMainWidget::InitializeBossHealthBar(FText BossName, float HealthPercent)
 {
@@ -31,18 +32,12 @@ void UMainWidget::HideBossHealthBar()
 
 void UMainWidget::UpdateCharacterHealthBar(float CurHealth, float TotalHealth)
 {
-	if (HealthBar)
-	{
-		HealthBar->SetPercent(CurHealth / TotalHealth);
-		HealthText->SetText(FText::AsNumber(CurHealth));
-	}
+	if (HeroInfoWidget)
+		HeroInfoWidget->UpdateCharacterHealthBar(CurHealth, TotalHealth);
 }
 
 void UMainWidget::UpdateCharacterManaBar(float CurMana, float TotalMana)
 {
-	if (ManaBar)
-	{
-		ManaBar->SetPercent(CurMana / TotalMana);
-		ManaText->SetText(FText::AsNumber(CurMana));
-	}
+	if (HeroInfoWidget)
+		HeroInfoWidget->UpdateCharacterManaBar(CurMana, TotalMana);
 }

@@ -10,6 +10,7 @@
 #include "SpriteLand/Character/Type/Hero/Component/EquipmentComponent.h"
 #include "SpriteLand/Character/Type/Hero/Component/HeroCombatComponent.h"
 #include "SpriteLand/Character/Type/Hero/Component/HeroBuffComponent.h"
+#include "SpriteLand/Character/Type/Hero/Component/HeroSkillComponent.h"
 #include "SpriteLand/Systems/Feature/EquipmentSystem/Weapon/WeaponBase.h"
 #include "SpriteLand/Systems/Core/GamePlay/SpriteLandPlayerController.h"
 #include "SpriteLand/HUD/SpriteLandHUD.h"
@@ -45,6 +46,7 @@ AHeroCharacterBase::AHeroCharacterBase()
 	EquipmentComponent = CreateDefaultSubobject<UEquipmentComponent>(TEXT("EquipmentComponent"));
 	CombatComponent = CreateDefaultSubobject<UHeroCombatComponent>(TEXT("CombatComponent"));
 	BuffComponent = CreateDefaultSubobject<UHeroBuffComponent>(TEXT("BuffComponent"));
+	SkillComponent = CreateDefaultSubobject<UHeroSkillComponent>(TEXT("SkillComponent"));
 }
 
 void AHeroCharacterBase::BeginPlay()
@@ -77,6 +79,10 @@ void AHeroCharacterBase::PostInitializeComponents()
 	if (BuffComponent)
 	{
 		BuffComponent->HeroCharacter = this;
+	}
+	if (SkillComponent)
+	{
+		SkillComponent->HeroCharacter = this;
 	}
 }
 

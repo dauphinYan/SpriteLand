@@ -28,4 +28,6 @@ protected:
 	virtual bool UpgradeSkill(FGameplayTag SkillNameTag);
 
 	virtual bool bSkillOnCoolingDown(FGameplayTag SkillNameTag);
+
+	void SkillBeginToCool(FGameplayTag SkillNameTag);
 };
