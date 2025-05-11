@@ -5,12 +5,33 @@
 #include "SkillInfo.generated.h"
 
 USTRUCT(BlueprintType)
+struct FSkillLevelData
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int32 Level;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float DamageAddtion;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float CooldownReduction;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FGameplayTagContainer SkillTypeTags;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TArray<FGameplayTag> SkillEffectTags;
+};
+
+USTRUCT(BlueprintType)
 struct FSkillData : public FTableRowBase
 {
 	GENERATED_BODY()
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FName SkillName;
+	FText SkillName;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float Damage;
@@ -21,50 +42,9 @@ struct FSkillData : public FTableRowBase
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	int32 ManaCost;
 
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	//TSubclassOf<class AEffectBase> EffectClass; // 特效或技能行为类
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FGameplayTag SkillNameTag;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TArray<FGameplayTag> SkillTags; // 可用于判断技能类型（AOE、Buff、Dot等）
+	TArray<FSkillLevelData> SkillLevelData;
 };
-
-USTRUCT(BlueprintType)
-struct FSkillUpgradeData
-{
-	GENERATED_BODY()
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	int32 UpgradeLevel;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	float DamageMultiplier;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	float CooldownReduction;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TArray<FString> AdditionalEffects; // 描述性或效果标签，比如“眩晕”、“穿透”等
-};
-
-//USTRUCT(BlueprintType)
-//struct FSkillInstance
-//{
-//    GENERATED_BODY()
-//
-//    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-//    FSkillData BaseData;
-//
-//    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-//    FSkillUpgradeData UpgradeData;
-//
-//    // 动态计算技能属性
-//    float GetFinalDamage() const
-//    {
-//        return BaseData.Damage * UpgradeData.DamageMultiplier;
-//    }
-//
-//    float GetFinalCooldown() const
-//    {
-//        return BaseData.Cooldown - UpgradeData.CooldownReduction;
-//    }
-//};
