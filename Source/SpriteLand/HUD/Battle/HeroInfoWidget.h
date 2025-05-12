@@ -20,7 +20,8 @@ public:
 
 	void PlayCoolingDownAnimation(FGameplayTag SkillNameTag);
 
-	void OnCoolingDownFinished();
+	UFUNCTION()
+	void OnCoolingDownFinished(FGameplayTag SkillNameTag);
 
 private:
 	TArray<FSkillData> SkillDatas;

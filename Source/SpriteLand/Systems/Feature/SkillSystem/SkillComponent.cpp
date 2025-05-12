@@ -48,7 +48,11 @@ bool USkillComponent::UseSkillByButton(int32 Index)
 
 bool USkillComponent::bSkillOnCoolingDown(FGameplayTag SkillNameTag)
 {
-	return false;
+	if (SkillCooldowns.Find(SkillNameTag))
+	{
+		return SkillCooldowns[SkillNameTag];
+	}
+	return true;
 }
 
 void USkillComponent::SkillBeginToCool(FGameplayTag SkillNameTag)

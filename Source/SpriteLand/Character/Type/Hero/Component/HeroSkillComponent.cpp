@@ -15,6 +15,10 @@ void UHeroSkillComponent::UpdateSkillData()
 	if (HeroCharacter && HeroCharacter->PlayerController)
 	{
 		HeroCharacter->PlayerController->GetSpriteLandHUD()->UpdateHeroSkillData(SkillInstance);
+		for (auto SkillData : SkillInstance)
+		{
+			SkillCooldowns.Add({ SkillData.SkillNameTag,false });
+		}
 	}
 }
 
@@ -40,6 +44,7 @@ void UHeroSkillComponent::SkillBeginToCool(FGameplayTag SkillNameTag)
 			if (SkillInstance[i].SkillNameTag == SkillNameTag)
 			{
 				HeroCharacter->PlayerController->GetSpriteLandHUD()->UseSkill(SkillNameTag);
+				SkillCooldowns[SkillNameTag] = true;
 				break;
 			}
 		}
@@ -48,10 +53,9 @@ void UHeroSkillComponent::SkillBeginToCool(FGameplayTag SkillNameTag)
 
 bool UHeroSkillComponent::UseSkillByButton(int32 Index)
 {
-	if (HeroCharacter && HeroCharacter->PlayerController && SkillInstance.IsValidIndex(Index))
+	if (SkillInstance.IsValidIndex(Index))
 	{
-		HeroCharacter->PlayerController->GetSpriteLandHUD()->UseSkill(SkillInstance[Index].SkillNameTag);
-		return true;
+		return UseSkill(SkillInstance[Index].SkillNameTag);
 	}
 
 	return false;

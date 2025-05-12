@@ -24,6 +24,8 @@ protected:
 	UPROPERTY(EditDefaultsOnly)
 	TArray<FSkillData> SkillInstance;
 
+	TMap<FGameplayTag, bool> SkillCooldowns;
+
 	virtual bool UseSkill(FGameplayTag SkillNameTag);
 
 	virtual bool UpgradeSkill(FGameplayTag SkillNameTag);
@@ -33,4 +35,7 @@ protected:
 	virtual bool bSkillOnCoolingDown(FGameplayTag SkillNameTag);
 
 	virtual void SkillBeginToCool(FGameplayTag SkillNameTag);
+
+public:
+	FORCEINLINE TMap<FGameplayTag, bool>& GetSkillCooldowns() { return SkillCooldowns; }
 };

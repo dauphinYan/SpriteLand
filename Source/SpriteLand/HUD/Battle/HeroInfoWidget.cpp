@@ -64,8 +64,16 @@ void UHeroInfoWidget::PlayCoolingDownAnimation(FGameplayTag SkillNameTag)
 
 			PlayAnimation(CoolingDown1, 0.f, 1, EUMGSequencePlayMode::Forward, 1 / CooldownTime);
 
-			GetWorld()->GetTimerManager().SetTimer(CooldownTimerHandles[CurIndex], this, &UHeroInfoWidget::OnCoolingDownFinished, CooldownTime, false);
+			FTimerDelegate Delegate;
+			Delegate.BindUFunction(
+				this,
+				FName("OnCoolingDownFinished"),
+				SkillNameTag
+			);
+
+			GetWorld()->GetTimerManager().SetTimer(CooldownTimerHandles[CurIndex], Delegate, CooldownTime, false);
 		}
+		break;
 	}
 	default:
 		break;
@@ -74,7 +82,12 @@ void UHeroInfoWidget::PlayCoolingDownAnimation(FGameplayTag SkillNameTag)
 
 }
 
-void UHeroInfoWidget::OnCoolingDownFinished()
+void UHeroInfoWidget::OnCoolingDownFinished(FGameplayTag SkillNameTag)
 {
-	UE_LOG(LogTemp, Warning, TEXT("¿‰»¥∂Øª≠≤•∑≈ÕÍ±œ"));
+	HeroCharacter = HeroCharacter == nullptr ? Cast<AHeroCharacterBase>(GetOwningPlayer()->GetPawn()) : HeroCharacter;
+	TMap<FGameplayTag,bool>& SkillCooldowns = HeroCharacter->GetSkillComponent()->GetSkillCooldowns();
+	if (SkillCooldowns.Find(SkillNameTag))
+	{
+		SkillCooldowns[SkillNameTag] = false;
+	}
 }
