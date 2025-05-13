@@ -21,9 +21,11 @@ public:
 	int32 GetSkillIndex(FGameplayTag SkillNameTag);
 
 protected:
-	AHeroCharacterBase* HeroCharacter;
+	class AHeroCharacterBase* HeroCharacter;
 
 	virtual void SkillBeginToCool(FGameplayTag SkillNameTag) override;
 
 	virtual bool UseSkillByButton(int32 Index) override;
+
+	virtual void ChangeCharacterSkillByNameTag(FGameplayTag SkillNameTag) override;
 };

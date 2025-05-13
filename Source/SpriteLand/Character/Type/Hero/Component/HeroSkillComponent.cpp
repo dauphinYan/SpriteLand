@@ -1,7 +1,11 @@
 #include "HeroSkillComponent.h"
+#include "EquipmentComponent.h"
 #include "../HeroCharacterBase.h"
 #include "SpriteLand/Systems/Core/GamePlay/SpriteLandPlayerController.h"
 #include "SpriteLand/HUD/SpriteLandHUD.h"
+#include "../HeroCharacters/KnightCharacter.h"
+#include "GameFramework/CharacterMovementComponent.h"
+
 
 void UHeroSkillComponent::BeginPlay()
 {
@@ -55,8 +59,26 @@ bool UHeroSkillComponent::UseSkillByButton(int32 Index)
 {
 	if (SkillInstance.IsValidIndex(Index))
 	{
-		return UseSkill(SkillInstance[Index].SkillNameTag);
+		if (UseSkill(SkillInstance[Index].SkillNameTag))
+		{
+			return true;
+		}
+		
 	}
 
 	return false;
+}
+
+void UHeroSkillComponent::ChangeCharacterSkillByNameTag(FGameplayTag SkillNameTag)
+{
+	if (SkillNameTag.MatchesTagExact(FGameplayTag::RequestGameplayTag(FName("Skill.Name.Hero.Whirlwind"))))
+	{
+		AKnightCharacter* KnightCharacter = Cast<AKnightCharacter>(HeroCharacter);
+		if (KnightCharacter)	
+		{
+			KnightCharacter->GetCharacterMovement()->bOrientRotationToMovement = false;
+			KnightCharacter->SetKnightSkill(EKnightSkill::WhirlWind);
+			KnightCharacter->GetEquipmentComponent()->WeaponAttackStart();
+		}
+	}
 }

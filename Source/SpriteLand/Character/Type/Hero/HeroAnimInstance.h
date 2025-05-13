@@ -11,6 +11,7 @@ class SPRITELAND_API UHeroAnimInstance : public UAnimInstance
 	
 public:
 	virtual void NativeInitializeAnimation() override;
+
 	virtual void NativeUpdateAnimation(float DeltaTime) override;
 
 protected:

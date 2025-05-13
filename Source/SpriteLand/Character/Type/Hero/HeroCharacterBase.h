@@ -20,6 +20,7 @@ public:
 
 protected:
 	virtual void BeginPlay() override;
+
 	virtual void PostInitializeComponents() override;
 
 protected:
@@ -138,9 +139,13 @@ protected: // Skill
 
 	virtual bool UseSkillByButton(int32 Index) override;
 
-	public:
-		FORCEINLINE UHeroSkillComponent* GetSkillComponent()
-		{
-			return SkillComponent;
-		}
+public:
+	FORCEINLINE UHeroSkillComponent* GetSkillComponent()
+	{
+		return SkillComponent;
+	}
+	FORCEINLINE UEquipmentComponent* GetEquipmentComponent()
+	{
+		return EquipmentComponent;
+	}
 };

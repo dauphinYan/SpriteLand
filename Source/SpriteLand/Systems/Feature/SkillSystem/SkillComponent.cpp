@@ -11,6 +11,24 @@ void USkillComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
+	if (SkillDataTable)
+	{
+		SkillInstance.Empty();
+		for (FSkillInfo& SkillInfo : FSkillInfos)
+		{
+			for (auto& RowName : SkillDataTable->GetRowNames())
+			{
+				if (FSkillData* RowData = SkillDataTable->FindRow<FSkillData>(RowName, TEXT("Looking for skill data.")))
+				{
+					if (SkillInfo.SkillNameTag == RowData->SkillNameTag)
+					{
+						SkillInstance.Add(*RowData);
+						break;
+					}
+				}
+			}
+		}
+	}
 }
 
 void USkillComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
@@ -27,6 +45,7 @@ bool USkillComponent::UseSkill(FGameplayTag SkillNameTag)
 		{
 			if (!bSkillOnCoolingDown(SkillNameTag))
 			{
+				ChangeCharacterSkillByNameTag(SkillNameTag);
 				SkillBeginToCool(SkillInstance[i].SkillNameTag);
 				return true;
 			}
@@ -53,6 +72,10 @@ bool USkillComponent::bSkillOnCoolingDown(FGameplayTag SkillNameTag)
 		return SkillCooldowns[SkillNameTag];
 	}
 	return true;
+}
+
+void USkillComponent::ChangeCharacterSkillByNameTag(FGameplayTag SkillNameTag)
+{
 }
 
 void USkillComponent::SkillBeginToCool(FGameplayTag SkillNameTag)
