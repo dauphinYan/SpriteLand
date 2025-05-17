@@ -105,3 +105,11 @@ void ASpriteLandHUD::UseSkill(FGameplayTag SkillNameTag)
 	}
 }
 
+void ASpriteLandHUD::AddCombo()
+{
+	if (MainWidget)
+	{
+		MainWidget->AddCombo();
+	}
+}
+

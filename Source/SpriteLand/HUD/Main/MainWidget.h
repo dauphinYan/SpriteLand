@@ -26,10 +26,15 @@ public:
 
 	void UseSkill(FGameplayTag SkillNameTag);
 
+	void AddCombo();
+
 private:
 	UPROPERTY(meta = (BindWidget))
 	class UBossHealthBarWidget* BossHealthBarWidget;
 
 	UPROPERTY(meta = (BindWidget))
 	class UHeroInfoWidget* HeroInfoWidget;
+
+	UPROPERTY(meta = (BindWidget))
+	class UComboWidget* ComboWidget;
 };

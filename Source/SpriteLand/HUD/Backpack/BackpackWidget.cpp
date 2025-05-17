@@ -30,10 +30,10 @@ void UBackpackWidget::NativeConstruct()
 void UBackpackWidget::RefreshBackpackView_Equip()
 {
 	if (BackpackComponent == nullptr) return;
-	const auto Items = BackpackComponent->GetEquipmentItems();
+	const TMap<EEquipmentItemName, FEquipmentItemStack>& Items = BackpackComponent->GetEquipmentItems();
 	EquipItemWrapBox->ClearChildren();
 
-	for (const auto Pair : Items)
+	for (const auto& Pair : Items)
 	{
 		EEquipmentItemName ItemName = Pair.Key;
 		int32 Count = Pair.Value.Count;

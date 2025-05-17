@@ -31,6 +31,8 @@ public:
 
 	void UseSkill(FGameplayTag SkillNameTag);
 
+	void AddCombo();
+
 protected:
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<class UBackpackWidget> BackpackWidgetClass;

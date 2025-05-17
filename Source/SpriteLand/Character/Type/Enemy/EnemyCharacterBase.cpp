@@ -77,11 +77,10 @@ void AEnemyCharacterBase::ReceiveDamage(AActor* DamageActor, float Damage, const
 	{
 		CurHealth = 0.f;
 	}
-
+	ASpriteLandPlayerController* PlayerController = Cast<ASpriteLandPlayerController>(InstigatorController);
 	// Update bossHealthBar if is Boss.
 	if (IsBoss)
 	{
-		ASpriteLandPlayerController* PlayerController = Cast<ASpriteLandPlayerController>(InstigatorController);
 		if (PlayerController && PlayerController->GetCurrentLockingTarget() != this)
 		{
 			float Percent = CurHealth / MaxHealth;
@@ -92,6 +91,11 @@ void AEnemyCharacterBase::ReceiveDamage(AActor* DamageActor, float Damage, const
 			float Percent = CurHealth / MaxHealth;
 			PlayerController->GetSpriteLandHUD()->UpdateBossHealthBar(Percent);
 		}
+	}
+
+	if (PlayerController)
+	{
+		PlayerController->GetSpriteLandHUD()->AddCombo();
 	}
 
 	int32 IntDamage = FMath::RoundToInt(Damage);
@@ -131,7 +135,6 @@ void AEnemyCharacterBase::ReceiveDamage(AActor* DamageActor, float Damage, const
 
 	if (CurHealth == 0.f)
 	{
-		ASpriteLandPlayerController* PlayerController = Cast<ASpriteLandPlayerController>(InstigatorController);
 		if (PlayerController)
 		{
 			PlayerController->GetSpriteLandHUD()->HideBossHealthBar();
