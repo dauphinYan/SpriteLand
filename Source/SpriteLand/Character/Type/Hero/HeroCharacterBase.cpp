@@ -46,7 +46,6 @@ AHeroCharacterBase::AHeroCharacterBase()
 	EquipmentComponent = CreateDefaultSubobject<UEquipmentComponent>(TEXT("EquipmentComponent"));
 	CombatComponent = CreateDefaultSubobject<UHeroCombatComponent>(TEXT("CombatComponent"));
 	BuffComponent = CreateDefaultSubobject<UHeroBuffComponent>(TEXT("BuffComponent"));
-	SkillComponent = CreateDefaultSubobject<UHeroSkillComponent>(TEXT("SkillComponent"));
 }
 
 void AHeroCharacterBase::BeginPlay()

@@ -46,11 +46,11 @@ protected:
 
 	virtual bool UpgradeSkill(FGameplayTag SkillNameTag);
 
-	virtual bool UseSkillByButton(int32 Index);
+	virtual bool UseSkillByButton(int32 Index); // 用于按键控制技能释放
 
 	virtual bool bSkillOnCoolingDown(FGameplayTag SkillNameTag);
 
-	virtual void ChangeCharacterSkillByNameTag(FGameplayTag SkillNameTag);
+	virtual void ChangeCharacterSkillByNameTag(FGameplayTag SkillNameTag); // 改变角色状态，用于状态机中选择角色动画
 
 	virtual void SkillBeginToCool(FGameplayTag SkillNameTag);
 

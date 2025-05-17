@@ -8,7 +8,7 @@ UENUM(BlueprintType)
 enum class EKnightSkill : uint8
 {
 	None,
-	WhirlWind
+	WhirlwindSlash
 };
 
 UCLASS()
@@ -16,6 +16,8 @@ class SPRITELAND_API AKnightCharacter : public AHeroCharacterBase
 {
 	GENERATED_BODY()
 
+public:
+	AKnightCharacter();
 
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
