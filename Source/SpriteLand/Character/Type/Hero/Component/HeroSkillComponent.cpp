@@ -45,7 +45,7 @@ void UHeroSkillComponent::SkillBeginToCool(FGameplayTag SkillNameTag)
 			if (SkillInstance[i].SkillNameTag == SkillNameTag)
 			{
 				HeroCharacter->PlayerController->GetSpriteLandHUD()->UseSkill(SkillNameTag);
-				if (SkillNameTag.MatchesTagExact(FGameplayTag::RequestGameplayTag(FName("Skill.Name.Hero.WhirlwindSlash"))))
+				if (SkillNameTag.MatchesTagExact(FGameplayTag::RequestGameplayTag(FName("Skill.Name.Hero.Knight.WhirlwindSlash"))))
 				{
 					break;
 				}

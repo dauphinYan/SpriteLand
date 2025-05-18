@@ -5,7 +5,7 @@
 
 void UKnightSkillComponent::ChangeCharacterSkillByNameTag(FGameplayTag SkillNameTag)
 {
-	if (SkillNameTag.MatchesTagExact(FGameplayTag::RequestGameplayTag(FName("Skill.Name.Hero.WhirlwindSlash"))))
+	if (SkillNameTag.MatchesTagExact(FGameplayTag::RequestGameplayTag(FName("Skill.Name.Hero.Knight.WhirlwindSlash"))))
 	{
 		KnightCharacter = Cast<AKnightCharacter>(HeroCharacter);
 		if (KnightCharacter)

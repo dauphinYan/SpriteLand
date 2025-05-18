@@ -1,5 +1,6 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
-
 #include "MageCharacter.h"
 
+void AMageCharacter::SetMageSkill(EMageSkill InMageSkill)
+{
+	MageSkill = InMageSkill;
+}
