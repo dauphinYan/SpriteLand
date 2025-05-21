@@ -177,5 +177,12 @@ void ASpriteLandPlayerController::OnSkillButtonPressed_1()
 
 void ASpriteLandPlayerController::OnSkillButtonPressed_2()
 {
-
+	if (GetPawn() && GetPawn()->Implements<USkillInterface>())
+	{
+		ISkillInterface* Interface = Cast<ISkillInterface>(GetPawn());
+		if (Interface)
+		{
+			Interface->UseSkillByButton(1);
+		}
+	}
 }

@@ -8,7 +8,8 @@ UENUM(BlueprintType)
 enum class EKnightSkill : uint8
 {
 	None,
-	WhirlwindSlash
+	WhirlwindSlash,
+	LanceCharge
 };
 
 UCLASS()

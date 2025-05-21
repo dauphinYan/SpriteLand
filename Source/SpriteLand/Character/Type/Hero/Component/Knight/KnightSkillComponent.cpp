@@ -24,4 +24,19 @@ void UKnightSkillComponent::ChangeCharacterSkillByNameTag(FGameplayTag SkillName
 			}
 		}
 	}
+	if (SkillNameTag.MatchesTagExact(FGameplayTag::RequestGameplayTag(FName("SKill.Name.Hero.Knight.LanceCharge"))))
+	{
+		KnightCharacter = Cast<AKnightCharacter>(HeroCharacter);
+		if (KnightCharacter)
+		{
+			if (KnightCharacter->GetKnightSkill() == EKnightSkill::LanceCharge)
+			{
+				KnightCharacter->SetKnightSkill(EKnightSkill::None);
+			}
+			else
+			{
+				KnightCharacter->SetKnightSkill(EKnightSkill::LanceCharge);
+			}
+		}
+	}
 }

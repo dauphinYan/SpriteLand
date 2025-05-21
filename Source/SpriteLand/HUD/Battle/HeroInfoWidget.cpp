@@ -75,6 +75,34 @@ void UHeroInfoWidget::PlayCoolingDownAnimation(FGameplayTag SkillNameTag)
 		}
 		break;
 	}
+	case 1:
+	{
+		if (CoolingDown2)
+		{
+			float CooldownTime = SkillDatas[CurIndex].Cooldown;
+
+			if (CooldownTimerHandles.Contains(CurIndex))
+			{
+				GetWorld()->GetTimerManager().ClearTimer(CooldownTimerHandles[CurIndex]);
+			}
+			else
+			{
+				CooldownTimerHandles.Add(CurIndex, FTimerHandle());
+			}
+
+			PlayAnimation(CoolingDown2, 0.f, 1, EUMGSequencePlayMode::Forward, 1 / CooldownTime);
+
+			FTimerDelegate Delegate;
+			Delegate.BindUFunction(
+				this,
+				FName("OnCoolingDownFinished"),
+				SkillNameTag
+			);
+
+			GetWorld()->GetTimerManager().SetTimer(CooldownTimerHandles[CurIndex], Delegate, CooldownTime, false);
+		}
+		break;
+	}
 	default:
 		break;
 	}
