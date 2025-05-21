@@ -90,6 +90,7 @@ enum class EEquipmentItemName : uint8
 	LongSword_Wood,
 	LongSword_Iron,
 	LongSword_Diamond,
+	Wand_Wood,
 };
 
 
@@ -102,6 +103,14 @@ enum class EEquipmentType : uint8
 	Boot
 };
 
+UENUM(BlueprintType)
+enum class EProfessionType : uint8
+{
+	Knight,
+	Mage,
+	Rogue,
+};
+
 USTRUCT(BlueprintType)
 struct FEquipmentItemInfo : public FItemInfoBase
 {
@@ -112,6 +121,9 @@ struct FEquipmentItemInfo : public FItemInfoBase
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	EEquipmentType EquipmentType;
+
+	UPROPERTY(EditAnywhere,BlueprintReadOnly)
+	EProfessionType ProfessionType;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	float AttackValue;

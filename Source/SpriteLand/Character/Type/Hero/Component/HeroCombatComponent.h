@@ -15,7 +15,7 @@ class SPRITELAND_API UHeroCombatComponent : public UCombatComponent
 protected:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
-private:
+protected:
 	class AHeroCharacterBase* HeroCharacter;
 
 	class UEquipmentComponent* EquipmentComponent;
@@ -27,6 +27,9 @@ protected: // Attack
 	bool bIsAttacking = false;
 
 	int32 CurrentAttackCombo = 0;
+
+	UPROPERTY(EditDefaultsOnly)
+	int32 MaxAttackCombo = 3;
 
 	float ComboTimer = 0.f;
 

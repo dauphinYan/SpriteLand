@@ -35,5 +35,6 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void WeaponAttackEnd();
 
-
+public:
+	FORCEINLINE AWeaponBase* GetWeapon() { return Weapon; }
 };

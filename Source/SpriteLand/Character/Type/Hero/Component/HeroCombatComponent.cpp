@@ -19,7 +19,7 @@ void UHeroCombatComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
 
 void UHeroCombatComponent::Attack()
 {
-	if (!HeroCharacter || bIsAttacking) return;
+	if (!HeroCharacter || bIsAttacking || EquipmentComponent) return;
 
 	if (CurrentAttackCombo == 0)
 	{
@@ -29,7 +29,7 @@ void UHeroCombatComponent::Attack()
 	else if (ComboTimer > 0.f)
 	{
 		CurrentAttackCombo++;
-		if (CurrentAttackCombo > 3) CurrentAttackCombo = 1;
+		if (CurrentAttackCombo > MaxAttackCombo) CurrentAttackCombo = 1;
 		PlayAttackMontage();
 	}
 }
