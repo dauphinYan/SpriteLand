@@ -32,6 +32,9 @@ private:
 	UPROPERTY(EditDefaultsOnly)
 	class UBoxComponent* CollisionBox;
 
+	UPROPERTY(EditDefaultsOnly)
+	class UWidgetComponent* LockTargetWidget;
+
 protected: // Character attribute
 
 	UPROPERTY(EditDefaultsOnly, Category = "Character Attribute")
@@ -77,4 +80,12 @@ private:
 	UAnimMontage* DeathMontage;
 
 	FTimerHandle DeathTimer;
+
+	bool bIsAlive = true;
+
+public:
+	void SetLockTargetWidgetVisibility(bool bIsVisable);
+
+public:
+	FORCEINLINE bool IsAlive()const { return bIsAlive; }
 };

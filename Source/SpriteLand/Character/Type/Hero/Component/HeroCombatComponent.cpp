@@ -2,6 +2,7 @@
 #include "EquipmentComponent.h"
 #include "SpriteLand/Character/Type/Hero/HeroCharacterBase.h"
 #include "Animation/AnimInstance.h"
+#include "SpriteLand/Systems/Feature/EquipmentSystem/Weapon/WeaponBase.h"
 
 void UHeroCombatComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
@@ -19,7 +20,9 @@ void UHeroCombatComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
 
 void UHeroCombatComponent::Attack()
 {
-	if (!HeroCharacter || bIsAttacking || EquipmentComponent) return;
+	if (!HeroCharacter || bIsAttacking || !EquipmentComponent || !EquipmentComponent->GetWeapon()) return;
+
+	AWeaponBase* Weapon = EquipmentComponent->GetWeapon();
 
 	if (CurrentAttackCombo == 0)
 	{
@@ -28,15 +31,18 @@ void UHeroCombatComponent::Attack()
 	}
 	else if (ComboTimer > 0.f)
 	{
-		CurrentAttackCombo++;
-		if (CurrentAttackCombo > MaxAttackCombo) CurrentAttackCombo = 1;
+		++CurrentAttackCombo;
+		if (CurrentAttackCombo > Weapon->WeaponDataAsset->MaxAttackCombo) CurrentAttackCombo = 1;
 		PlayAttackMontage();
 	}
 }
 
 void UHeroCombatComponent::PlayAttackMontage()
 {
+	if (!EquipmentComponent || !EquipmentComponent->GetWeapon()) return;
+	AWeaponBase* Weapon = EquipmentComponent->GetWeapon();
 	AnimInstance = AnimInstance == nullptr ? HeroCharacter->GetMesh()->GetAnimInstance() : AnimInstance;
+	UAnimMontage* AttackMontage = Weapon->WeaponDataAsset->AttackMontage;
 	if (AnimInstance && AttackMontage)
 	{
 		AnimInstance->Montage_Play(AttackMontage, 1.f);

@@ -33,6 +33,8 @@ public:
 
 	void AddCombo();
 
+	void LockingTarget(FVector2D& ScreenPosition);
+
 protected:
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<class UBackpackWidget> BackpackWidgetClass;

@@ -4,9 +4,11 @@
 #include "SpriteLand/Systems/Feature/BackpackSystem/BackpackComponent.h"
 #include "SpriteLand/HUD/SpriteLandHUD.h"
 #include "SpriteLand/HUD/Backpack/BackpackWidget.h"
+#include "SpriteLand/HUD/Main/MainWidget.h"
 #include "SpriteLand/Character/Type/Enemy/EnemyCharacterBase.h"
 #include "SpriteLand/Interface/CharacterActionInterface.h"
 #include "SpriteLand/Interface/SkillInterface.h"
+#include "Kismet/GameplayStatics.h"
 
 ASpriteLandPlayerController::ASpriteLandPlayerController()
 {
@@ -33,6 +35,32 @@ void ASpriteLandPlayerController::BeginPlay()
 	BackpackComponent->PlayerController = this;
 }
 
+void ASpriteLandPlayerController::PlayerTick(float DeltaTime)
+{
+	Super::PlayerTick(DeltaTime);
+
+	if (CurrentLockingTarget)
+	{
+		FVector WorldLocation = CurrentLockingTarget->GetMesh()->GetSocketLocation(FName("head_socket"));
+		FVector2D ScreenPosition;
+
+		DrawDebugSphere(
+			GetWorld(),
+			WorldLocation,
+			50.f,
+			16,
+			FColor::Red,
+			false,
+			2.0f
+		);
+
+		if (ProjectWorldLocationToScreen(WorldLocation, ScreenPosition, true))
+		{
+			SpriteLandHUD->LockingTarget(ScreenPosition);
+		}
+	}
+}
+
 void ASpriteLandPlayerController::SetupInputComponent()
 {
 	Super::SetupInputComponent();
@@ -50,6 +78,7 @@ void ASpriteLandPlayerController::SetupInputComponent()
 		EnhancedInput->BindAction(BackpackAction, ETriggerEvent::Started, this, &ASpriteLandPlayerController::OnBackpackButtonPressed);
 		EnhancedInput->BindAction(SkillAction_1, ETriggerEvent::Started, this, &ASpriteLandPlayerController::OnSkillButtonPressed_1);
 		EnhancedInput->BindAction(SkillAction_2, ETriggerEvent::Started, this, &ASpriteLandPlayerController::OnSkillButtonPressed_2);
+		EnhancedInput->BindAction(LockAction, ETriggerEvent::Started, this, &ASpriteLandPlayerController::OnLockButtonPressed);
 	}
 }
 
@@ -185,4 +214,80 @@ void ASpriteLandPlayerController::OnSkillButtonPressed_2()
 			Interface->UseSkillByButton(1);
 		}
 	}
+}
+
+void ASpriteLandPlayerController::OnLockButtonPressed()
+{
+	if (CurrentLockingTarget)
+	{
+		CurrentLockingTarget = nullptr;
+	}
+	else
+	{
+		CurrentLockingTarget = FindBestLockTarget(1000.f, 45.f);
+	}
+}
+
+TArray<AActor*> ASpriteLandPlayerController::FindEnemiesInRange(float Radius)
+{
+	TArray<AActor*> OutActors;
+	TArray<TEnumAsByte<EObjectTypeQuery>> ObjectTypes;
+	ObjectTypes.Add(UEngineTypes::ConvertToObjectType(ECollisionChannel::ECC_Pawn));
+
+	TArray<AActor*> IgnoreActors;
+	IgnoreActors.Add(GetPawn());
+
+	UKismetSystemLibrary::SphereOverlapActors(
+		this,
+		GetPawn()->GetActorLocation(),
+		Radius,
+		ObjectTypes,
+		AEnemyCharacterBase::StaticClass(),
+		IgnoreActors,
+		OutActors
+	);
+
+	return OutActors;
+}
+
+AEnemyCharacterBase* ASpriteLandPlayerController::FindBestLockTarget(float Radius, float MaxAngleDegree)
+{
+	APawn* MyPawn = GetPawn();
+	if (!MyPawn) return nullptr;
+
+	FVector MyLocation = MyPawn->GetActorLocation();
+	FVector Forward = MyPawn->GetActorForwardVector();
+
+	AEnemyCharacterBase* BestTarget = nullptr;
+	float BestScore = FLT_MAX;
+
+	for (AActor* Actor : FindEnemiesInRange(Radius))
+	{
+		AEnemyCharacterBase* Enemy = Cast<AEnemyCharacterBase>(Actor);
+		if (!Enemy || !Enemy->IsAlive()) continue;
+
+		FVector ToEnemy = Enemy->GetActorLocation() - MyLocation;
+		ToEnemy.Z = 0.f;
+		float Distance = ToEnemy.Size();
+
+		ToEnemy.Normalize();
+		float Dot = FVector::DotProduct(Forward, ToEnemy);
+		float Angle = FMath::Acos(Dot) * 180.f / PI;
+
+		if (Angle <= MaxAngleDegree)
+		{
+			if (Distance < BestScore)
+			{
+				BestScore = Distance;
+				BestTarget = Enemy;
+			}
+		}
+	}
+	return BestTarget;
+}
+
+
+void ASpriteLandPlayerController::SetCurrentLockingTarget(AEnemyCharacterBase* InTarget)
+{
+	CurrentLockingTarget = InTarget;
 }

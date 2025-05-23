@@ -5,6 +5,7 @@
 #include "../Battle/HeroInfoWidget.h"
 #include "../Battle/ComboWidget.h"
 #include "SpriteLand/Systems/Feature/SkillSystem/SkillInfo.h"
+#include "Components/CanvasPanelSlot.h"
 
 void UMainWidget::InitializeBossHealthBar(FText BossName, float HealthPercent)
 {
@@ -66,5 +67,22 @@ void UMainWidget::AddCombo()
 	{
 		ComboWidget->SetVisibility(ESlateVisibility::HitTestInvisible);
 		ComboWidget->AddCombo();
+	}
+}
+
+void UMainWidget::LockingTarget(FVector2D& ScreenPosition)
+{
+
+	if (!LockOnMarkWidget)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("LockOnMarkWidget Î´³õÊ¼»¯"));
+		return;
+	}
+
+	LockOnMarkWidget->SetVisibility(ESlateVisibility::Visible);
+
+	if (UCanvasPanelSlot* CanvasSlot = Cast<UCanvasPanelSlot>(LockOnMarkWidget->Slot))
+	{
+		CanvasSlot->SetPosition(ScreenPosition);
 	}
 }

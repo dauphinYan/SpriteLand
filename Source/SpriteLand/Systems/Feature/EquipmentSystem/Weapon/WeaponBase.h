@@ -2,6 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "SpriteLand/Systems/Feature/EquipmentSystem/EquipmentBase.h"
+#include "WeaponDataAsset.h"
 #include "WeaponBase.generated.h"
 
 #define ECC_Enemy ECC_GameTraceChannel1
@@ -18,7 +19,17 @@ protected:
 	virtual void BeginPlay() override;
 
 public:
+	virtual void Tick(float DeltaTime) override;
+
+public:
 	virtual void AttackStart();
 
 	virtual void AttackEnd();
+
+	virtual void NormalAttack();
+
+public:
+	UPROPERTY(EditDefaultsOnly)
+	const UWeaponDataAsset* WeaponDataAsset;
+
 };

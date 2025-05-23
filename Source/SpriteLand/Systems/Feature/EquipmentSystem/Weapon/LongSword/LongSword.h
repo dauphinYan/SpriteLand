@@ -20,6 +20,8 @@ public:
 
 	virtual void AttackEnd() override;
 
+	virtual void NormalAttack() override;
+
 protected:
 	UPROPERTY(EditDefaultsOnly)
 	class UBoxComponent* CollisionBox;

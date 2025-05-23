@@ -113,3 +113,10 @@ void ASpriteLandHUD::AddCombo()
 	}
 }
 
+void ASpriteLandHUD::LockingTarget(FVector2D& ScreenPosition)
+{
+	if (MainWidget)
+	{
+		MainWidget->LockingTarget(ScreenPosition);
+	}
+}

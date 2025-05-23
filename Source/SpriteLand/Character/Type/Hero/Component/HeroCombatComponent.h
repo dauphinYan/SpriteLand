@@ -28,16 +28,7 @@ protected: // Attack
 
 	int32 CurrentAttackCombo = 0;
 
-	UPROPERTY(EditDefaultsOnly)
-	int32 MaxAttackCombo = 3;
-
 	float ComboTimer = 0.f;
-
-	UPROPERTY(EditDefaultsOnly)
-	float MaxComboTime = 1.0f;
-
-	UPROPERTY(EditAnywhere)
-	class UAnimMontage* AttackMontage;
 
 	UFUNCTION(BlueprintCallable)
 	virtual void Attack() override;

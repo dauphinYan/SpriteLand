@@ -21,6 +21,9 @@ public:
 protected:
 	virtual void BeginPlay() override;
 
+public:
+	virtual void PlayerTick(float DeltaTime) override;
+
 protected:
 	virtual void SetupInputComponent() override;
 
@@ -53,6 +56,9 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	UInputAction* SkillAction_2;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	UInputAction* LockAction;
 
 	UFUNCTION()
 	void OnJumpButtonPressed();
@@ -87,6 +93,9 @@ protected:
 	UFUNCTION()
 	void OnSkillButtonPressed_2();
 
+	UFUNCTION()
+	void OnLockButtonPressed();
+
 protected:
 	UPROPERTY(EditDefaultsOnly)
 	class UBackpackComponent* BackpackComponent;
@@ -95,7 +104,16 @@ protected:
 	class ASpriteLandHUD* SpriteLandHUD;
 
 protected: // Update health bar.
+	UPROPERTY(BlueprintReadOnly)
 	class AEnemyCharacterBase* CurrentLockingTarget;
+
+public:
+	TArray<AActor*> FindEnemiesInRange(float Radius);
+
+	AEnemyCharacterBase* FindBestLockTarget(float Radius, float MaxAngleDegree);
+
+	void SetCurrentLockingTarget(AEnemyCharacterBase* InTarget);
+
 
 public:
 	FORCEINLINE UBackpackComponent* GetBackpackComponent()

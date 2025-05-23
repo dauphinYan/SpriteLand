@@ -9,4 +9,12 @@ class SPRITELAND_API AWand : public AWeaponBase
 {
 	GENERATED_BODY()
 	
+protected:
+	virtual void NormalAttack() override;
+
+protected:
+	UPROPERTY(EditDefaultsOnly)
+	class AFireBallProjectile* FireBall;
+
+
 };

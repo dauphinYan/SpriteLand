@@ -28,6 +28,8 @@ public:
 
 	void AddCombo();
 
+	void LockingTarget(FVector2D& ScreenPosition);
+
 private:
 	UPROPERTY(meta = (BindWidget))
 	class UBossHealthBarWidget* BossHealthBarWidget;
@@ -37,4 +39,7 @@ private:
 
 	UPROPERTY(meta = (BindWidget))
 	class UComboWidget* ComboWidget;
+
+	UPROPERTY(meta = (BindWidget))
+	UUserWidget* LockOnMarkWidget;
 };
