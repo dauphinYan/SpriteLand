@@ -3,14 +3,10 @@
 #include "Kismet/GameplayStatics.h"
 #include "NiagaraFunctionLibrary.h"
 #include "NiagaraComponent.h"
-#include "SpriteLand/Systems/Core/GamePlay/SpriteLandPlayerController.h"
-#include "SpriteLand/HUD/SpriteLandHUD.h"
+#include "SpriteLand/Systems/Core/GamePlay/SpriteLandGameMode.h"
 #include "TimerManager.h"
 #include "Components/BoxComponent.h"
 #include "Components/CapsuleComponent.h"
-#include "Components/WidgetComponent.h"
-#include "Blueprint/UserWidget.h"
-
 
 AEnemyCharacterBase::AEnemyCharacterBase()
 {
@@ -26,12 +22,6 @@ AEnemyCharacterBase::AEnemyCharacterBase()
 	CollisionBox->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Ignore);
 	CollisionBox->SetCollisionResponseToChannel(ECC_WorldDynamic, ECollisionResponse::ECR_Overlap);
 	CollisionBox->SetCollisionObjectType(ECC_Enemy);
-
-	LockTargetWidget = CreateDefaultSubobject<UWidgetComponent>(TEXT("LockTargetWidget"));
-	LockTargetWidget->SetupAttachment(RootComponent);
-	LockTargetWidget->SetWidgetSpace(EWidgetSpace::Screen);
-	LockTargetWidget->SetDrawAtDesiredSize(true);
-	LockTargetWidget->PrimaryComponentTick.bCanEverTick = false;
 }
 
 void AEnemyCharacterBase::BeginPlay()
@@ -59,6 +49,13 @@ void AEnemyCharacterBase::BeginPlay()
 		}
 	}
 
+	if (AGameModeBase* BaseGM = UGameplayStatics::GetGameMode(this))
+	{
+		if (ASpriteLandGameMode* GM = Cast<ASpriteLandGameMode>(BaseGM))
+		{
+			GM->RegisterEnemy(this);
+		}
+	}
 }
 
 void AEnemyCharacterBase::Tick(float DeltaTime)
@@ -85,25 +82,12 @@ void AEnemyCharacterBase::ReceiveDamage(AActor* DamageActor, float Damage, const
 	{
 		CurHealth = 0.f;
 	}
-	ASpriteLandPlayerController* PlayerController = Cast<ASpriteLandPlayerController>(InstigatorController);
-	// Update bossHealthBar if is Boss.
+
+	// Update BossHealthBar if is Boss.
 	if (IsBoss)
 	{
-		if (PlayerController && PlayerController->GetSpriteLandHUD())
-		{
-			float Percent = CurHealth / MaxHealth;
-			PlayerController->GetSpriteLandHUD()->InitializeBossHealthBar(DisplayName, Percent);
-		}
-		//if (PlayerController && PlayerController->GetSpriteLandHUD())
-		//{
-		//	float Percent = CurHealth / MaxHealth;
-		//	PlayerController->GetSpriteLandHUD()->UpdateBossHealthBar(Percent);
-		//}
-	}
-
-	if (PlayerController)
-	{
-		PlayerController->GetSpriteLandHUD()->AddCombo();
+		float HealthPercent = CurHealth / MaxHealth;
+		OnCharacterReceiveDamage.Broadcast(DisplayName, HealthPercent);
 	}
 
 	int32 IntDamage = FMath::RoundToInt(Damage);
@@ -143,10 +127,8 @@ void AEnemyCharacterBase::ReceiveDamage(AActor* DamageActor, float Damage, const
 
 	if (CurHealth == 0.f)
 	{
-		if (PlayerController)
-		{
-			PlayerController->GetSpriteLandHUD()->HideBossHealthBar();
-		}
+		OnCharacterDeath.Broadcast(this);
+
 		PlayDeathMontage();
 
 		GetMesh()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
@@ -176,23 +158,15 @@ void AEnemyCharacterBase::PlayDeathMontage()
 
 void AEnemyCharacterBase::OnDeathMontageEnded()
 {
-	Destroy();
-}
+	if (AGameModeBase* BaseGM = UGameplayStatics::GetGameMode(this))
+	{
+		if (ASpriteLandGameMode* GM = Cast<ASpriteLandGameMode>(BaseGM))
+		{
+			GM->UnregisterEnemy(this);
+		}
+	}
 
-void AEnemyCharacterBase::SetLockTargetWidgetVisibility(bool bIsVisable)
-{
-	//if (LockTargetWidget)
-	//{
-	//	UUserWidget* UserWidget = LockTargetWidget->GetUserWidgetObject();
-	//	if (UserWidget)
-	//	{
-	//		UWidgetAnimation* Animation = UserWidget->FindAnimation(TEXT("FadeInAnimation"));
-	//		if (Animation)
-	//		{
-	//			UserWidget->PlayAnimation(Animation);
-	//		}
-	//	}
-	//}
+	Destroy();
 }
 
 

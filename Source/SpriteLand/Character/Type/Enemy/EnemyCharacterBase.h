@@ -7,6 +7,9 @@
 
 #define ECC_Enemy ECC_GameTraceChannel1
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnCharacterDeath, AEnemyCharacterBase*, Enemy);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnCharacterReceiveDamage, FText, DisplayName, float, HealthPercent);
+
 UCLASS()
 class SPRITELAND_API AEnemyCharacterBase : public ACharacter
 {
@@ -31,9 +34,6 @@ private:
 
 	UPROPERTY(EditDefaultsOnly)
 	class UBoxComponent* CollisionBox;
-
-	UPROPERTY(EditDefaultsOnly)
-	class UWidgetComponent* LockTargetWidget;
 
 protected: // Character attribute
 
@@ -84,7 +84,11 @@ private:
 	bool bIsAlive = true;
 
 public:
-	void SetLockTargetWidgetVisibility(bool bIsVisable);
+	UPROPERTY(BlueprintAssignable, Category = "Events")
+	FOnCharacterDeath OnCharacterDeath;
+
+	UPROPERTY(BlueprintAssignable, Category = "Events")
+	FOnCharacterReceiveDamage OnCharacterReceiveDamage;
 
 public:
 	FORCEINLINE bool IsAlive()const { return bIsAlive; }

@@ -33,7 +33,7 @@ public:
 
 	void AddCombo();
 
-	void LockingTarget(FVector2D& ScreenPosition);
+	void LockingTarget(FVector2D& InScreenPosition);
 
 protected:
 	UPROPERTY(EditDefaultsOnly)
@@ -47,6 +47,12 @@ protected:
 
 	UPROPERTY()
 	UMainWidget* MainWidget;
+
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<UUserWidget> LockOnMarkWidgetClass;
+
+	UPROPERTY()
+	UUserWidget* LockOnMarkWidget;
 
 public:
 	FORCEINLINE UBackpackWidget* GetBackpackWidget() const { return BackpackWidget; }

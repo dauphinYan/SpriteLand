@@ -113,10 +113,18 @@ void ASpriteLandHUD::AddCombo()
 	}
 }
 
-void ASpriteLandHUD::LockingTarget(FVector2D& ScreenPosition)
+void ASpriteLandHUD::LockingTarget(FVector2D& InScreenPosition)
 {
-	if (MainWidget)
+	if (LockOnMarkWidget == nullptr)
 	{
-		MainWidget->LockingTarget(ScreenPosition);
+		LockOnMarkWidget = CreateWidget<UUserWidget>(GetOwningPlayerController(), LockOnMarkWidgetClass);
+		LockOnMarkWidget->AddToViewport();
+	}
+
+	if (LockOnMarkWidget)
+	{
+		LockOnMarkWidget->SetVisibility(ESlateVisibility::HitTestInvisible);
+		FVector2D ScreenPosition = InScreenPosition - LockOnMarkWidget->GetDesiredSize() / 2;
+		LockOnMarkWidget->SetPositionInViewport(ScreenPosition);
 	}
 }

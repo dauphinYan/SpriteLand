@@ -103,9 +103,23 @@ protected:
 	UPROPERTY()
 	class ASpriteLandHUD* SpriteLandHUD;
 
-protected: // Update health bar.
+protected: // Enemy 
 	UPROPERTY(BlueprintReadOnly)
 	class AEnemyCharacterBase* CurrentLockingTarget;
+
+public:
+	UPROPERTY()
+	TArray<AEnemyCharacterBase*> RegisteredEnemies;
+
+	void RegisterEnemy(AEnemyCharacterBase* InEnemy);
+
+	void UnregisterEnemy(AEnemyCharacterBase* InEnemy);
+
+	UFUNCTION()
+	void HandleOnEnemyDeath(AEnemyCharacterBase* InEnemy);
+
+	UFUNCTION()
+	void HandleOnEnemyReceiveDamage(FText InDisplayName, float InHealthPercent);
 
 public:
 	TArray<AActor*> FindEnemiesInRange(float Radius);

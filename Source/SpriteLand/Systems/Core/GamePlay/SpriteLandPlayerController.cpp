@@ -9,6 +9,7 @@
 #include "SpriteLand/Interface/CharacterActionInterface.h"
 #include "SpriteLand/Interface/SkillInterface.h"
 #include "Kismet/GameplayStatics.h"
+#include "SpriteLand/Character/Type/Enemy/EnemyCharacterBase.h"
 
 ASpriteLandPlayerController::ASpriteLandPlayerController()
 {
@@ -43,16 +44,6 @@ void ASpriteLandPlayerController::PlayerTick(float DeltaTime)
 	{
 		FVector WorldLocation = CurrentLockingTarget->GetMesh()->GetSocketLocation(FName("head_socket"));
 		FVector2D ScreenPosition;
-
-		DrawDebugSphere(
-			GetWorld(),
-			WorldLocation,
-			50.f,
-			16,
-			FColor::Red,
-			false,
-			2.0f
-		);
 
 		if (ProjectWorldLocationToScreen(WorldLocation, ScreenPosition, true))
 		{
@@ -225,6 +216,46 @@ void ASpriteLandPlayerController::OnLockButtonPressed()
 	else
 	{
 		CurrentLockingTarget = FindBestLockTarget(1000.f, 45.f);
+	}
+}
+
+void ASpriteLandPlayerController::RegisterEnemy(AEnemyCharacterBase* InEnemy)
+{
+	if (InEnemy && !RegisteredEnemies.Contains(InEnemy))
+	{
+		RegisteredEnemies.Add(InEnemy);
+
+		InEnemy->OnCharacterDeath.AddDynamic(this, &ASpriteLandPlayerController::HandleOnEnemyDeath);
+		InEnemy->OnCharacterReceiveDamage.AddDynamic(this, &ASpriteLandPlayerController::HandleOnEnemyReceiveDamage);
+	}
+}
+
+void ASpriteLandPlayerController::UnregisterEnemy(AEnemyCharacterBase* InEnemy)
+{
+	if (!InEnemy) return;
+
+	InEnemy->OnCharacterDeath.RemoveDynamic(this, &ASpriteLandPlayerController::HandleOnEnemyDeath);
+	InEnemy->OnCharacterReceiveDamage.RemoveDynamic(this, &ASpriteLandPlayerController::HandleOnEnemyReceiveDamage);
+
+	RegisteredEnemies.Remove(InEnemy);
+}
+
+void ASpriteLandPlayerController::HandleOnEnemyDeath(AEnemyCharacterBase* InEnemy)
+{
+	if (!InEnemy) return;
+
+	if (SpriteLandHUD)
+	{
+		SpriteLandHUD->HideBossHealthBar();
+	}
+}
+
+void ASpriteLandPlayerController::HandleOnEnemyReceiveDamage(FText InDisplayName, float InHealthPercent)
+{
+	if (SpriteLandHUD)
+	{
+		SpriteLandHUD->InitializeBossHealthBar(InDisplayName, InHealthPercent);
+		SpriteLandHUD->AddCombo();
 	}
 }
 

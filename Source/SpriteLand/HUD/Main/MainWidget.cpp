@@ -69,20 +69,3 @@ void UMainWidget::AddCombo()
 		ComboWidget->AddCombo();
 	}
 }
-
-void UMainWidget::LockingTarget(FVector2D& ScreenPosition)
-{
-
-	if (!LockOnMarkWidget)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("LockOnMarkWidget Î´³õÊ¼»¯"));
-		return;
-	}
-
-	LockOnMarkWidget->SetVisibility(ESlateVisibility::Visible);
-
-	if (UCanvasPanelSlot* CanvasSlot = Cast<UCanvasPanelSlot>(LockOnMarkWidget->Slot))
-	{
-		CanvasSlot->SetPosition(ScreenPosition);
-	}
-}
