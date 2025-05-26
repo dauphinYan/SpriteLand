@@ -15,10 +15,13 @@ private:
 	UPROPERTY()
 	class AHeroCharacterBase* HeroCharacter;
 
-	UPROPERTY()
-	class ASpriteLandPlayerController* PlayerController;
-
 protected:
 	void RestoreHealth(float InValue);
 
+	void RestoreMana(float InValue);
+
+protected:
+	FTimerHandle RestoreHealthTimer;
+
+	FTimerHandle RestoreManaTimer;
 };

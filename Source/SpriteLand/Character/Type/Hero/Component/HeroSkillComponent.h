@@ -23,7 +23,11 @@ public:
 protected:
 	class AHeroCharacterBase* HeroCharacter;
 
+	virtual bool bManaIsEnough(FGameplayTag SkillNameTag) override;
+
 	virtual void SkillBeginToCool(FGameplayTag SkillNameTag) override;
 
 	virtual bool UseSkillByButton(int32 Index) override;
+
+	virtual void ActivateConsumeMana() override;
 };

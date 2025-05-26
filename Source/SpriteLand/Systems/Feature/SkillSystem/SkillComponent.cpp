@@ -43,7 +43,7 @@ bool USkillComponent::UseSkill(FGameplayTag SkillNameTag)
 	{
 		if (SkillInstance[i].SkillNameTag == SkillNameTag)
 		{
-			if (!bSkillOnCoolingDown(SkillNameTag))
+			if (bCanUseSkill(SkillNameTag))
 			{
 				ChangeCharacterSkillByNameTag(SkillNameTag);
 				SkillBeginToCool(SkillInstance[i].SkillNameTag);
@@ -65,6 +65,16 @@ bool USkillComponent::UseSkillByButton(int32 Index)
 	return false;
 }
 
+bool USkillComponent::bCanUseSkill(FGameplayTag SkillNameTag)
+{
+	return !bSkillOnCoolingDown(SkillNameTag) && bManaIsEnough(SkillNameTag);
+}
+
+bool USkillComponent::bManaIsEnough(FGameplayTag SkillNameTag)
+{
+	return false;
+}
+
 bool USkillComponent::bSkillOnCoolingDown(FGameplayTag SkillNameTag)
 {
 	if (SkillCooldowns.Find(SkillNameTag))
@@ -81,5 +91,13 @@ void USkillComponent::ChangeCharacterSkillByNameTag(FGameplayTag SkillNameTag)
 void USkillComponent::SkillBeginToCool(FGameplayTag SkillNameTag)
 {
 
+}
+
+void USkillComponent::ActivateConsumeMana()
+{
+}
+
+void USkillComponent::DeactivateConsumeMana()
+{
 }
 

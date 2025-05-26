@@ -36,6 +36,20 @@ int32 UHeroSkillComponent::GetSkillIndex(FGameplayTag SkillNameTag)
 	return 10;
 }
 
+bool UHeroSkillComponent::bManaIsEnough(FGameplayTag SkillNameTag)
+{
+	for (FSkillData SkillData : SkillInstance)
+	{
+		if (SkillData.SkillNameTag == SkillNameTag)
+		{
+
+			return SkillData.ManaCost <= HeroCharacter->CurMana;
+		}
+	}
+
+	return false;
+}
+
 void UHeroSkillComponent::SkillBeginToCool(FGameplayTag SkillNameTag)
 {
 	if (HeroCharacter && HeroCharacter->PlayerController)
@@ -63,4 +77,9 @@ bool UHeroSkillComponent::UseSkillByButton(int32 Index)
 	}
 
 	return false;
+}
+
+void UHeroSkillComponent::ActivateConsumeMana()
+{
+	HeroCharacter->PlayerController->GetSpriteLandHUD()->UpdateCharacterManaBar(HeroCharacter->CurMana, HeroCharacter->ManaTotal);
 }

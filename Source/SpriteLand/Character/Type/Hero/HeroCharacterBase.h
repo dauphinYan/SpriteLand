@@ -132,6 +132,8 @@ protected:
 
 	virtual void RestoreHealth(float InValue) override;
 
+	virtual void RestoreMana(float InValue);
+
 protected: // Skill
 	virtual bool UseSkill(FGameplayTag SkillNameTag) override;
 

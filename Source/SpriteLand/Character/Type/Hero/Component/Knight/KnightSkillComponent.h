@@ -15,4 +15,8 @@ protected:
 
 	class AKnightCharacter* KnightCharacter;
 	
+protected:
+	virtual void ActivateConsumeMana() override;
+
+	virtual void DeactivateConsumeMana() override;
 };

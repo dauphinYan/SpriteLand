@@ -58,7 +58,7 @@ void AHeroCharacterBase::BeginPlay()
 	if (!PlayerController)
 		return;
 	PlayerController->GetSpriteLandHUD()->UpdateCharacterHealthBar(CurHealth, HealthTotal);
-	
+
 	if (SkillComponent)
 	{
 		SkillComponent->UpdateSkillData();
@@ -242,6 +242,17 @@ void AHeroCharacterBase::RestoreHealth(float InValue)
 		PlayerController = PlayerController == nullptr ? Cast<ASpriteLandPlayerController>(Controller) : PlayerController;
 		if (!PlayerController) return;
 		PlayerController->GetSpriteLandHUD()->UpdateCharacterHealthBar(CurHealth, HealthTotal);
+	}
+}
+
+void AHeroCharacterBase::RestoreMana(float InValue)
+{
+	if (BuffComponent)
+	{
+		BuffComponent->RestoreMana(InValue);
+		PlayerController = PlayerController == nullptr ? Cast<ASpriteLandPlayerController>(Controller) : PlayerController;
+		if (!PlayerController) return;
+		PlayerController->GetSpriteLandHUD()->UpdateCharacterManaBar(CurMana, ManaTotal);
 	}
 }
 

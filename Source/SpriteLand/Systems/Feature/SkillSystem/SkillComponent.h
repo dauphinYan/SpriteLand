@@ -48,11 +48,26 @@ protected:
 
 	virtual bool UseSkillByButton(int32 Index); // 用于按键控制技能释放
 
+	virtual bool bCanUseSkill(FGameplayTag SkillNameTag);
+
+	virtual bool bManaIsEnough(FGameplayTag SkillNameTag);
+
 	virtual bool bSkillOnCoolingDown(FGameplayTag SkillNameTag);
 
 	virtual void ChangeCharacterSkillByNameTag(FGameplayTag SkillNameTag); // 改变角色状态，用于状态机中选择角色动画
 
 	virtual void SkillBeginToCool(FGameplayTag SkillNameTag);
+
+protected:
+	float ManaCostPerSecond = 10.f;
+
+	FTimerHandle ManaConsumeTimer;
+
+	UFUNCTION()
+	virtual void ActivateConsumeMana();
+
+	UFUNCTION()
+	virtual void DeactivateConsumeMana();
 
 public:
 	FORCEINLINE TMap<FGameplayTag, bool>& GetSkillCooldowns() { return SkillCooldowns; }
