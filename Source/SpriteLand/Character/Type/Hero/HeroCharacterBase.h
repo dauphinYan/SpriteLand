@@ -23,6 +23,8 @@ protected:
 
 	virtual void PostInitializeComponents() override;
 
+	virtual void PossessedBy(AController* NewController) override;
+
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	class USpringArmComponent* CameraBoom;

@@ -54,11 +54,6 @@ void AHeroCharacterBase::BeginPlay()
 
 	OnTakeAnyDamage.AddDynamic(this, &AHeroCharacterBase::ReceiveDamage);
 
-	PlayerController = PlayerController == nullptr ? Cast<ASpriteLandPlayerController>(Controller) : PlayerController;
-	if (!PlayerController)
-		return;
-	PlayerController->GetSpriteLandHUD()->UpdateCharacterHealthBar(CurHealth, HealthTotal);
-
 	if (SkillComponent)
 	{
 		SkillComponent->UpdateSkillData();
@@ -88,6 +83,15 @@ void AHeroCharacterBase::PostInitializeComponents()
 	{
 		SkillComponent->HeroCharacter = this;
 	}
+}
+
+void AHeroCharacterBase::PossessedBy(AController* NewController)
+{
+	PlayerController = Cast<ASpriteLandPlayerController>(Controller);
+
+	if (!PlayerController) 	return;
+
+	PlayerController->GetSpriteLandHUD()->UpdateCharacterHealthBar(CurHealth, HealthTotal);
 }
 
 void AHeroCharacterBase::Tick(float DeltaTime)

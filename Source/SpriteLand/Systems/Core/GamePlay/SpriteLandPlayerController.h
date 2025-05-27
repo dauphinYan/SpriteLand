@@ -4,12 +4,6 @@
 #include "GameFramework/PlayerController.h"
 #include "SpriteLandPlayerController.generated.h"
 
-//UENUM(BlueprintType)
-//enum class FControllState : uint8
-//{
-//
-//};
-
 UCLASS()
 class SPRITELAND_API ASpriteLandPlayerController : public APlayerController
 {
