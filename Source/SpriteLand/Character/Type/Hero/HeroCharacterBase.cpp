@@ -54,11 +54,6 @@ void AHeroCharacterBase::BeginPlay()
 
 	OnTakeAnyDamage.AddDynamic(this, &AHeroCharacterBase::ReceiveDamage);
 
-	if (SkillComponent)
-	{
-		SkillComponent->UpdateSkillData();
-	}
-
 	GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;
 }
 
@@ -87,11 +82,16 @@ void AHeroCharacterBase::PostInitializeComponents()
 
 void AHeroCharacterBase::PossessedBy(AController* NewController)
 {
-	PlayerController = Cast<ASpriteLandPlayerController>(Controller);
+	PlayerController = Cast<ASpriteLandPlayerController>(NewController);
 
 	if (!PlayerController) 	return;
 
 	PlayerController->GetSpriteLandHUD()->UpdateCharacterHealthBar(CurHealth, HealthTotal);
+
+	if (SkillComponent)
+	{
+		SkillComponent->UpdateSkillData();
+	}
 }
 
 void AHeroCharacterBase::Tick(float DeltaTime)

@@ -24,21 +24,21 @@ void ASpriteLandGameMode::SpawnPlayerCharacter()
 	USpriteLandGameInstance* GI = Cast<USpriteLandGameInstance>(GetGameInstance());
 	if (!GI) return;
 
-	EHeroClass HeroClass = GI->GetHeroClass();
+	EHeroName HeroName = GI->GetHeroName();
 	TSubclassOf<AHeroCharacterBase> CharacterToSpawn = nullptr;
 
-	switch (HeroClass)
+	switch (HeroName)
 	{
-	case EHeroClass::Knight:
+	case EHeroName::Knight:
 		CharacterToSpawn = KnightCharacterClass;
 		break;
-	case EHeroClass::Mage:
+	case EHeroName::Mage:
 		CharacterToSpawn = MageCharacterClass;
 		break;
-	case EHeroClass::Rogue:
+	case EHeroName::Rogue:
 		CharacterToSpawn = RogueCharacterClass;
 		break;
-	case EHeroClass::BarBarain:
+	case EHeroName::BarBarain:
 		CharacterToSpawn = BarbarianCharacterClass;
 		break;
 	default:

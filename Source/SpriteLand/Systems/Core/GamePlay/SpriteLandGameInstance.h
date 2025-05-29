@@ -2,7 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "Engine/GameInstance.h"
-#include "SpriteLand/Character/Type/Hero/HeroInfo.h"
+#include "SpriteLand/Character/Common/CharacterInfo.h"
 #include "SpriteLandGameInstance.generated.h"
 
 UCLASS()
@@ -15,8 +15,8 @@ public:
 
 private:
 	UPROPERTY(EditDefaultsOnly)
-	EHeroClass HeroClass = EHeroClass::Knight;
+	EHeroName HeroName = EHeroName::Knight;
 
 public:
-	FORCEINLINE EHeroClass GetHeroClass() const { return HeroClass; }
+	FORCEINLINE EHeroName GetHeroName() const { return HeroName; }
 };

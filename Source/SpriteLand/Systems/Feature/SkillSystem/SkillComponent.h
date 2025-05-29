@@ -42,13 +42,13 @@ protected:
 	UPROPERTY(EditDefaultsOnly)
 	UDataTable* SkillDataTable;
 
-	virtual bool UseSkill(FGameplayTag SkillNameTag);
+	bool UseSkill(FGameplayTag SkillNameTag);
 
-	virtual bool UpgradeSkill(FGameplayTag SkillNameTag);
+	bool UpgradeSkill(FGameplayTag SkillNameTag);
 
 	virtual bool UseSkillByButton(int32 Index); // 用于按键控制技能释放
 
-	virtual bool bCanUseSkill(FGameplayTag SkillNameTag);
+	bool bCanUseSkill(FGameplayTag SkillNameTag);
 
 	virtual bool bManaIsEnough(FGameplayTag SkillNameTag);
 

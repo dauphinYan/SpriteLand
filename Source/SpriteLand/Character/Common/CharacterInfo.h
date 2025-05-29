@@ -6,7 +6,10 @@
 UENUM(BlueprintType)
 enum class EHeroName : uint8
 {
-	Knight
+	Knight,
+	Mage,
+	Rogue,
+	BarBarain
 };
 
 //UENUM(BlueprintType)
