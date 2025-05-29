@@ -2,7 +2,7 @@
 
 void UMageSkillComponent::ChangeCharacterSkillByNameTag(FGameplayTag SkillNameTag)
 {
-	if (SkillNameTag.MatchesTagExact(FGameplayTag::RequestGameplayTag(FName("Skill.Name.Hero.Fireball"))))
+	if (SkillNameTag.MatchesTagExact(FGameplayTag::RequestGameplayTag(FName("Skill.Name.Hero.Mage.Fireball"))))
 	{
 
 	}

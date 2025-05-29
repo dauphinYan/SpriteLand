@@ -11,6 +11,9 @@ class SPRITELAND_API AFireBallProjectile : public AProjectile
 
 public:
 	AFireBallProjectile();
+
+protected:
+	virtual void BeginPlay() override;
 	
 protected:
 	UPROPERTY(EditDefaultsOnly)

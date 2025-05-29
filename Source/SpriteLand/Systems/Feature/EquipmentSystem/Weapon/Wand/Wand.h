@@ -4,17 +4,19 @@
 #include "../WeaponBase.h"
 #include "Wand.generated.h"
 
+class AFireBallProjectile;
+
 UCLASS()
 class SPRITELAND_API AWand : public AWeaponBase
 {
 	GENERATED_BODY()
 	
 protected:
-	virtual void NormalAttack() override;
+	virtual void AttackStart() override;
 
 protected:
 	UPROPERTY(EditDefaultsOnly)
-	class AFireBallProjectile* FireBall;
+	TSubclassOf<AFireBallProjectile> FireBallClass;
 
 
 };

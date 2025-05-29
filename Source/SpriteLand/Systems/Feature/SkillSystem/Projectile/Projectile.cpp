@@ -1,5 +1,6 @@
 #include "Projectile.h"
 #include "Components/BoxComponent.h"
+#include "GameFramework/ProjectileMovementComponent.h"
 
 AProjectile::AProjectile()
 {
@@ -13,6 +14,11 @@ AProjectile::AProjectile()
 	CollisionBox->SetCollisionResponseToAllChannels(ECR_Ignore);
 	CollisionBox->SetCollisionResponseToChannel(ECC_Enemy, ECR_Overlap);
 	CollisionBox->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+
+	ProjectileMovementComponent = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("ProjectileComponent"));
+	ProjectileMovementComponent->InitialSpeed = 2000.f;
+	ProjectileMovementComponent->MaxSpeed = 2000.f;
+	ProjectileMovementComponent->ProjectileGravityScale = 0.f;
 }
 
 void AProjectile::BeginPlay()

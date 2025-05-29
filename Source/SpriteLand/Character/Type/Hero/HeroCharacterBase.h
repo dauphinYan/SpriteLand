@@ -144,12 +144,13 @@ protected: // Skill
 	virtual bool UseSkillByButton(int32 Index) override;
 
 public:
-	FORCEINLINE UHeroSkillComponent* GetSkillComponent()
+	FORCEINLINE UHeroSkillComponent* GetSkillComponent() const
 	{
 		return SkillComponent;
 	}
-	FORCEINLINE UEquipmentComponent* GetEquipmentComponent()
+	FORCEINLINE UEquipmentComponent* GetEquipmentComponent() const
 	{
 		return EquipmentComponent;
 	}
+	FORCEINLINE UCameraComponent* GetCameraComponent() const { return FollowCamera; }
 };
