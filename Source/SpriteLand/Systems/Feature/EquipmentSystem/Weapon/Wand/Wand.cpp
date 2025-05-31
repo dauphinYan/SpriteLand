@@ -10,7 +10,7 @@ void AWand::AttackStart()
 	check(HeroCharacter);
 
 
-	// get target location.
+	// Get target location.
 	FHitResult HitResult;
 	FVector TraceStart = HeroCharacter->GetCameraComponent()->GetComponentLocation();
 	FVector TraceEnd = TraceStart + HeroCharacter->GetCameraComponent()->GetForwardVector() * 10000.f;
@@ -27,7 +27,7 @@ void AWand::AttackStart()
 		TargetLocation = TraceEnd;
 	}
 
-	// spawn fireball.
+	// Spawn fireball.
 	FVector MuzzleLocation = EquipmentMesh->GetSocketLocation("muzzle");
 	FRotator MuzzleDirection = (TargetLocation - MuzzleLocation).GetSafeNormal().Rotation();
 
@@ -38,5 +38,6 @@ void AWand::AttackStart()
 	{
 		AFireBallProjectile* FireBall = GetWorld()->SpawnActor<AFireBallProjectile>(
 			FireBallClass, MuzzleLocation, MuzzleDirection, SpawnParams);
+		FireBall->SetOwner(Owner);
 	}
 }

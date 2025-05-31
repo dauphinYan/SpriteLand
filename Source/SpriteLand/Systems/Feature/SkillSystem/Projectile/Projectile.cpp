@@ -13,8 +13,9 @@ AProjectile::AProjectile()
 	CollisionBox->SetCollisionObjectType(ECC_WorldDynamic);
 	CollisionBox->SetCollisionResponseToAllChannels(ECR_Ignore);
 	CollisionBox->SetCollisionResponseToChannel(ECC_Enemy, ECR_Overlap);
-	CollisionBox->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-
+	CollisionBox->SetCollisionResponseToChannel(ECollisionChannel::ECC_WorldStatic,ECollisionResponse::ECR_Overlap);
+	CollisionBox->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+	
 	ProjectileMovementComponent = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("ProjectileComponent"));
 	ProjectileMovementComponent->InitialSpeed = 2000.f;
 	ProjectileMovementComponent->MaxSpeed = 2000.f;
@@ -36,5 +37,5 @@ void AProjectile::Tick(float DeltaTime)
 
 void AProjectile::OnBoxOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-
+	Destroy();
 }
